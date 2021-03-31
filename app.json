@@ -1,14 +1,13 @@
 {
   "expo": {
-    "name": "mobile-store",
-    "slug": "mobile-store",
+    "name": "flipp-delivery-store",
+    "slug": "flipp-delivery-store",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./src/assets/icons/logo-app.png",
     "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "image": "./src/assets/images/splash.jpg",
+      "resizeMode": "cover"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -21,8 +20,8 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "backgroundColor": "#9E0404",
+        "foregroundImage": "./src/assets/icons/logo-app.png"
       }
     },
     "web": {
