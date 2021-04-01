@@ -9,10 +9,11 @@ const Header = () => (
 );
 
 
-export default {
+export default (name?: string | undefined) => ({
   headerTitleAlign: 'center' as any,
+  headerTintColor: '#fff',
   headerStyle: {
     backgroundColor: '#9E0404',
   },
-  headerTitle: () => <Header />,
-}
+  headerTitle: name ? name : () => <Header />,
+})
