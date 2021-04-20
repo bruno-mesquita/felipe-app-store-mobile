@@ -1,12 +1,12 @@
 {
   "expo": {
-    "name": "flipp-delivery-store",
+    "name": "Flipp Delivery - Estabelecimento",
     "slug": "flipp-delivery-store",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/icons/logo-app.png",
     "splash": {
-      "image": "./src/assets/images/splash.jpg",
+      "image": "./src/assets/images/splash.png",
       "resizeMode": "cover"
     },
     "updates": {

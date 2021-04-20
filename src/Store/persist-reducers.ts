@@ -4,9 +4,9 @@ import { persistReducer } from 'redux-persist';
 const persistReducers = (reducers: any) => {
   return persistReducer(
     {
-      key: 'flipp-delivery',
+      key: '@flipp-delivery/store',
       storage: AsyncStorage,
-      whitelist: ['auth', 'user'],
+      whitelist: ['auth'],
     },
     reducers,
   );

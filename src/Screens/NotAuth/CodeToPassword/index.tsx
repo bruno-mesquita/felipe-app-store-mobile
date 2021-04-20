@@ -1,9 +1,9 @@
 import React from 'react';
 import { Text } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import { ErrorMessage, Formik } from 'formik';
 
-import { Button, Field } from '../../../Components';
+import { Button } from '../../../Components';
+import { Field } from '../../../Components/FormUtils';
 
 import {
   Container,
@@ -15,20 +15,17 @@ import {
   ContainerButton,
 } from './styles';
 
-interface Values {
-  newPassword: string;
-  confirmPassword: string;
-}
-
-export const CodeToPassword = () => {
-  const navigation = useNavigation();
-
-  const codeValue: Values = {
+export const CodeToPassword = ({ navigation }) => {
+  const initialValues = {
     newPassword: '',
     confirmPassword: '',
   };
 
-  const onSubmit = (values: Values) => {
+  const onSubmit = (values: typeof initialValues) => {
+    console.log(values);
+  };
+
+  const confirmCodeToPassword = () => {
     navigation.navigate('Login');
   };
 
@@ -39,17 +36,17 @@ export const CodeToPassword = () => {
           <Logo source={require('../../../assets/images/logo.png')} />
         </ContainerLogo>
 
-        <Formik initialValues={codeValue} onSubmit={onSubmit}>
+        <Formik initialValues={initialValues} onSubmit={onSubmit}>
           {({ values, handleSubmit, handleChange }) => (
             <ContentForm>
               <ContainerInput>
                 <Field
                   value={values.newPassword}
                   placeholder="Nova senha"
-                  onChangeText={handleChange('password')}
-                  textValue="Nova senha"
+                  onChangeText={handleChange('newPassword')}
+                  label="Nova senha"
                 />
-                <ErrorMessage component={Text} name="password" />
+                <ErrorMessage component={Text} name="newPassword" />
               </ContainerInput>
 
               <ContainerInput>
@@ -57,13 +54,13 @@ export const CodeToPassword = () => {
                   value={values.confirmPassword}
                   placeholder="Confirmar senha"
                   onChangeText={handleChange('confirmPassword')}
-                  textValue="Confirmar senha"
+                  label="Confirmar senha"
                 />
                 <ErrorMessage component={Text} name="confirmPassword" />
               </ContainerInput>
 
               <ContainerButton>
-                <Button onPress={handleSubmit}>Salvar</Button>
+                <Button onPress={() => confirmCodeToPassword()}>Salvar</Button>
               </ContainerButton>
             </ContentForm>
           )}
@@ -72,4 +69,3 @@ export const CodeToPassword = () => {
     </Container>
   );
 };
-

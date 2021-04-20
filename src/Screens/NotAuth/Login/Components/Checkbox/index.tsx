@@ -16,7 +16,7 @@ export const Checkbox = ({ children, checked, onChange }: CheckboxProps) => {
           <MaterialIcons
             name="check"
             size={20}
-            color={checked ? colors.primary : colors.secundary}
+            color={!checked ? colors.primary : colors.secundary}
           />
         </ContainerCheckboxIcon>
       </ContainerCheckbox>

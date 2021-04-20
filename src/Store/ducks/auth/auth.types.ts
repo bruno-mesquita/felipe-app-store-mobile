@@ -5,12 +5,12 @@ export const AUTH_LOGOUT = '@auth/LOGOUT';
 
 export interface RequestLoginAction {
   type: typeof AUTH_REQUEST_LOGIN;
-  payload: { email: string; password: string };
+  payload: { email: string; password: string; checked: boolean };
 }
 
 export interface RequestLoginSuccessAction {
   type: typeof AUTH_REQUEST_LOGIN_SUCCESS;
-  payload: { user: any; token: string };
+  payload: { token: string; checked: boolean };
 }
 
 export interface RequestLoginFailureAction {
@@ -31,4 +31,6 @@ export type AuthActionTypes =
 export interface AuthState {
   token: string | null;
   logged: boolean;
+  keepMeConnected: boolean;
+  loading: boolean;
 }

@@ -3,14 +3,13 @@ import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 
 export const Container = styled.View`
   flex: 1;
-  flex-direction: column;
   padding-top: ${getStatusBarHeight()}px;
 `;
 
 export const BackGround = styled.ImageBackground`
   flex: 1;
-
-  justify-content: center;
+  padding-top: ${getStatusBarHeight()}px;
+  justify-content: space-around;
   align-items: center;
 `;
 

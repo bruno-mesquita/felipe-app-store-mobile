@@ -4,7 +4,7 @@ import reactotronSaga from 'reactotron-redux-saga';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const tron = Reactotron.setAsyncStorageHandler(AsyncStorage)
-  .configure({ name: 'Flipp-Delivery' })
+  .configure({ name: 'Flipp-Delivery-Store' })
   .useReactNative()
   .use(reactotronRedux())
   .use(reactotronSaga({}))

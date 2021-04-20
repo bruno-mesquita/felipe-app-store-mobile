@@ -1,9 +1,9 @@
 import React from 'react';
 import { Text } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import { ErrorMessage, Formik } from 'formik';
 
-import { Button, Field } from '../../../Components';
+import { Button } from '../../../Components';
+import { Field } from '../../../Components/FormUtils';
 
 import {
   Container,
@@ -15,23 +15,19 @@ import {
   ContainerButton,
 } from './styles';
 
-interface Values {
-  code: string;
-}
 
-export const CodeToForgotPassword = () => {
-  const navigation = useNavigation();
-
-  const codeValue: Values = {
+export const CodeToForgotPassword = ({ navigation }) => {
+  const codeValue = {
     code: '',
   };
 
-  const onSubmit = (values: Values) => {
+  const onSubmit = (values: typeof codeValue) => {
     console.log(values);
-    navigation.navigate('CodeToForgotPassword');
+    navigation.navigate('Changeconfirmpassword');
   };
 
-  const ResendCode = () => {
+  const goBackToRegister = () => {
+    navigation.navigate('Register');
   };
 
   return (
@@ -49,7 +45,7 @@ export const CodeToForgotPassword = () => {
                   value={values.code}
                   placeholder="Código"
                   onChangeText={handleChange('code')}
-                  textValue="Código"
+                  label="Código"
                 />
                 <ErrorMessage component={Text} name="code" />
               </ContainerInput>
@@ -57,12 +53,12 @@ export const CodeToForgotPassword = () => {
               <ContainerButton>
                 <Button
                   style={{ marginBottom: 50 }}
-                  onPress={ResendCode}
+                  onPress={() => handleSubmit()}
                 >
                   Reenviar código
                 </Button>
 
-                <Button onPress={handleSubmit}>Confirmar</Button>
+                <Button onPress={() => handleSubmit()}>Confirmar</Button>
               </ContainerButton>
             </ContentForm>
           )}
@@ -72,3 +68,4 @@ export const CodeToForgotPassword = () => {
   );
 };
 
+export default CodeToForgotPassword;

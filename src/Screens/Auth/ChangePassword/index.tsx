@@ -1,8 +1,9 @@
 import React from 'react';
 import { View, Alert } from 'react-native';
-import { Formik, ErrorMessage } from 'formik';
+import { Formik, ErrorMessage, FormikHelpers } from 'formik';
 
-import { Button, Field } from '../../../Components';
+import { Button } from '../../../Components';
+import { FieldSecure } from '../../../Components/FormUtils';
 import api from '../../../services/api';
 
 import { Container, ViewField, ViewForm, ViewFields } from './styles';
@@ -14,18 +15,20 @@ export const ChangePassword = () => {
     confirmNewPassword: '',
   };
 
-  const onSubmit = async (values: typeof initialValues) => {
+  const onSubmit = async (values: typeof initialValues, { resetForm, setSubmitting }: FormikHelpers<typeof initialValues>) => {
     try {
       if (values.newPassword === values.confirmNewPassword) {
         await api.put('/clients/update-password', values);
 
+        setSubmitting(false)
         Alert.alert('Senha atualizada');
+        resetForm();
       } else {
+        setSubmitting(false)
         Alert.alert('Senhas iguais');
       }
     } catch (err) {
-      console.log(err.response);
-
+      setSubmitting(false)
       Alert.alert('Erro ao atualizar a senha');
     }
   };
@@ -37,42 +40,39 @@ export const ChangePassword = () => {
         onSubmit={onSubmit}
         enableReinitialize
       >
-        {({ values, handleChange, handleSubmit }) => (
+        {({ values, handleChange, handleSubmit, isSubmitting }) => (
           <ViewForm>
             <ViewFields>
               <ViewField>
-                <Field
-                  textValue="Senha atual"
-                  textColor="black"
+                <FieldSecure
+                  label="Senha atual"
+                  labelColor="black"
                   value={values.currentPassword}
-                  secureTextEntry
                   onChangeText={handleChange('currentPassword')}
                 />
                 <ErrorMessage component={View} name="currentPassword" />
               </ViewField>
               <ViewField>
-                <Field
-                  textValue="Nova senha"
-                  textColor="black"
+                <FieldSecure
+                  label="Nova senha"
+                  labelColor="black"
                   value={values.newPassword}
-                  secureTextEntry
                   onChangeText={handleChange('newPassword')}
                 />
                 <ErrorMessage component={View} name="newPassword" />
               </ViewField>
               <ViewField>
-                <Field
-                  textValue="Confirmar senha"
-                  textColor="black"
+                <FieldSecure
+                  label="Confirmar senha"
+                  labelColor="black"
                   value={values.confirmNewPassword}
-                  secureTextEntry
                   onChangeText={handleChange('confirmNewPassword')}
                 />
                 <ErrorMessage component={View} name="confirmNewPassword" />
               </ViewField>
             </ViewFields>
             <View>
-              <Button primaryColor onPress={handleSubmit}>
+              <Button loading={isSubmitting} primaryColor onPress={() => handleSubmit()}>
                 Atualizar
               </Button>
             </View>

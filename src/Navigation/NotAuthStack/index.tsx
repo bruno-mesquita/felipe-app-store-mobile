@@ -1,16 +1,13 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
 
 import { Login, CodeToForgotPassword, CodeToPassword, ForgotPassword } from '../../Screens/NotAuth';
 import options from './configHeader';
 
 const { Navigator, Screen } = createStackNavigator();
 
-
 export default function NavigationStackNotAuth() {
   return (
-    <NavigationContainer>
       <Navigator
         initialRouteName="Login"
         screenOptions={{ headerShown: false }}
@@ -33,6 +30,5 @@ export default function NavigationStackNotAuth() {
         />
         <Screen name="CodeToForgotPassword" component={CodeToForgotPassword} />
       </Navigator>
-    </NavigationContainer>
   );
 }

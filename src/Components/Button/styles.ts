@@ -1,13 +1,9 @@
-import { ComponentType } from 'react';
-import { Text } from 'react-native';
-import { Button } from 'native-base';
+import { Text as RNText, TouchableOpacity, StyleSheet } from 'react-native';
 import styled, { css } from 'styled-components/native';
 
-import { Props } from './index';
+import { StyledButtonProps } from './props';
 
-export const Container = styled.View``;
-
-export const ButtonConfig = styled<ComponentType<Props>>(Button as any)`
+export const Container = styled(TouchableOpacity as StyledButtonProps)`
   ${({ theme, primaryColor }) => css`
     border-radius: 10px;
     width: 221px;
@@ -20,9 +16,18 @@ export const ButtonConfig = styled<ComponentType<Props>>(Button as any)`
   `}
 `;
 
-export const TextConfig = styled<ComponentType<Props>>(Text as any)`
+export const Text = styled(RNText as StyledButtonProps)`
   ${({ theme, primaryColor }) => css`
     font-size: 20px;
     color: ${!primaryColor ? theme.colors.primary : theme.colors.secundary};
   `}
 `;
+
+export const styles = StyleSheet.create({
+  shadow: {
+    elevation: 7,
+    shadowColor: '#000',
+    shadowOpacity: 0.9,
+    shadowRadius: 5,
+  },
+});

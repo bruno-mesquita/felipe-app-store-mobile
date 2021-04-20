@@ -1,20 +1,30 @@
 import React from 'react';
-import { NativeBase } from 'native-base';
+import { ActivityIndicator } from 'react-native';
+import { useTheme } from 'styled-components/native';
 
-import { Container, ButtonConfig, TextConfig } from './styles';
+import { Container, Text, styles } from './styles';
+import { ButtonProps } from './props';
 
-export type Props = NativeBase.Button & {
-  children: React.ReactNode;
-  primaryColor?: boolean;
-};
+export const Button = ({
+  primaryColor = false,
+  children,
+  loading = false,
+  style,
+  ...rest
+}: ButtonProps) => {
+  const { colors } = useTheme();
 
-export const Button = ({ primaryColor = false, children, ...rest }: Props) => {
   return (
-    <Container>
-      <ButtonConfig {...rest} primaryColor={primaryColor}>
-        <TextConfig primaryColor={primaryColor}>{children}</TextConfig>
-      </ButtonConfig>
+    <Container
+      {...rest}
+      style={[styles.shadow, style]}
+      primaryColor={primaryColor}
+    >
+      {loading ? (
+        <ActivityIndicator color={colors.primary} size={30} />
+      ) : (
+        <Text primaryColor={primaryColor}>{children}</Text>
+      )}
     </Container>
   );
 };
-

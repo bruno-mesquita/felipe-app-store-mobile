@@ -1,9 +1,9 @@
 import React from 'react';
 import { Text } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import { ErrorMessage, Formik } from 'formik';
 
-import { Button, Field } from '../../../Components';
+import { Button } from '../../../Components';
+import { Field } from '../../../Components/FormUtils';
 
 import {
   Container,
@@ -14,21 +14,16 @@ import {
   ContainerInput,
   ContainerButton,
 } from './styles';
+import { Values } from './props';
 
-interface Values {
-  email: string;
-}
-
-export const ForgotPassword = () => {
-  const navigation = useNavigation();
+export const ForgotPassword = ({ navigation }) => {
 
   const codeValue: Values = {
     email: '',
   };
 
   const onSubmit = (values: Values) => {
-    console.log(values);
-    navigation.navigate('CodeToPassword');
+    navigation.navigate('Codepassword');
   };
 
   return (
@@ -46,13 +41,13 @@ export const ForgotPassword = () => {
                   value={values.email}
                   placeholder="E-mail"
                   onChangeText={handleChange('email')}
-                  textValue="E-mail"
+                  label="E-mail"
                 />
                 <ErrorMessage component={Text} name="email" />
               </ContainerInput>
 
               <ContainerButton>
-                <Button onPress={handleSubmit}>Enviar</Button>
+                <Button onPress={() => handleSubmit()}>Enviar</Button>
               </ContainerButton>
             </ContentForm>
           )}
@@ -61,4 +56,3 @@ export const ForgotPassword = () => {
     </Container>
   );
 };
-
