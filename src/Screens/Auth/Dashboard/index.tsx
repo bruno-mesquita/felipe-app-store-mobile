@@ -5,7 +5,9 @@ import { Ionicons, MaterialIcons, AntDesign, MaterialCommunityIcons } from '@exp
 import { Container, Row, Footer, Header, TitleFooter, ViewTitle } from './styles';
 import { Item, Divider } from './Components';
 
-export const Dashboard = () => {
+export const Dashboard = ({ navigation }) => {
+
+  const toGoMenus = () => navigation.navigate('Menus');
 
   return (
     <Container>
@@ -36,6 +38,12 @@ export const Dashboard = () => {
         <Item>
           <Ionicons name="print-outline" size={50} color="#fff" />
           <Text style={{ color: '#fff', textAlign: 'center' }}>Boletos</Text>
+        </Item>
+      </Row>
+      <Row>
+        <Item onPress={toGoMenus}>
+          <AntDesign name="barcode" size={50} color="#fff" />
+          <Text style={{ color: '#fff', textAlign: 'center' }}>Cardapios</Text>
         </Item>
       </Row>
       </Header>

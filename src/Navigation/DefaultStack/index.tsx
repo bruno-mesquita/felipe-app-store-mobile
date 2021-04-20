@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import { Dashboard, AboutApp, ChangePassword, Configuration } from '../../Screens/Auth';
+import { Dashboard, AboutApp, ChangePassword, Configuration, Menus, RegisterMenu } from '../../Screens/Auth';
 import options from './configHeader';
 
 const { Navigator, Screen } = createStackNavigator();
@@ -38,6 +38,22 @@ export default function NativeStackRoutes() {
         component={Configuration}
         options={{
           ...options('Configurações')
+        }}
+      />
+
+      <Screen
+        name="Menus"
+        component={Menus}
+        options={{
+          ...options('Cardapios')
+        }}
+      />
+
+      <Screen
+        name="RegisterMenu"
+        component={RegisterMenu}
+        options={{
+          ...options('Cadastro de cardápio')
         }}
       />
     </Navigator>
