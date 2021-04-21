@@ -1,7 +1,16 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import { Dashboard, AboutApp, ChangePassword, Configuration, Menus, RegisterMenu } from '../../Screens/Auth';
+import {
+  Dashboard,
+  AboutApp,
+  ChangePassword,
+  Configuration,
+  Menus,
+  RegisterMenu,
+  Products,
+  ProductRegistration
+} from '../../Screens/Auth';
 import options from './configHeader';
 
 const { Navigator, Screen } = createStackNavigator();
@@ -54,6 +63,22 @@ export default function NativeStackRoutes() {
         component={RegisterMenu}
         options={{
           ...options('Cadastro de cardápio')
+        }}
+      />
+
+      <Screen
+        name="Products"
+        component={Products}
+        options={{
+          ...options('Produtos')
+        }}
+      />
+
+      <Screen
+        name="ProductRegistration"
+        component={ProductRegistration}
+        options={{
+          ...options('Cadastro de produto')
         }}
       />
     </Navigator>

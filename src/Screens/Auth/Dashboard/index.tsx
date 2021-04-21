@@ -8,14 +8,15 @@ import { Item, Divider } from './Components';
 export const Dashboard = ({ navigation }) => {
 
   const toGoMenus = () => navigation.navigate('Menus');
+  const toGoProducts = () => navigation.navigate('Products');
 
   return (
     <Container>
       <Header>
       <Row>
-        <Item>
+        <Item onPress={toGoProducts}>
           <AntDesign name="barcode" size={50} color="#fff" />
-          <Text style={{ color: '#fff', textAlign: 'center' }}>Cadastrar produto</Text>
+          <Text style={{ color: '#fff', textAlign: 'center' }}>Produtos</Text>
         </Item>
         <Item>
           <Ionicons name="bar-chart-outline" size={50} color="#fff" />

@@ -1,11 +1,11 @@
 import { useState, useCallback, useEffect } from 'react';
-import * as MediaLibrary from 'expo-media-library';
+import * as ImagePicker from 'expo-image-picker';
 
 export const usePermissionGallery = () => {
   const [permission, setPermission] = useState(false);
 
   const getPermission = useCallback(async () => {
-    const { status } = await MediaLibrary.requestPermissionsAsync();
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
     if(status === 'granted') {
       setPermission(true);

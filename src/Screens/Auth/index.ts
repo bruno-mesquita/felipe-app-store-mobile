@@ -5,3 +5,5 @@ export { ChangePassword } from './ChangePassword';
 export { Configuration } from './Configuration';
 export { Menus } from './Menus';
 export { RegisterMenu } from './RegisterMenu';
+export { Products } from './Products';
+export { ProductRegistration } from './ProductRegistration';
