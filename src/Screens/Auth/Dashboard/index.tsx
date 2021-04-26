@@ -9,6 +9,8 @@ export const Dashboard = ({ navigation }) => {
 
   const toGoMenus = () => navigation.navigate('Menus');
   const toGoProducts = () => navigation.navigate('Products');
+  const toGoConfiguration = () => navigation.navigate('Configuration');
+
 
   return (
     <Container>
@@ -22,7 +24,7 @@ export const Dashboard = ({ navigation }) => {
           <Ionicons name="bar-chart-outline" size={50} color="#fff" />
           <Text style={{ color: '#fff', textAlign: 'center' }}>Relatório de vendas</Text>
         </Item>
-        <Item>
+        <Item onPress={toGoConfiguration}>
           <Ionicons name="settings-outline" size={50} color="#fff" />
           <Text style={{ color: '#fff', textAlign: 'center' }}>Configurações</Text>
         </Item>

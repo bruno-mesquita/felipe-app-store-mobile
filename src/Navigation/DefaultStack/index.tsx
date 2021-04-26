@@ -9,7 +9,7 @@ import {
   Menus,
   RegisterMenu,
   Products,
-  ProductRegistration
+  ProductRegistration,
 } from '../../Screens/Auth';
 import options from './configHeader';
 

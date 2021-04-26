@@ -3,6 +3,7 @@ import {
   AUTH_REQUEST_LOGIN,
   AUTH_REQUEST_LOGIN_SUCCESS,
   AUTH_REQUEST_LOGIN_FAILURE,
+  AUTH_REFRESH_TOKEN_SUCCESS,
   AuthActionTypes,
 } from './auth.types';
 
@@ -17,10 +18,11 @@ export const requestLogin = (
 
 export const requestLoginSuccess = (
   token: string,
+  refreshToken: string,
   checked: boolean,
 ): AuthActionTypes => ({
   type: AUTH_REQUEST_LOGIN_SUCCESS,
-  payload: { token, checked },
+  payload: { token, checked, refreshToken },
 });
 
 export const requestLoginFailure = (errorMessage: string): AuthActionTypes => ({
@@ -31,3 +33,8 @@ export const requestLoginFailure = (errorMessage: string): AuthActionTypes => ({
 export const logout = (): AuthActionTypes => ({
   type: AUTH_LOGOUT,
 });
+
+export const requestRefreshTokenSuccess = (accessToken: string, refreshToken: string):  AuthActionTypes => ({
+  type: AUTH_REFRESH_TOKEN_SUCCESS,
+  payload: { refreshToken, accessToken }
+})

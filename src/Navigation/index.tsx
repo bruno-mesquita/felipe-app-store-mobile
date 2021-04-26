@@ -8,7 +8,7 @@ import NotAuthStack from './NotAuthStack';
 const Navigation = () => {
   const { logged } = useSelector(({ auth }) => auth);
 
-  return <NavigationContainer>{!logged ? <DefaultStack /> : <NotAuthStack />}</NavigationContainer>;
+  return <NavigationContainer>{logged ? <DefaultStack /> : <NotAuthStack />}</NavigationContainer>;
 };
 
 export default Navigation;

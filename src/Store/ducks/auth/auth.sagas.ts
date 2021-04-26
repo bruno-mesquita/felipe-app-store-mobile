@@ -19,11 +19,11 @@ export function* signIn({ payload }: RequestLoginAction) {
       password,
     });
 
-    const { token } = data;
+    const { token, refreshToken } = data;
 
     api.defaults.headers.Authorization = `Bearer ${token}`;
 
-    yield put(requestLoginSuccess(token, checked));
+    yield put(requestLoginSuccess(token, refreshToken, checked));
   } catch (err) {
     Alert.alert('Erro no login');
     yield put(requestLoginFailure(err.message));
@@ -33,9 +33,9 @@ export function* signIn({ payload }: RequestLoginAction) {
 export function* setToken({ payload }: { payload: DefaultRootState }) {
   if (!payload) return;
 
-  const { token, keepMeConnected } = payload.auth;
+  const { token, keepMeConnected, refreshToken } = payload.auth;
 
-  if (token && keepMeConnected) {
+  if (token && keepMeConnected && refreshToken) {
     api.defaults.headers.Authorization = `Bearer ${token}`;
   } else {
     yield put(logout());
