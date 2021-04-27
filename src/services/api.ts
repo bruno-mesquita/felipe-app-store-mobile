@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { store } from '../Store/store';
 
-import { requestRefreshTokenSuccess } from '../Store/ducks/auth/auth.actions';
+import { requestRefreshTokenSuccess, logout } from '../Store/ducks/auth/auth.actions';
 
 const api = axios.create({
   baseURL: 'http://192.168.1.102:3030/api/app-store',
@@ -18,6 +18,8 @@ api.interceptors.response.use((response) => {
     originalRequest._retry = true;
 
     const { refreshToken } = (store.getState() as any).auth;
+
+    if(!refreshToken) store.dispatch(logout());
 
     const { data } = await api.post('/auth/refresh', { token: refreshToken })
 

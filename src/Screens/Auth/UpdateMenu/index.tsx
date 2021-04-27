@@ -14,7 +14,7 @@ export const UpdateMenu = ({ route }) => {
     try {
       const { data } = await api.get(`/menus/${route.params.id}`);
 
-      setMenu(data.data);
+      setMenu(data.result);
     } catch (err) {
       Alert.alert('Erro ao buscar dados do cardápio');
     }
@@ -31,6 +31,8 @@ export const UpdateMenu = ({ route }) => {
       setSubmitting(false);
       Alert.alert('Atualizado com sucesso!')
     } catch (err) {
+      console.log(err.response);
+
       setSubmitting(false);
       Alert.alert('Erro ao atualizar')
     }

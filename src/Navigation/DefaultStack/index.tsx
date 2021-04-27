@@ -10,6 +10,7 @@ import {
   RegisterMenu,
   Products,
   ProductRegistration,
+  UpdateMenu
 } from '../../Screens/Auth';
 import options from './configHeader';
 
@@ -63,6 +64,14 @@ export default function NativeStackRoutes() {
         component={RegisterMenu}
         options={{
           ...options('Cadastro de cardápio')
+        }}
+      />
+
+      <Screen
+        name="UpdateMenu"
+        component={UpdateMenu}
+        options={{
+          ...options('Atualizar cardápio')
         }}
       />
 

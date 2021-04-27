@@ -1,3 +1,5 @@
+import { FormikProps } from 'formik';
+
 export interface Values {
   id?: number | undefined;
   name: string;
@@ -5,4 +7,8 @@ export interface Values {
   description: string;
   menu: number;
   image: string;
+}
+
+export interface ProductFormProps extends FormikProps<Values> {
+  inputPriceRef: any;
 }

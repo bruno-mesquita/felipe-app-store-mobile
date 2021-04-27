@@ -1,5 +1,4 @@
 import React from 'react';
-import { FormikProps } from 'formik';
 import { Ionicons } from '@expo/vector-icons';
 
 import { Field, Select, FieldError, FieldMask } from '../FormUtils';
@@ -8,9 +7,9 @@ import { usePermissionGallery } from '../../hooks/permissions';
 import { useTakePhoto } from '../../hooks';
 
 import { Container, Fields, ViewButton, Image, ViewImage } from './styles';
-import { Values } from './props';
+import { Values, ProductFormProps } from './props';
 
-export const ProductForm = ({ values, handleChange, handleSubmit, isSubmitting, setFieldValue }: FormikProps<Values>) => {
+export const ProductForm = ({ values, handleChange, handleSubmit, isSubmitting, setFieldValue, inputPriceRef }: ProductFormProps) => {
   const permission = usePermissionGallery();
   const pickImage = useTakePhoto();
 
@@ -53,6 +52,7 @@ export const ProductForm = ({ values, handleChange, handleSubmit, isSubmitting, 
           labelColor="#000"
           value={values.price}
           onChangeText={handleChange('price')}
+          maskRef={inputPriceRef}
         />
         <FieldError name="price" />
 

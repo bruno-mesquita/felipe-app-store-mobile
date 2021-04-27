@@ -19,7 +19,7 @@ export const MenuForm = ({ values, handleChange, handleSubmit, isSubmitting }: F
       />
       <FieldError name="name" />
 
-      <Button loading={isSubmitting} onPress={() => handleSubmit()}>{values.id ? 'Atailizar' : 'Cadastrar'}</Button>
+      <Button loading={isSubmitting} onPress={() => handleSubmit()}>{values?.id ? 'Atualizar' : 'Cadastrar'}</Button>
     </Container>
   )
 }

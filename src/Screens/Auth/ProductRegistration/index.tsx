@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Alert } from 'react-native';
 import { Formik, FormikHelpers } from 'formik';
+import { TextInputMasked } from 'react-native-masked-text';
 
 import { ProductForm } from '../../../Components';
 
@@ -9,6 +10,8 @@ import api from '../../../services/api';
 import schema from './schema';
 
 export const ProductRegistration = () => {
+  const inputPriceRef = useRef<TextInputMasked>(null);
+
   const initialValues = {
     name: '',
     price: '',
@@ -19,12 +22,19 @@ export const ProductRegistration = () => {
 
   const onSubmit = async (values, { resetForm, setSubmitting }: FormikHelpers<any>) => {
     try {
-      await api.post('/products', values);
+      const data = {
+        ...values,
+        menu: Number(values.menu),
+        price: inputPriceRef.current?.getRawValue(),
+      }
+
+      await api.post('/products', data);
 
       Alert.alert('Produto cadastrado com sucesso')
       resetForm();
       setSubmitting(false);
     } catch (err) {
+      console.log(err.response.data);
       setSubmitting(false);
       Alert.alert('Erro ao cadastrar o produto');
     }
@@ -35,7 +45,7 @@ export const ProductRegistration = () => {
       <Formik
         onSubmit={onSubmit}
         initialValues={initialValues}
-        component={ProductForm}
+        component={(props) => <ProductForm {...props} inputPriceRef={inputPriceRef} />}
         validationSchema={schema}
       />
     </Container>

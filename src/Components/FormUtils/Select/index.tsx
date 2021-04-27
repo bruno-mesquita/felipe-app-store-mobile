@@ -21,7 +21,7 @@ export const Select = ({
     try {
       const { data } = await api.get(path);
 
-      setItems(data.result.map(item => ({ value: item.id, label: item.name })));
+      setItems(data.result.map(item => ({ value: String(item.id), label: item.name })));
     } catch (err) {
       console.log(err.response.data);
     }
@@ -33,7 +33,11 @@ export const Select = ({
     } else {
       getItems();
     }
-  }, [getItems, value]);
+  }, []);
+
+  const myChange = (e) => {
+    if(e) onChange(e)
+  }
 
   return (
     <Container>
@@ -41,7 +45,7 @@ export const Select = ({
       <RNPickerSelect
         style={styles}
         value={value}
-        onValueChange={onChange}
+        onValueChange={myChange}
         items={items}
         useNativeAndroidPickerStyle={false}
         placeholder={{ label: placeholder, value: null }}

@@ -18,7 +18,7 @@ export const ChangePassword = () => {
   const onSubmit = async (values: typeof initialValues, { resetForm, setSubmitting }: FormikHelpers<typeof initialValues>) => {
     try {
       if (values.newPassword === values.confirmNewPassword) {
-        await api.put('/clients/update-password', values);
+        await api.put('/establisments/update-password', values);
 
         setSubmitting(false)
         Alert.alert('Senha atualizada');

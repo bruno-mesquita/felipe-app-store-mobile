@@ -10,11 +10,11 @@ export const Products = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  /* const getMenus = useCallback(async () => {
+  const getProducts = useCallback(async () => {
     try {
-      const { data } = await api.get('/menus/${}');
+      const { data } = await api.get('/products');
 
-      setMenus(data.data);
+      setProducts(data.result);
       setLoading(false);
     } catch (err) {
       setLoading(false);
@@ -23,15 +23,15 @@ export const Products = () => {
   }, [])
 
   useEffect(() => {
-    getMenus()
-  }, [getMenus]) */
+    getProducts()
+  }, [getProducts])
 
   return (
     <Container>
       <FlatList
         ListEmptyComponent={ListEmpty}
-        /* refreshing={loading}
-        onRefresh={getMenus} */
+        refreshing={loading}
+        onRefresh={getProducts}
         data={products}
         renderItem={({ item }) => <Item item={item} />}
       />

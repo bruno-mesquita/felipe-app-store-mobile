@@ -4,8 +4,7 @@ export const useTakePhoto = () => {
   const pickImage = async () => {
     const { base64, cancelled, type, uri }: any = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      quality: 1,
+      aspect: [3,4],
       base64: true,
     });
 

@@ -7,3 +7,4 @@ export { Menus } from './Menus';
 export { RegisterMenu } from './RegisterMenu';
 export { Products } from './Products';
 export { ProductRegistration } from './ProductRegistration';
+export { UpdateMenu } from './UpdateMenu';
