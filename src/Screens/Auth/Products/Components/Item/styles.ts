@@ -1,3 +1,34 @@
 import styled from 'styled-components/native';
 
-export const Container = styled.View``;
+export const Container = styled.View`
+  flex-direction: row;
+  width: 90%;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const Text = styled.Text`
+  color: #000;
+  font-size: 14px;
+`;
+
+export const Content = styled.View`
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+`;
+
+export const Photo = styled.Image.attrs(props => ({ ...props, resizeMode: 'cover' }))`
+  width: 70px;
+  height: 70px;
+  border-bottom-left-radius: 10px;
+  border-top-left-radius: 10px;
+`;
+
+export const Info = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  width: 85%;
+`;

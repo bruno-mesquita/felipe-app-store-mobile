@@ -30,13 +30,13 @@ export const ProductRegistration = () => {
 
       await api.post('/products', data);
 
-      Alert.alert('Produto cadastrado com sucesso')
+      Alert.alert('Sucesso', 'Produto cadastrado com sucesso')
       resetForm();
       setSubmitting(false);
     } catch (err) {
       console.log(err.response.data);
       setSubmitting(false);
-      Alert.alert('Erro ao cadastrar o produto');
+      Alert.alert('Erro', 'Erro ao cadastrar o produto');
     }
   }
 

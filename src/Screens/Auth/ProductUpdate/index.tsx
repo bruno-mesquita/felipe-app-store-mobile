@@ -8,7 +8,7 @@ import { Container } from './styles';
 import api from '../../../services/api';
 import schema from './schema';
 
-export const ProductUpdate = ({ route }) => {
+export const ProductUpdate = ({ route, navigation }) => {
   const [product, setProduct] = useState({
     _id: '',
     name: '',
@@ -22,9 +22,17 @@ export const ProductUpdate = ({ route }) => {
     try {
       const { data } = await api.get(`/products/${route.params.id}`);
 
-      setProduct(data.data);
+      const { result } = data;
+
+      setProduct({ ...result, image: result.photo.encoded, menu: result.menu_id });
     } catch (err) {
-      Alert.alert('Erro ao pegar dados do produto');
+      console.log(err);
+      Alert.alert('Erro', 'Erro ao pegar dados do produto', [
+        {
+          text: 'Sair',
+          onPress: () => navigation.goBack(),
+        }
+      ]);
     }
   }, [])
 
@@ -34,12 +42,13 @@ export const ProductUpdate = ({ route }) => {
 
   const onSubmit = async (values, { setSubmitting }: FormikHelpers<any>) => {
     try {
-      await api.post(`/products/${route.params.id}`, values);
+      await api.put(`/products/${route.params.id}`, values);
 
       setSubmitting(false);
+      Alert.alert('Sucesso', 'Produto atualizado com sucesso');
     } catch (err) {
       setSubmitting(false);
-      Alert.alert('Erro ao atualizar o produto');
+      Alert.alert('Erro', 'Erro ao atualizar o produto');
     }
   }
 

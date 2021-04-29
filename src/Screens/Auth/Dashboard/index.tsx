@@ -17,35 +17,35 @@ export const Dashboard = ({ navigation }) => {
       <Header>
       <Row>
         <Item onPress={toGoProducts}>
-          <AntDesign name="barcode" size={50} color="#fff" />
+          {/* <AntDesign name="barcode" size={50} color="#fff" /> */}
           <Text style={{ color: '#fff', textAlign: 'center' }}>Produtos</Text>
         </Item>
         <Item>
-          <Ionicons name="bar-chart-outline" size={50} color="#fff" />
+          {/* <Ionicons name="bar-chart-outline" size={50} color="#fff" /> */}
           <Text style={{ color: '#fff', textAlign: 'center' }}>Relatório de vendas</Text>
         </Item>
         <Item onPress={toGoConfiguration}>
-          <Ionicons name="settings-outline" size={50} color="#fff" />
+          {/* <Ionicons name="settings-outline" size={50} color="#fff" /> */}
           <Text style={{ color: '#fff', textAlign: 'center' }}>Configurações</Text>
         </Item>
       </Row>
       <Row>
         <Item>
-          <Ionicons name="star-outline" size={50} color="#fff" />
+          {/* <Ionicons name="star-outline" size={50} color="#fff" /> */}
           <Text style={{ color: '#fff', textAlign: 'center' }}>Avaliações</Text>
         </Item>
         <Item>
-          <MaterialIcons name="support-agent" size={50} color="#fff" />
+          {/* <MaterialIcons name="support-agent" size={50} color="#fff" /> */}
           <Text style={{ color: '#fff', textAlign: 'center' }}>Suporte</Text>
         </Item>
         <Item>
-          <Ionicons name="print-outline" size={50} color="#fff" />
+          {/* <Ionicons name="print-outline" size={50} color="#fff" /> */}
           <Text style={{ color: '#fff', textAlign: 'center' }}>Boletos</Text>
         </Item>
       </Row>
       <Row>
         <Item onPress={toGoMenus}>
-          <AntDesign name="barcode" size={50} color="#fff" />
+          {/* <AntDesign name="barcode" size={50} color="#fff" /> */}
           <Text style={{ color: '#fff', textAlign: 'center' }}>Cardapios</Text>
         </Item>
       </Row>

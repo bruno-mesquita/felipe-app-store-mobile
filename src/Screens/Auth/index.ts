@@ -8,3 +8,4 @@ export { RegisterMenu } from './RegisterMenu';
 export { Products } from './Products';
 export { ProductRegistration } from './ProductRegistration';
 export { UpdateMenu } from './UpdateMenu';
+export { ProductUpdate } from './ProductUpdate';

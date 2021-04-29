@@ -9,7 +9,6 @@ export const Container = styled.View`
   align-items: center;
   height: ${height}px;
   width: ${width}px;
-  border: 1px solid;
 `;
 
 export const Text = styled.Text`

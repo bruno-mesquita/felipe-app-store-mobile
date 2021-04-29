@@ -7,7 +7,7 @@ import { usePermissionGallery } from '../../hooks/permissions';
 import { useTakePhoto } from '../../hooks';
 
 import { Container, Fields, ViewButton, Image, ViewImage } from './styles';
-import { Values, ProductFormProps } from './props';
+import { ProductFormProps } from './props';
 
 export const ProductForm = ({ values, handleChange, handleSubmit, isSubmitting, setFieldValue, inputPriceRef }: ProductFormProps) => {
   const permission = usePermissionGallery();
@@ -23,7 +23,7 @@ export const ProductForm = ({ values, handleChange, handleSubmit, isSubmitting, 
     <Container>
       <ViewImage disabled={!permission} onPress={takeImage}>
         {values.image ? (
-          <Image source={{ uri: values.image }} resizeMode="contain" />
+          <Image source={{ uri: values.image }} resizeMode="cover" />
         ) : (
           <Ionicons name="camera" size={40} color="#c4c4c4" />
         )}
