@@ -29,3 +29,9 @@ export const ViewImage = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
 `;
+
+export const CheckboxContainer = styled.View`
+  width: 50%;
+  align-self: center;
+  padding-top: 15px;
+`;

@@ -6,3 +6,4 @@ export { ProductForm } from './ProductForm';
 export { ModalBase } from './ModalBase';
 export { FloatButton } from './FloatButton';
 export * from './_Bases';
+export { Checkbox } from './Checkbox';

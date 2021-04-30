@@ -3,10 +3,11 @@ import { Ionicons } from '@expo/vector-icons';
 
 import { Field, Select, FieldError, FieldMask } from '../FormUtils';
 import { Button } from '../Button';
+import { Checkbox } from '../Checkbox';
 import { usePermissionGallery } from '../../hooks/permissions';
 import { useTakePhoto } from '../../hooks';
 
-import { Container, Fields, ViewButton, Image, ViewImage } from './styles';
+import { Container, Fields, ViewButton, Image, ViewImage, CheckboxContainer } from './styles';
 import { ProductFormProps } from './props';
 
 export const ProductForm = ({ values, handleChange, handleSubmit, isSubmitting, setFieldValue, inputPriceRef }: ProductFormProps) => {
@@ -73,6 +74,9 @@ export const ProductForm = ({ values, handleChange, handleSubmit, isSubmitting, 
           onChange={handleChange('menu')}
         />
         <FieldError name="menu" />
+        <CheckboxContainer>
+          <Checkbox  checked={values.active} onChange={value => setFieldValue('active', value)}>Ativado</Checkbox>
+        </CheckboxContainer>
       </Fields>
 
       <ViewButton>

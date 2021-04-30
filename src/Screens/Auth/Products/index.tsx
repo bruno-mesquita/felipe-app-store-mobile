@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { FlatList, Alert } from 'react-native';
 
-import api from '../../../services/api';
-import { Item, AddButton, ListEmpty } from './Components';
+import { getApi } from '../../../services/api';
+import { Item, AddButton, ListEmpty, FieldSearch } from './Components';
 
 import { Container } from './styles';
 import { Product } from './props';
@@ -15,18 +15,15 @@ export const Products = () => {
 
   const getProducts = useCallback(async () => {
     try {
-      const { data } = await api.get('/products', { params: { page } });
+      const api = getApi();
 
-      if(data.result.length === 0) {
-        setFinish(true);
-      } else {
-        setProducts(old => [...old, ...data.result]);
-      }
+      const { data } = await api.get('/products');
 
+      setProducts(data.result);
       setLoading(false);
     } catch (err) {
       setLoading(false);
-      Alert.alert('Erro ao buscar os seus cardapios');
+      Alert.alert('Erro', 'Erro ao buscar os produtos');
     }
   }, [])
 
@@ -36,9 +33,18 @@ export const Products = () => {
 
   const loadMore = async () => {
     if(!finish) {
-      setPage(page + 1);
+      const newPage = page + 1;
+      setPage(newPage);
 
-      await getProducts();
+      const api = getApi();
+
+      const { data } = await api.get('/products', { params: { page: newPage } });
+
+      if(data.result.length === 0) {
+        setFinish(true);
+      } else {
+        setProducts(old => [...old, ...data.result]);
+      }
     }
   }
 
@@ -47,16 +53,27 @@ export const Products = () => {
     await getProducts();
   }
 
+  const response = (data) => {
+    setProducts(data)
+    setPage(0);
+    setFinish(false);
+  }
+
+  const Header = () => <FieldSearch refreshing={loading} response={response} />
+
   return (
     <Container>
       <FlatList
         style={{ paddingTop: 15 }}
+        ListHeaderComponentStyle={{ alignSelf: 'center', paddingBottom: 15 }}
+        ListHeaderComponent={Header}
         ListEmptyComponent={ListEmpty}
         refreshing={loading}
         onRefresh={onRefresh}
         data={products}
         onEndReached={loadMore}
-        renderItem={({ item }) => <Item {...item} photo={item.photo.encoded} />}
+        keyExtractor={(item) => String(item.id)}
+        renderItem={({ item }) => <Item {...item} reender={getProducts} photo={item.photo.encoded} />}
       />
       <AddButton />
     </Container>

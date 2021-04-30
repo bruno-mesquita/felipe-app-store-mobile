@@ -3,13 +3,15 @@ import { Alert } from 'react-native';
 import { Formik, FormikHelpers } from 'formik';
 
 import { MenuForm } from '../../../Components';
-import api from '../../../services/api';
+import { getApi } from '../../../services/api';
 
 import { Container } from './styles';
 
 export const RegisterMenu = () => {
   const onSubmit = async (values, { resetForm, setSubmitting }: FormikHelpers<any>) => {
     try {
+      const api = getApi();
+
       await api.post('/menus', values);
 
       setSubmitting(false);

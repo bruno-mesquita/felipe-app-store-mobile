@@ -6,7 +6,7 @@ import { TextInputMasked } from 'react-native-masked-text';
 import { ProductForm } from '../../../Components';
 
 import { Container } from './styles';
-import api from '../../../services/api';
+import { getApi } from '../../../services/api';
 import schema from './schema';
 
 export const ProductRegistration = () => {
@@ -18,10 +18,13 @@ export const ProductRegistration = () => {
     description: '',
     menu: 0,
     image: null,
+    active: false,
   }
 
   const onSubmit = async (values, { resetForm, setSubmitting }: FormikHelpers<any>) => {
     try {
+      const api = getApi();
+
       const data = {
         ...values,
         menu: Number(values.menu),
@@ -34,7 +37,6 @@ export const ProductRegistration = () => {
       resetForm();
       setSubmitting(false);
     } catch (err) {
-      console.log(err.response.data);
       setSubmitting(false);
       Alert.alert('Erro', 'Erro ao cadastrar o produto');
     }

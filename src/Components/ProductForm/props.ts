@@ -7,6 +7,7 @@ export interface Values {
   description: string;
   menu: number;
   image: string;
+  active: boolean;
 }
 
 export interface ProductFormProps extends FormikProps<Values> {

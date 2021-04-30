@@ -21,8 +21,7 @@ export const Content = styled.View`
 export const Photo = styled.Image.attrs(props => ({ ...props, resizeMode: 'cover' }))`
   width: 70px;
   height: 70px;
-  border-bottom-left-radius: 10px;
-  border-top-left-radius: 10px;
+  border-radius: 10px;
 `;
 
 export const Info = styled.View`

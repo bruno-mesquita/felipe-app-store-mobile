@@ -1,24 +1,27 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { FlatList, Alert } from 'react-native';
 
-import api from '../../../services/api';
+import { getApi } from '../../../services/api';
 import { Item, AddMenuButton, ListEmpty } from './Components';
 
 import { Container, Divider } from './styles';
+import { Menu } from './props';
 
 export const Menus = () => {
-  const [menus, setMenus] = useState([]);
+  const [menus, setMenus] = useState<Menu[]>([]);
   const [loading, setLoading] = useState(true);
 
   const getMenus = useCallback(async () => {
     try {
+      const api = getApi();
+
       const { data } = await api.get('/menus');
 
       setMenus(data.result);
       setLoading(false);
     } catch (err) {
       setLoading(false);
-      Alert.alert('Erro ao buscar os seus cardapios');
+      Alert.alert('Erro', 'Erro ao buscar os seus cardapios');
     }
   }, [])
 
@@ -34,6 +37,7 @@ export const Menus = () => {
         refreshing={loading}
         onRefresh={getMenus}
         data={menus}
+        keyExtractor={(item) => String(item.id)}
         renderItem={({ item }) => <Item item={item} />}
         ItemSeparatorComponent={Divider}
       />

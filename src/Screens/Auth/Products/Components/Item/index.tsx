@@ -5,20 +5,23 @@ import { useNavigation } from '@react-navigation/native';
 import formatPrice from '../../../../../utils/format-number';
 import { CardBase } from '../../../../../Components/_Bases';
 
-import api from '../../../../../services/api';
+import { getApi } from '../../../../../services/api';
 import { ItemProps } from './props';
 import { Container, Text, Content, Photo, Info } from './styles';
 
-export const Item = ({ id, name, price, photo }: ItemProps) => {
+export const Item = ({ id, name, price, photo, menu_id, reender }: ItemProps) => {
   const navigation = useNavigation();
 
   const edit = () => navigation.navigate('ProductUpdate', { id });
 
   const deleteProduct = async () => {
     try {
-      await api.delete(`/products/${id}`);
-    } catch (err) {
+      const api = getApi();
 
+      await api.delete(`/products/${menu_id}/${id}`);
+      await reender();
+    } catch (err) {
+      console.log(err.response);
     }
   }
 

@@ -2,7 +2,7 @@ import { Alert } from 'react-native';
 import { takeLatest, call, put, all } from 'redux-saga/effects';
 import { DefaultRootState } from 'react-redux';
 
-import api from '../../../services/api';
+import { getApi, createApi } from '../../../services/api';
 import {
   requestLoginFailure,
   requestLoginSuccess,
@@ -12,6 +12,8 @@ import { RequestLoginAction, AUTH_REQUEST_LOGIN } from './auth.types';
 
 export function* signIn({ payload }: RequestLoginAction) {
   try {
+    const api = getApi();
+
     const { email, password, checked } = payload;
 
     const { data } = yield call(api.post, '/auth/login', {
@@ -25,17 +27,23 @@ export function* signIn({ payload }: RequestLoginAction) {
 
     yield put(requestLoginSuccess(token, refreshToken, checked));
   } catch (err) {
-    Alert.alert('Erro no login');
+    Alert.alert('Erro', 'Usuário não encontrado ou credenciais inválidas');
     yield put(requestLoginFailure(err.message));
   }
 }
 
 export function* setToken({ payload }: { payload: DefaultRootState }) {
+  createApi()
+  const api = getApi();
+  console.log(api);
+
   if (!payload) return;
 
   const { token, keepMeConnected, refreshToken } = payload.auth;
 
   if (token && keepMeConnected && refreshToken) {
+
+
     api.defaults.headers.Authorization = `Bearer ${token}`;
   } else {
     yield put(logout());

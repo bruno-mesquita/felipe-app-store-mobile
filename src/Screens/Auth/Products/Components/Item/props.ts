@@ -1,6 +1,8 @@
 export interface ItemProps {
-  id: string;
+  id: number;
   name: string;
   price: number;
   photo: string;
+  menu_id: number;
+  reender: () => Promise<void>;
 }
