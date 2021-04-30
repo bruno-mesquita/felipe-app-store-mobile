@@ -4,7 +4,7 @@
     "slug": "flipp-delivery-store",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/assets/icons/logo-app.png",
+    "icon": "./src/assets/icons/logo_app.png",
     "splash": {
       "image": "./src/assets/images/splash.png",
       "resizeMode": "cover"
@@ -21,7 +21,8 @@
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#9E0404",
-        "foregroundImage": "./src/assets/icons/logo-app.png"
+        "foregroundImage": "./src/assets/icons/logo_app.png",
+        "backgroundImage": "./src/assets/icons/logo_app.png"
       }
     },
     "web": {
