@@ -35,7 +35,6 @@ export function* signIn({ payload }: RequestLoginAction) {
 export function* setToken({ payload }: { payload: DefaultRootState }) {
   createApi()
   const api = getApi();
-  console.log(api);
 
   if (!payload) return;
 

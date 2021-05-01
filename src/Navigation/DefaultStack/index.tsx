@@ -36,9 +36,7 @@ export default function NativeStackRoutes() {
       <Screen
         name="AboutApp"
         component={AboutApp}
-        options={{
-          ...options('Sobre o App')
-        }}
+        options={{ headerShown: false }}
       />
 
       <Screen

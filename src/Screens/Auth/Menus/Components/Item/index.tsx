@@ -1,21 +1,46 @@
 import React from 'react';
+import { Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from 'styled-components/native';
 
 import { ItemProps } from './props';
 import { Container, Text } from './styles';
+import { getApi } from '../../../../../services/api';
 
-export const Item = ({ item }: ItemProps) => {
+export const Item = ({ item, reender }: ItemProps) => {
   const navigation = useNavigation();
   const { colors } = useTheme();
 
   const edit = () => navigation.navigate('UpdateMenu', { id: item.id });
 
+  const deleteMenu = async () => {
+    try {
+      const api = getApi();
+
+      await api.delete(`/menus/${item.id}`);
+      await reender();
+    } catch (err) {
+      console.log(err.response);
+    }
+  }
+
+  const del = () => {
+    Alert.alert('Apagar', `Você tem certeza que deseja apagar o cardápio ${item.name}? todos os produtos desse cardápio também vão ser apagados`, [
+      {
+        text: 'Apagar',
+        onPress: deleteMenu
+      },
+      {
+        text: 'Sair',
+      }
+    ])
+  }
+
   return (
-    <Container>
+    <Container onPress={edit} onLongPress={del}>
       <Text>{item.name}</Text>
-      <Ionicons name="chevron-forward" onPress={edit} size={25} color={colors.primary} />
+      <Ionicons name="chevron-forward" size={25} color={colors.primary} />
     </Container>
   )
 }

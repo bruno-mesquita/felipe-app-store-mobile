@@ -61,7 +61,7 @@ export const Dashboard = ({ navigation }) => {
         <Divider />
       </ViewTitle>
       <Row>
-        <Item>
+        <Item onPress={notImplement}>
           <MaterialIcons  {...iconProps('schedule')} />
           <Text>Em andamento</Text>
         </Item>

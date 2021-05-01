@@ -38,7 +38,7 @@ export const Menus = () => {
         onRefresh={getMenus}
         data={menus}
         keyExtractor={(item) => String(item.id)}
-        renderItem={({ item }) => <Item item={item} />}
+        renderItem={({ item }) => <Item item={item} reender={getMenus} />}
         ItemSeparatorComponent={Divider}
       />
       <AddMenuButton />
