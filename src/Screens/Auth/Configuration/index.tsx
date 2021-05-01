@@ -15,6 +15,8 @@ export const Configuration = () => {
 
   return (
     <Container>
+      <Item to="Profile">Meu perfil</Item>
+      <Divider />
       <Item to="ChangePassword">Alterar senha</Item>
       <Divider />
       <Item onPress={notImplement}>Termos de uso</Item>

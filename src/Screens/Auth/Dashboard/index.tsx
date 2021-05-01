@@ -10,6 +10,7 @@ export const Dashboard = ({ navigation }) => {
   const toGoMenus = () => navigation.navigate('Menus');
   const toGoProducts = () => navigation.navigate('Products');
   const toGoConfiguration = () => navigation.navigate('Configuration');
+  const toGoRatings = () => navigation.navigate('Ratings');
   const notImplement = () => Alert.alert('Não implementada', 'Infelizmente a nossa equipe ainda não fez essa função :( ');
 
   return (
@@ -30,7 +31,7 @@ export const Dashboard = ({ navigation }) => {
         </Item>
       </Row>
       <Row>
-        <Item onPress={notImplement}>
+        <Item onPress={toGoRatings}>
           {/* <Ionicons name="star-outline" size={50} color="#fff" /> */}
           <Text style={{ color: '#fff', textAlign: 'center' }}>Avaliações</Text>
         </Item>

@@ -11,7 +11,10 @@ import {
   Products,
   ProductRegistration,
   UpdateMenu,
-  ProductUpdate
+  ProductUpdate,
+  Ratings,
+  Orders,
+  Profile
 } from '../../Screens/Auth';
 import options from './configHeader';
 
@@ -99,6 +102,32 @@ export default function NativeStackRoutes() {
           ...options('Atualizar produto')
         }}
       />
+
+      <Screen
+        name="Orders"
+        component={Orders}
+        options={{
+          ...options('Pedidos')
+        }}
+      />
+
+      <Screen
+        name="Ratings"
+        component={Ratings}
+        options={{
+          ...options('Avaliações')
+        }}
+      />
+
+      <Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          ...options('Meu perfil')
+        }}
+      />
+
+
     </Navigator>
   );
 }

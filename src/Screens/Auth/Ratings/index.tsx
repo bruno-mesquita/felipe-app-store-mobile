@@ -5,31 +5,31 @@ import { getApi } from '../../../services/api';
 import { Item, ListEmpty } from './Components';
 
 import { Container } from './styles';
-import { Order } from './props';
+import { Rate } from './props';
 
-export const Orders = () => {
-  const [orders, setOrders] = useState<any[]>([]);
+export const Ratings = () => {
+  const [ratings, setRatings] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
   const [finish, setFinish] = useState(false);
 
-  const getOrders = useCallback(async () => {
+  const getRating = useCallback(async () => {
     try {
       const api = getApi();
 
-      const { data } = await api.get('/orders');
+      const { data } = await api.get('/ratings');
 
-      setOrders(data.result);
+      setRatings(data.result);
       setLoading(false);
     } catch (err) {
       setLoading(false);
-      Alert.alert('Erro', 'Erro ao buscar as pedidos');
+      Alert.alert('Erro', 'Erro ao buscar as avaliações');
     }
   }, [])
 
-  useEffect(() => {
-    getOrders()
-  }, [getOrders])
+  /* useEffect(() => {
+    getRating()
+  }, [getRating]) */
 
   const loadMore = async () => {
     if(!finish) {
@@ -43,7 +43,7 @@ export const Orders = () => {
       if(data.result.length === 0) {
         setFinish(true);
       } else {
-        setOrders(old => [...old, ...data.result]);
+        setRatings(old => [...old, ...data.result]);
       }
     }
   }
@@ -57,10 +57,11 @@ export const Orders = () => {
     <Container>
       <FlatList
         style={{ paddingTop: 15 }}
+        ListHeaderComponentStyle={{ alignSelf: 'center', paddingBottom: 15 }}
         ListEmptyComponent={ListEmpty}
         refreshing={loading}
         onRefresh={onRefresh}
-        data={orders}
+        data={ratings}
         onEndReached={loadMore}
         keyExtractor={(item) => String(item.id)}
         renderItem={({ item }) => <Item {...item} />}

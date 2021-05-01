@@ -1,9 +1,31 @@
-import React from 'react';
-import { Text } from 'react-native';
+import React, { useState } from 'react';
 
-import { Container } from './styles';
+import { Tab, FormAddress, FormProfile } from './Components';
+
+import { Container, Tabs } from './styles';
 
 export const Profile = () => {
+  const [activeData, setActiveData] = useState(true);
+  const [activeAddress, setActiveAddress] = useState(false);
 
-  return <Container><Text>Profile</Text></Container>
+  const onPressData = () => {
+    setActiveAddress(false);
+    setActiveData(true);
+  }
+
+  const onPressAddress = () => {
+    setActiveData(false);
+    setActiveAddress(true);
+  }
+
+  return (
+    <Container>
+      <Tabs>
+        <Tab onPress={onPressData} active={activeData}>Dados do estabelecimento</Tab>
+        <Tab onPress={onPressAddress} active={activeAddress}>Endereço</Tab>
+      </Tabs>
+
+      {activeData ? <FormProfile /> : <FormAddress />}
+    </Container>
+  )
 }
