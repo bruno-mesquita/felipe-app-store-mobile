@@ -21,9 +21,9 @@
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#9E0404",
-        "foregroundImage": "./src/assets/icons/logo_app.png",
-        "backgroundImage": "./src/assets/icons/logo_app.png"
-      }
+        "foregroundImage": "./src/assets/icons/logo_app.png"
+      },
+      "package": "flipp.store.com"
     },
     "web": {
       "favicon": "./assets/favicon.png"
