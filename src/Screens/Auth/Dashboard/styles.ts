@@ -39,3 +39,8 @@ export const ViewTitle = styled.View`
   align-items: center;
   padding-bottom: 15px;
 `;
+
+export const Text = styled.Text`
+  color: #fff;
+  text-align: center;
+`;

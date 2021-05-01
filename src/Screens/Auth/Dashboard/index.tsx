@@ -1,8 +1,8 @@
 import React from 'react';
-import { Text, Alert } from 'react-native';
+import { Alert } from 'react-native';
 import { Ionicons, MaterialIcons, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 
-import { Container, Row, Footer, Header, TitleFooter, ViewTitle } from './styles';
+import { Container, Row, Footer, Header, TitleFooter, ViewTitle, Text } from './styles';
 import { Item, Divider } from './Components';
 
 export const Dashboard = ({ navigation }) => {
@@ -13,41 +13,43 @@ export const Dashboard = ({ navigation }) => {
   const toGoRatings = () => navigation.navigate('Ratings');
   const notImplement = () => Alert.alert('Não implementada', 'Infelizmente a nossa equipe ainda não fez essa função :( ');
 
+  const iconProps = (name: any) => ({ name, size: 50, color: '#fff' })
+
   return (
     <Container>
       <Header>
       <Row>
         <Item onPress={toGoProducts}>
-          {/* <AntDesign name="barcode" size={50} color="#fff" /> */}
-          <Text style={{ color: '#fff', textAlign: 'center' }}>Produtos</Text>
+          <AntDesign {...iconProps('barcode')} />
+          <Text>Produtos</Text>
         </Item>
         <Item onPress={notImplement}>
-          {/* <Ionicons name="bar-chart-outline" size={50} color="#fff" /> */}
-          <Text style={{ color: '#fff', textAlign: 'center' }}>Relatório de vendas</Text>
+          <Ionicons {...iconProps('bar-chart-outline')} />
+          <Text>Relatório de vendas</Text>
         </Item>
         <Item onPress={toGoConfiguration}>
-          {/* <Ionicons name="settings-outline" size={50} color="#fff" /> */}
-          <Text style={{ color: '#fff', textAlign: 'center' }}>Configurações</Text>
+          <Ionicons {...iconProps('md-settings-sharp')} />
+          <Text>Configurações</Text>
         </Item>
       </Row>
       <Row>
         <Item onPress={toGoRatings}>
-          {/* <Ionicons name="star-outline" size={50} color="#fff" /> */}
-          <Text style={{ color: '#fff', textAlign: 'center' }}>Avaliações</Text>
+          <Ionicons {...iconProps('star-sharp')} />
+          <Text>Avaliações</Text>
         </Item>
         <Item onPress={notImplement}>
-          {/* <MaterialIcons name="support-agent" size={50} color="#fff" /> */}
-          <Text style={{ color: '#fff', textAlign: 'center' }}>Suporte</Text>
+          <MaterialIcons {...iconProps('support-agent')} />
+          <Text>Suporte</Text>
         </Item>
         <Item onPress={notImplement}>
-          {/* <Ionicons name="print-outline" size={50} color="#fff" /> */}
-          <Text style={{ color: '#fff', textAlign: 'center' }}>Boletos</Text>
+          <Ionicons {...iconProps('print-outline')} />
+          <Text>Boletos</Text>
         </Item>
       </Row>
       <Row>
         <Item onPress={toGoMenus}>
-          {/* <AntDesign name="barcode" size={50} color="#fff" /> */}
-          <Text style={{ color: '#fff', textAlign: 'center' }}>Cardapios</Text>
+          <AntDesign {...iconProps('menufold')} />
+          <Text>Cardapios</Text>
         </Item>
       </Row>
       </Header>
@@ -58,17 +60,17 @@ export const Dashboard = ({ navigation }) => {
         <Divider />
       </ViewTitle>
       <Row>
-       {/*  <Item>
-          <MaterialIcons name="loadin" size={50} color="#fff" />
-          <Text style={{ color: '#fff', textAlign: 'center' }}>Em andamento</Text>
-        </Item> */}
-        <Item onPress={notImplement}>
-          <MaterialIcons name="sports-motorsports" size={50} color="#fff" />
-          <Text style={{ color: '#fff', textAlign: 'center' }}>Entregues</Text>
+        <Item>
+          <MaterialIcons  {...iconProps('schedule')} />
+          <Text>Em andamento</Text>
         </Item>
         <Item onPress={notImplement}>
-          <MaterialCommunityIcons name="cancel" size={50} color="#fff" />
-          <Text style={{ color: '#fff', textAlign: 'center' }}>Cancelados</Text>
+          <MaterialIcons {...iconProps('sports-motorsports')} />
+          <Text>Entregues</Text>
+        </Item>
+        <Item onPress={notImplement}>
+          <MaterialCommunityIcons {...iconProps('cancel')} />
+          <Text>Cancelados</Text>
         </Item>
       </Row>
       </Footer>
