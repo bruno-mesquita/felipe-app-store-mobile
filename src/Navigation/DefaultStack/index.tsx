@@ -14,7 +14,9 @@ import {
   ProductUpdate,
   Ratings,
   Orders,
-  Profile
+  Profile,
+  Support,
+  TermsUse
 } from '../../Screens/Auth';
 import options from './configHeader';
 
@@ -127,7 +129,21 @@ export default function NativeStackRoutes() {
         }}
       />
 
+      <Screen
+        name="Support"
+        component={Support}
+        options={{
+          ...options('Suporte')
+        }}
+      />
 
+      <Screen
+        name="TermsUse"
+        component={TermsUse}
+        options={{
+          ...options('Termos de uso')
+        }}
+      />
     </Navigator>
   );
 }

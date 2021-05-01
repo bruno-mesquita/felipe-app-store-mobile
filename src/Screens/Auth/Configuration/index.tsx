@@ -1,5 +1,4 @@
 import React from 'react';
-import { Alert } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 import { logout } from '../../../Store/ducks/auth/auth.actions';
@@ -11,7 +10,6 @@ export const Configuration = () => {
   const dispatch = useDispatch();
 
   const quit = () => dispatch(logout());
-  const notImplement = () => Alert.alert('Não implementada', 'Infelizmente a nossa equipe ainda não fez essa função :( ');
 
   return (
     <Container>
@@ -19,7 +17,7 @@ export const Configuration = () => {
       <Divider />
       <Item to="ChangePassword">Alterar senha</Item>
       <Divider />
-      <Item onPress={notImplement}>Termos de uso</Item>
+      <Item to="TermsUse">Termos de uso</Item>
       <Divider />
       <Item to="AboutApp">Sobre o aplicativo</Item>
       <Divider />

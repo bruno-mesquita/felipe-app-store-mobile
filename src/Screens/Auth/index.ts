@@ -11,3 +11,5 @@ export { UpdateMenu } from './UpdateMenu';
 export { ProductUpdate } from './ProductUpdate';
 export { Ratings } from './Ratings';
 export { Profile } from './Profile';
+export { Support } from './Support';
+export { TermsUse } from './TermsUse';

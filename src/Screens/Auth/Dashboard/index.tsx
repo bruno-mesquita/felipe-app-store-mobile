@@ -11,6 +11,7 @@ export const Dashboard = ({ navigation }) => {
   const toGoProducts = () => navigation.navigate('Products');
   const toGoConfiguration = () => navigation.navigate('Configuration');
   const toGoRatings = () => navigation.navigate('Ratings');
+  const toGoSupport = () => navigation.navigate('Support');
   const notImplement = () => Alert.alert('Não implementada', 'Infelizmente a nossa equipe ainda não fez essa função :( ');
 
   const iconProps = (name: any) => ({ name, size: 50, color: '#fff' })
@@ -37,7 +38,7 @@ export const Dashboard = ({ navigation }) => {
           <Ionicons {...iconProps('star-sharp')} />
           <Text>Avaliações</Text>
         </Item>
-        <Item onPress={notImplement}>
+        <Item onPress={toGoSupport}>
           <MaterialIcons {...iconProps('support-agent')} />
           <Text>Suporte</Text>
         </Item>
