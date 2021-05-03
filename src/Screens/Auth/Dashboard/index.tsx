@@ -1,5 +1,4 @@
 import React from 'react';
-import { Alert } from 'react-native';
 import { Ionicons, MaterialIcons, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { Container, Row, Footer, Header, TitleFooter, ViewTitle, Text } from './styles';
@@ -9,10 +8,13 @@ export const Dashboard = ({ navigation }) => {
 
   const toGoMenus = () => navigation.navigate('Menus');
   const toGoProducts = () => navigation.navigate('Products');
-  const toGoConfiguration = () => navigation.navigate('Configuration');
   const toGoRatings = () => navigation.navigate('Ratings');
   const toGoSupport = () => navigation.navigate('Support');
-  const notImplement = () => Alert.alert('Não implementada', 'Infelizmente a nossa equipe ainda não fez essa função :( ');
+  const toGoCanceledOrders = () => navigation.navigate('CanceledOrders');
+  const toGoOrders = () => navigation.navigate('Orders');
+  const toGoOrdersDelivered = () => navigation.navigate('OrdersDelivered');
+  const toGoBoletos = () => navigation.navigate('Boletos');
+  const toGoSalesReport = () => navigation.navigate('SalesReport');
 
   const iconProps = (name: any) => ({ name, size: 50, color: '#fff' })
 
@@ -20,37 +22,31 @@ export const Dashboard = ({ navigation }) => {
     <Container>
       <Header>
       <Row>
-        <Item onPress={toGoProducts}>
-          <AntDesign {...iconProps('barcode')} />
-          <Text>Produtos</Text>
+      <Item onPress={toGoBoletos}>
+          <Ionicons {...iconProps('print-outline')} />
+          <Text>Boletos</Text>
         </Item>
-        <Item onPress={notImplement}>
+        <Item onPress={toGoSalesReport}>
           <Ionicons {...iconProps('bar-chart-outline')} />
           <Text>Relatório de vendas</Text>
-        </Item>
-        <Item onPress={toGoConfiguration}>
-          <Ionicons {...iconProps('md-settings-sharp')} />
-          <Text>Configurações</Text>
-        </Item>
-      </Row>
-      <Row>
-        <Item onPress={toGoRatings}>
-          <Ionicons {...iconProps('star-sharp')} />
-          <Text>Avaliações</Text>
         </Item>
         <Item onPress={toGoSupport}>
           <MaterialIcons {...iconProps('support-agent')} />
           <Text>Suporte</Text>
-        </Item>
-        <Item onPress={notImplement}>
-          <Ionicons {...iconProps('print-outline')} />
-          <Text>Boletos</Text>
         </Item>
       </Row>
       <Row>
         <Item onPress={toGoMenus}>
           <AntDesign {...iconProps('menufold')} />
           <Text>Cardapios</Text>
+        </Item>
+        <Item onPress={toGoProducts}>
+          <AntDesign {...iconProps('barcode')} />
+          <Text>Produtos</Text>
+        </Item>
+        <Item onPress={toGoRatings}>
+          <Ionicons {...iconProps('star-sharp')} />
+          <Text>Avaliações</Text>
         </Item>
       </Row>
       </Header>
@@ -61,17 +57,17 @@ export const Dashboard = ({ navigation }) => {
         <Divider />
       </ViewTitle>
       <Row>
-        <Item onPress={notImplement}>
-          <MaterialIcons  {...iconProps('schedule')} />
-          <Text>Em andamento</Text>
+        <Item onPress={toGoCanceledOrders}>
+          <MaterialCommunityIcons {...iconProps('cancel')} />
+          <Text>Cancelados</Text>
         </Item>
-        <Item onPress={notImplement}>
+        <Item onPress={toGoOrdersDelivered}>
           <MaterialIcons {...iconProps('sports-motorsports')} />
           <Text>Entregues</Text>
         </Item>
-        <Item onPress={notImplement}>
-          <MaterialCommunityIcons {...iconProps('cancel')} />
-          <Text>Cancelados</Text>
+        <Item onPress={toGoOrders}>
+          <MaterialIcons  {...iconProps('schedule')} />
+          <Text>Em andamento</Text>
         </Item>
       </Row>
       </Footer>

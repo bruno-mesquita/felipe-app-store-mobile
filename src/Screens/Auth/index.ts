@@ -1,5 +1,7 @@
 export { Dashboard } from './Dashboard';
 export { Orders } from './Orders';
+export { OrdersDelivered } from './OrdersDelivered';
+export { CanceledOrders } from './CanceledOrders';
 export { AboutApp } from './AboutApp';
 export { ChangePassword } from './ChangePassword';
 export { Configuration } from './Configuration';
@@ -13,3 +15,5 @@ export { Ratings } from './Ratings';
 export { Profile } from './Profile';
 export { Support } from './Support';
 export { TermsUse } from './TermsUse';
+export { Boletos } from './Boletos';
+export { SalesReport } from './SalesReport';

@@ -1,5 +1,6 @@
 import React from 'react';
-import { Image } from 'react-native';
+import { Image, TouchableOpacity } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 const Header = () => (
   <Image
@@ -8,12 +9,23 @@ const Header = () => (
   />
 );
 
+interface HeaderProps {
+  name?: string | undefined,
+  navigation?: any;
+}
 
-export default (name?: string | undefined) => ({
-  headerTitleAlign: 'center' as any,
-  headerTintColor: '#fff',
-  headerStyle: {
-    backgroundColor: '#9E0404',
-  },
-  headerTitle: name ? name : () => <Header />,
-})
+export default ({ name, navigation }: HeaderProps) => {
+
+  const props: any = {
+    headerTitleAlign: 'center' as any,
+    headerTintColor: '#fff',
+    headerStyle: {
+      backgroundColor: '#9E0404',
+    },
+    headerTitle: name ? name : () => <Header />,
+  }
+
+  if(navigation) props.headerRight = ({ tintColor }) => <TouchableOpacity onPress={() => navigation.navigate('Configuration')}><Ionicons name="md-settings-sharp" size={30} color={tintColor} style={{ paddingRight: 15 }} /></ TouchableOpacity>
+
+  return props;
+}

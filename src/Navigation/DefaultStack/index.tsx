@@ -16,7 +16,11 @@ import {
   Orders,
   Profile,
   Support,
-  TermsUse
+  TermsUse,
+  CanceledOrders,
+  OrdersDelivered,
+  Boletos,
+  SalesReport
 } from '../../Screens/Auth';
 import options from './configHeader';
 
@@ -28,9 +32,7 @@ export default function NativeStackRoutes() {
       <Screen
         name="Dashboard"
         component={Dashboard}
-        options={{
-          ...options()
-        }}
+        options={({ navigation }) => options({ navigation })}
       />
 
       <Screen
@@ -42,105 +44,103 @@ export default function NativeStackRoutes() {
       <Screen
         name="ChangePassword"
         component={ChangePassword}
-        options={{
-          ...options('Mudar senha')
-        }}
+        options={({ navigation }) => options({ name: 'Mudar senha', navigation })}
       />
 
       <Screen
         name="Configuration"
         component={Configuration}
-        options={{
-          ...options('Configurações')
-        }}
+        options={({ navigation }) => options({ name: 'Configurações', navigation })}
       />
 
       <Screen
         name="Menus"
         component={Menus}
-        options={{
-          ...options('Cardapios')
-        }}
+        options={({ navigation }) => options({ name: 'Cardapios', navigation })}
       />
 
       <Screen
         name="RegisterMenu"
         component={RegisterMenu}
-        options={{
-          ...options('Cadastro de cardápio')
-        }}
+        options={({ navigation }) => options({ name: 'Cadastro de cardápio', navigation })}
       />
 
       <Screen
         name="UpdateMenu"
         component={UpdateMenu}
-        options={{
-          ...options('Atualizar cardápio')
-        }}
+        options={({ navigation }) => options({ name: 'Atualizar cardápio', navigation })}
       />
 
       <Screen
         name="Products"
         component={Products}
-        options={{
-          ...options('Produtos')
-        }}
+        options={({ navigation }) => options({ name: 'Produtos', navigation })}
       />
 
       <Screen
         name="ProductRegistration"
         component={ProductRegistration}
-        options={{
-          ...options('Cadastro de produto')
-        }}
+        options={({ navigation }) => options({ name: 'Cadastro de produto', navigation })}
       />
 
       <Screen
         name="ProductUpdate"
         component={ProductUpdate}
-        options={{
-          ...options('Atualizar produto')
-        }}
+        options={({ navigation }) => options({ name: 'Atualizar produto', navigation })}
       />
 
       <Screen
         name="Orders"
         component={Orders}
-        options={{
-          ...options('Pedidos')
-        }}
+        options={({ navigation }) => options({ name: 'Pedidos', navigation })}
+      />
+
+      <Screen
+        name="CanceledOrders"
+        component={CanceledOrders}
+        options={({ navigation }) => options({ name: 'Pedidos cancelados', navigation })}
+      />
+
+      <Screen
+        name="OrdersDelivered"
+        component={OrdersDelivered}
+        options={({ navigation }) => options({ name: 'Pedidos em andamento', navigation })}
       />
 
       <Screen
         name="Ratings"
         component={Ratings}
-        options={{
-          ...options('Avaliações')
-        }}
+        options={({ navigation }) => options({ name: 'Avaliações', navigation })}
       />
 
       <Screen
         name="Profile"
         component={Profile}
-        options={{
-          ...options('Meu perfil')
-        }}
+        options={({ navigation }) => options({ name: 'Meu perfil', navigation })}
       />
 
       <Screen
         name="Support"
         component={Support}
-        options={{
-          ...options('Suporte')
-        }}
+        options={({ navigation }) => options({ name: 'Suporte', navigation })}
       />
 
       <Screen
         name="TermsUse"
         component={TermsUse}
-        options={{
-          ...options('Termos de uso')
-        }}
+        options={({ navigation }) => options({ name: 'Termos de uso', navigation })}
+      />
+
+      <Screen
+        name="Boletos"
+        component={Boletos}
+        options={({ navigation }) => options({ name: 'Boletos', navigation })}
+      />
+
+      <Screen
+        name="SalesReport"
+        component={SalesReport}
+        options={({ navigation }) => options({ name: 'Relatório de vendas', navigation })}
       />
     </Navigator>
   );

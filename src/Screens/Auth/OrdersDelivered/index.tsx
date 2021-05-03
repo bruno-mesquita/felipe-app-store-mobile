@@ -7,7 +7,7 @@ import { Item, ListEmpty } from './Components';
 import { Container } from './styles';
 import { Order } from './props';
 
-export const Orders = () => {
+export const OrdersDelivered = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
@@ -17,7 +17,7 @@ export const Orders = () => {
     try {
       const api = getApi();
 
-      const { data } = await api.get('/orders', { params: { type: 'Em andamento' } });
+      const { data } = await api.get('/orders', { params: { type: 'Entregue' } });
 
       setOrders(data.result);
       setLoading(false);
@@ -38,7 +38,7 @@ export const Orders = () => {
 
       const api = getApi();
 
-      const { data } = await api.get('/orders', { params: { page: newPage, type: 'Em andamento' } });
+      const { data } = await api.get('/orders', { params: { page: newPage, type: 'Entregue' } });
 
       if(data.result.length === 0) {
         setFinish(true);
