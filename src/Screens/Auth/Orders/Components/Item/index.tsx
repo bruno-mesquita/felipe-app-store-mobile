@@ -1,27 +1,42 @@
 import React from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { View } from 'react-native';
+import { parseISO, format } from 'date-fns';
 
 import formatPrice from '../../../../../utils/format-number';
 import { CardBase } from '../../../../../Components/_Bases';
 
 import { ItemProps } from './props';
-import { Container, Text, Content, Info } from './styles';
+import { Address } from '../../props';
+import { Text, Content } from './styles';
 
-export const Item = ({ id }: ItemProps) => {
-  const navigation = useNavigation();
+export const Item = ({ address_client: { client, ...address }, order_status, createdAt, total, payment }: ItemProps) => {
+  const formattedDate = (date: string) => {
+    return format(parseISO(date), "dd/mm/yyyy '-' HH:mm")
+  }
 
-  const see = () => {};
+  const formattedAddress = ({ city, ...rest }: Omit<Address, 'client'>) => {
+    return `${rest.street}, ${rest.neighborhood} - ${rest.number}, ${city.name} - ${city.state.name}`
+  }
 
   return (
-    <CardBase onPress={see}>
-      <Container>
-        <Content>
-          <Info>
-           {/*  <Text>{name}</Text>
-            <Text>{formatPrice(price)}</Text> */}
-          </Info>
-        </Content>
-      </Container>
+    <CardBase component="view" style={{ width: '90%', alignSelf: 'center' }}>
+      <Content>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingBottom: 10, width: '100%' }}>
+          <Text style={{ textTransform: 'uppercase' }}>Status: {order_status}</Text>
+          <Text>{formattedDate(createdAt)}</Text>
+        </View>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', paddingTop: 10 }}>
+          <Text>Nome: {client.name}</Text>
+          <Text>Telefone: {client.cellphone}</Text>
+        </View>
+        <View style={{ paddingVertical: 5 }}>
+          <Text>Endereço: {formattedAddress(address)}</Text>
+        </View>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', paddingTop: 10 }}>
+          <Text>Pagamento: {payment}</Text>
+          <Text>Total: {formatPrice(total)}</Text>
+        </View>
+      </Content>
     </CardBase>
   )
 }

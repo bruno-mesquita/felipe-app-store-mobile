@@ -1,14 +1,22 @@
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 
 import { Props } from './props';
 import styles from './styles';
 
-export const CardBase = ({ children, style, ...rest }: Props) => {
+export const CardBase = ({ children, style, component = 'button', ...rest }: Props) => {
   return (
-    <TouchableOpacity {...rest} style={[styles.container, style]}>
-      {children}
-    </TouchableOpacity>
+    <>
+      {component === 'button' ? (
+        <TouchableOpacity {...rest} style={[styles.container, style]}>
+          {children}
+        </TouchableOpacity>
+      ) : (
+        <View {...rest} style={[styles.container, style]}>
+          {children}
+        </View>
+      )}
+    </>
   );
 };
 

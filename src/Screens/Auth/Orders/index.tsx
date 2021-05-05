@@ -1,8 +1,9 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { FlatList, Alert } from 'react-native';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
+import { FlatList, Alert, TouchableOpacity } from 'react-native';
 
+import { ModalBaseHandle } from '../../../Components/ModalBase/props';
 import { getApi } from '../../../services/api';
-import { Item, ListEmpty } from './Components';
+import { Item, ListEmpty, ItemModal } from './Components';
 
 import { Container } from './styles';
 import { Order } from './props';
@@ -12,12 +13,14 @@ export const Orders = () => {
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
   const [finish, setFinish] = useState(false);
+  const [selectedId, setSelectedId] = useState<number | undefined>();
+  const modalRef = useRef<ModalBaseHandle>(null);
 
   const getOrders = useCallback(async () => {
     try {
       const api = getApi();
 
-      const { data } = await api.get('/orders', { params: { type: 'Em andamento' } });
+      const { data } = await api.get('/list-orders-types', { params: { type: 'Aberto' } });
 
       setOrders(data.result);
       setLoading(false);
@@ -53,19 +56,31 @@ export const Orders = () => {
     await getOrders();
   }
 
+  const onPressItem = useCallback((id: number) => {
+    setSelectedId(id)
+    modalRef.current?.open();
+  }, []);
+
   return (
-    <Container>
-      <FlatList
-        style={{ paddingTop: 15 }}
-        ListEmptyComponent={ListEmpty}
-        refreshing={loading}
-        onRefresh={onRefresh}
-        data={orders}
-        onEndReached={loadMore}
-        keyExtractor={(item) => String(item.id)}
-        renderItem={({ item }) => <Item {...item} />}
-      />
-    </Container>
+    <>
+      <ItemModal reender={getOrders} modalRef={modalRef} id={selectedId} />
+      <Container>
+        <FlatList
+          style={{ paddingTop: 15 }}
+          ListEmptyComponent={ListEmpty}
+          refreshing={loading}
+          onRefresh={onRefresh}
+          data={orders}
+          onEndReached={loadMore}
+          keyExtractor={(item) => String(item.id)}
+          renderItem={({ item }) => (
+            <TouchableOpacity onPress={() => onPressItem(item.id)}>
+              <Item {...item} />
+            </TouchableOpacity>
+          )}
+        />
+      </Container>
+    </>
   )
 }
 
