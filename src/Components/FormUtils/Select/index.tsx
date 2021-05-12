@@ -25,7 +25,6 @@ export const Select = ({
 
       setItems(data.result.map(item => ({ value: String(item.id), label: item.name })));
     } catch (err) {
-      console.log(err.response.data);
     }
   }, [path]);
 

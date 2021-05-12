@@ -21,7 +21,6 @@ export const Ratings = () => {
       setRatings(data.result);
       setLoading(false);
     } catch (err) {
-      console.log(err);
       setLoading(false);
       Alert.alert('Erro', 'Erro ao buscar as avaliações');
     }

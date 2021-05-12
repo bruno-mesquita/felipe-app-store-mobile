@@ -2,8 +2,9 @@ import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { FlatList, Alert, TouchableOpacity } from 'react-native';
 
 import { ModalBaseHandle } from '../../../Components/ModalBase/props';
+import { CardOrder, ModalOrder } from '../../../Components';
 import { getApi } from '../../../services/api';
-import { Item, ListEmpty, ItemModal } from './Components';
+import { ListEmpty } from './Components';
 
 import { Container } from './styles';
 import { Order } from './props';
@@ -41,7 +42,7 @@ export const Orders = () => {
 
       const api = getApi();
 
-      const { data } = await api.get('/orders', { params: { page: newPage, type: 'Em andamento' } });
+      const { data } = await api.get('/list-orders-types', { params: { page: newPage, type: 'Em andamento' } });
 
       if(data.result.length === 0) {
         setFinish(true);
@@ -63,7 +64,7 @@ export const Orders = () => {
 
   return (
     <>
-      <ItemModal reender={getOrders} modalRef={modalRef} id={selectedId} />
+      <ModalOrder reender={getOrders} modalRef={modalRef} id={selectedId} />
       <Container>
         <FlatList
           style={{ paddingTop: 15 }}
@@ -75,7 +76,7 @@ export const Orders = () => {
           keyExtractor={(item) => String(item.id)}
           renderItem={({ item }) => (
             <TouchableOpacity onPress={() => onPressItem(item.id)}>
-              <Item {...item} />
+              <CardOrder {...item} />
             </TouchableOpacity>
           )}
         />

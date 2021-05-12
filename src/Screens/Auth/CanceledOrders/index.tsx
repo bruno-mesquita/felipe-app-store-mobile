@@ -1,23 +1,27 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { FlatList, Alert } from 'react-native';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
+import { FlatList, Alert, TouchableOpacity } from 'react-native';
 
+import { ModalBaseHandle } from '../../../Components/ModalBase/props';
 import { getApi } from '../../../services/api';
-import { Item, ListEmpty } from './Components';
+import { ListEmpty } from './Components';
+import { CardOrder, ModalOrder } from '../../../Components';
 
 import { Container } from './styles';
 import { Order } from './props';
 
 export const CanceledOrders = () => {
-  const [orders, setOrders] = useState<Order[]>([]);
+  const [orders, setOrders] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
   const [finish, setFinish] = useState(false);
+  const [selectedId, setSelectedId] = useState<number | undefined>();
+  const modalRef = useRef<ModalBaseHandle>(null);
 
   const getOrders = useCallback(async () => {
     try {
       const api = getApi();
 
-      const { data } = await api.get('/orders', { params: { type: 'Cancelado' } });
+      const { data } = await api.get('/list-orders-types', { params: { type: 'Cancelado' } });
 
       setOrders(data.result);
       setLoading(false);
@@ -38,7 +42,7 @@ export const CanceledOrders = () => {
 
       const api = getApi();
 
-      const { data } = await api.get('/orders', { params: { page: newPage, type: 'Cancelado' } });
+      const { data } = await api.get('/list-orders-types', { params: { page: newPage, type: 'Cancelado' } });
 
       if(data.result.length === 0) {
         setFinish(true);
@@ -53,8 +57,14 @@ export const CanceledOrders = () => {
     await getOrders();
   }
 
+  const onPressItem = useCallback((id: number) => {
+    setSelectedId(id)
+    modalRef.current?.open();
+  }, []);
+
   return (
     <Container>
+      <ModalOrder reender={getOrders} modalRef={modalRef} id={selectedId} />
       <FlatList
         style={{ paddingTop: 15 }}
         ListEmptyComponent={ListEmpty}
@@ -63,7 +73,11 @@ export const CanceledOrders = () => {
         data={orders}
         onEndReached={loadMore}
         keyExtractor={(item) => String(item.id)}
-        renderItem={({ item }) => <Item {...item} />}
+        renderItem={({ item }) => (
+          <TouchableOpacity onPress={() => onPressItem(item.id)}>
+            <CardOrder {...item} />
+          </TouchableOpacity>
+        )}
       />
     </Container>
   )

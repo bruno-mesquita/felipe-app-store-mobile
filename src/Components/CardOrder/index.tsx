@@ -2,14 +2,13 @@ import React from 'react';
 import { View } from 'react-native';
 import { parseISO, format } from 'date-fns';
 
-import formatPrice from '../../../../../utils/format-number';
-import { CardBase } from '../../../../../Components/_Bases';
+import formatPrice from '../../utils/format-number';
+import { CardBase } from '../_Bases';
 
-import { ItemProps } from './props';
-import { Address } from '../../props';
+import { ItemProps, Address } from './props';
 import { Text, Content } from './styles';
 
-export const Item = ({ address_client: { client, ...address }, order_status, createdAt, total, payment }: ItemProps) => {
+export const CardOrder = ({ address_client: { client, ...address }, order_status, createdAt, total, payment }: ItemProps) => {
   const formattedDate = (date: string) => {
     return format(parseISO(date), "dd/mm/yyyy '-' HH:mm")
   }

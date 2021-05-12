@@ -1,4 +1,4 @@
-import { ModalBaseProps } from '../../../../../Components/ModalBase/props';
+import { ModalBaseProps } from '../ModalBase/props';
 
 export interface ItemModalProps extends ModalBaseProps {
   id: number;
