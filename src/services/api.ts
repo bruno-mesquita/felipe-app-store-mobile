@@ -7,7 +7,7 @@ let api: AxiosInstance;
 
 const createApi = () => {
   api = axios.create({
-    baseURL: 'http://192.168.1.102:3030/api/app-store',
+    baseURL: 'http://192.168.1.101:3030/api/app-store',
   })
 
   api.interceptors.response.use((response) => {

@@ -1,28 +1,19 @@
 import React from 'react';
-import { Alert } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useWindowDimensions } from 'react-native';
+import { Rating } from 'react-native-ratings';
 
-import formatPrice from '../../../../../utils/format-number';
 import { CardBase } from '../../../../../Components/_Bases';
-
-import { getApi } from '../../../../../services/api';
 import { ItemProps } from './props';
-import { Container, Text, Content, Photo, Info } from './styles';
+import { Container, Text } from './styles';
 
-export const Item = ({ id, name, price, photo, menu_id }: ItemProps) => {
-  const navigation = useNavigation();
-
-  const view = () => {};
+export const Item = ({ message, value }: ItemProps) => {
+  const { width } = useWindowDimensions();
 
   return (
-    <CardBase onPress={view}>
+    <CardBase component="view" style={{ width: width * 0.8 }}>
       <Container>
-        <Content>
-          <Info>
-            <Text>{name}</Text>
-            <Text>{formatPrice(price)}</Text>
-          </Info>
-        </Content>
+        <Text style={{ paddingBottom: 10 }}>{message}</Text>
+        <Rating imageSize={25} readonly startingValue={value} />
       </Container>
     </CardBase>
   )

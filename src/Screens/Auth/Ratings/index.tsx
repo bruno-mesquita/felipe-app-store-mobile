@@ -5,7 +5,6 @@ import { getApi } from '../../../services/api';
 import { Item, ListEmpty } from './Components';
 
 import { Container } from './styles';
-import { Rate } from './props';
 
 export const Ratings = () => {
   const [ratings, setRatings] = useState<any[]>([]);
@@ -17,19 +16,20 @@ export const Ratings = () => {
     try {
       const api = getApi();
 
-      const { data } = await api.get('/ratings');
+      const { data } = await api.get('/list-rates');
 
       setRatings(data.result);
       setLoading(false);
     } catch (err) {
+      console.log(err);
       setLoading(false);
       Alert.alert('Erro', 'Erro ao buscar as avaliações');
     }
   }, [])
 
-  /* useEffect(() => {
+  useEffect(() => {
     getRating()
-  }, [getRating]) */
+  }, [getRating])
 
   const loadMore = async () => {
     if(!finish) {
@@ -64,7 +64,7 @@ export const Ratings = () => {
         data={ratings}
         onEndReached={loadMore}
         keyExtractor={(item) => String(item.id)}
-        renderItem={({ item }) => <Item {...item} />}
+        renderItem={({ item }) => <Item {...item.evaluation} />}
       />
     </Container>
   )
