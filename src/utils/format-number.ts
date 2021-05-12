@@ -4,7 +4,6 @@ const formatNumber = (
   decimal = ',',
   thousands = '.',
 ) => {
-  try {
     decimalCount = Math.abs(decimalCount);
     decimalCount = isNaN(decimalCount) ? 2 : decimalCount;
 
@@ -27,9 +26,6 @@ const formatNumber = (
               .slice(2)
           : ''))
     );
-  } catch (e) {
-    console.log(e);
-  }
 };
 
 export default formatNumber;

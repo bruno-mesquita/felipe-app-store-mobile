@@ -21,7 +21,7 @@ export const Item = ({ item, reender }: ItemProps) => {
       await api.delete(`/menus/${item.id}`);
       await reender();
     } catch (err) {
-      console.log(err.response);
+      Alert.alert('Erro', 'Erro ao deletar menu');
     }
   }
 

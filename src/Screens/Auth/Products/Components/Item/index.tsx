@@ -21,7 +21,7 @@ export const Item = ({ id, name, price, photo, menu_id, reender }: ItemProps) =>
       await api.delete(`/products/${menu_id}/${id}`);
       await reender();
     } catch (err) {
-      console.log(err.response);
+      Alert.alert('Erro', 'Erro ao deletar produto');
     }
   }
 

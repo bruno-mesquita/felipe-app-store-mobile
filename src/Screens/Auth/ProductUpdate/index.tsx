@@ -32,7 +32,6 @@ export const ProductUpdate = ({ route, navigation }) => {
 
       setProduct({ ...result, image: result.photo.encoded, menu: result.menu_id });
     } catch (err) {
-      console.log(err);
       Alert.alert('Erro', 'Erro ao pegar dados do produto', [
         {
           text: 'Sair',

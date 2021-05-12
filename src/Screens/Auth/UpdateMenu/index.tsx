@@ -35,10 +35,8 @@ export const UpdateMenu = ({ route }) => {
       setSubmitting(false);
       Alert.alert('Atualizado com sucesso!')
     } catch (err) {
-      console.log(err.response);
-
       setSubmitting(false);
-      Alert.alert('Erro ao atualizar')
+      Alert.alert('Erro', 'Houve um erro ao atualizar')
     }
   }
 

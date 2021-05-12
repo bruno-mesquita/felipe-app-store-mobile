@@ -22,7 +22,6 @@ export const CodeToForgotPassword = ({ navigation }) => {
   };
 
   const onSubmit = (values: typeof codeValue) => {
-    console.log(values);
     navigation.navigate('Changeconfirmpassword');
   };
 

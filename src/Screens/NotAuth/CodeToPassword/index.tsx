@@ -22,7 +22,7 @@ export const CodeToPassword = ({ navigation }) => {
   };
 
   const onSubmit = (values: typeof initialValues) => {
-    console.log(values);
+
   };
 
   const confirmCodeToPassword = () => {
