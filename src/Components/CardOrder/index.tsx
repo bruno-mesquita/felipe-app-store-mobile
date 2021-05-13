@@ -10,7 +10,7 @@ import { Text, Content } from './styles';
 
 export const CardOrder = ({ address_client: { client, ...address }, order_status, createdAt, total, payment }: ItemProps) => {
   const formattedDate = (date: string) => {
-    return format(parseISO(date), "dd/mm/yyyy '-' HH:mm")
+    return format(parseISO(date), "dd/MM/yyyy '-' HH:mm")
   }
 
   const formattedAddress = ({ city, ...rest }: Omit<Address, 'client'>) => {
