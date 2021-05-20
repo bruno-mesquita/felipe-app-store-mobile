@@ -72,7 +72,7 @@ export const FormProfile = () => {
         >
           {({ values, handleChange, handleSubmit, isSubmitting }) => (
             <Form>
-              <TouchableOpacity style={{ alignSelf: 'center', paddingBottom: 20 }} disabled={!permission} onPress={pickImage}>
+              <TouchableOpacity style={{ alignSelf: 'center', marginTop: -30, paddingBottom: 20 }} disabled={!permission} onPress={pickImage}>
                 {user?.image || img !== '' ? (
                   <UserAvatar source={{ uri: user?.image || img }} />
                 ) : (
@@ -110,6 +110,14 @@ export const FormProfile = () => {
                 value={values.cellphone}
               />
               <FieldError name="cellphone" />
+
+              <Field
+                labelColor="#000"
+                label="Preço do Frete"
+                onChangeText={handleChange('freightValue')}
+                value={String(values.freightValue)}
+              />
+              <FieldError name="freightValue" />
 
               <Field
                 labelColor="#000"
