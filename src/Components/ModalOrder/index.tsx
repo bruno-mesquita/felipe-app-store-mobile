@@ -56,7 +56,7 @@ export const ModalOrder = ({ modalRef, id, reender }: ItemModalProps) => {
     try {
       const api = getApi();
 
-      await api.get(`/cancel-order/${id}`);
+      await api.put(`/cancel-order/${id}`);
 
       onClose();
       reender();
