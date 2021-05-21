@@ -14,7 +14,7 @@ export const CardOrder = ({ address_client: { client, ...address }, order_status
   }
 
   const formattedAddress = ({ city, ...rest }: Omit<Address, 'client'>) => {
-    return `${rest.street}, ${rest.neighborhood} - ${rest.number}, ${city.name} - ${city.state.name}`
+    return `${rest.street}, ${rest.neighborhood} - ${rest.number}, ${city.name} - ${city.state.name} - ${rest.cep}`
   }
 
   return (
@@ -26,6 +26,8 @@ export const CardOrder = ({ address_client: { client, ...address }, order_status
         </View>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', paddingTop: 10 }}>
           <Text>Nome: {client.name}</Text>
+        </View>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', paddingTop: 10 }}>
           <Text>Telefone: {client.cellphone}</Text>
         </View>
         <View style={{ paddingVertical: 5 }}>

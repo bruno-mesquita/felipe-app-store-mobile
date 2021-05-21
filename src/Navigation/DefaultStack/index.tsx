@@ -104,7 +104,7 @@ export default function NativeStackRoutes() {
       <Screen
         name="OrdersDelivered"
         component={OrdersDelivered}
-        options={({ navigation }) => options({ name: 'Pedidos em andamento', navigation })}
+        options={({ navigation }) => options({ name: 'Pedidos entregados', navigation })}
       />
 
       <Screen
