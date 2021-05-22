@@ -49,13 +49,18 @@ export const ProductUpdate = ({ route, navigation }) => {
     try {
       const api = getApi();
 
-      await api.put(`/products/${route.params.id}`, values);
+      const body = {
+        ...values,
+        price: inputPriceRef.current?.getRawValue(),
+      }
 
-      setSubmitting(false);
+      await api.put(`/products/${route.params.id}`, body);
+
       Alert.alert('Sucesso', 'Produto atualizado com sucesso');
     } catch (err) {
-      setSubmitting(false);
       Alert.alert('Erro', 'Erro ao atualizar o produto');
+    } finally {
+      setSubmitting(false);
     }
   }
 
