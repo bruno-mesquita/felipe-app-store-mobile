@@ -9,7 +9,7 @@ const formatNumber = (
 
     const negativeSign = amount < 0 ? '-' : '';
 
-    const i = parseInt(
+    const i: any = parseInt(
       (amount = Math.abs(amount || 0).toFixed(decimalCount)),
     ).toString();
     const j = i.length > 3 ? i.length % 3 : 0;

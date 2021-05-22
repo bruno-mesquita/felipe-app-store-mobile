@@ -29,7 +29,7 @@ export const FormProfile = () => {
       const body = {
         name: values.name,
         email: values.email,
-        freightValue: values.freightValue,
+        freightValue: Number(values.freightValue),
         openingTime: Number(values.openingTime),
         closingTime: Number(values.closingTime),
         cellphone: inputPhoneRef.current?.getRawValue(),
