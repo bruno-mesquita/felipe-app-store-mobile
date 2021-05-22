@@ -14,6 +14,8 @@ export interface Order {
   id: number;
   total: number;
   order_status: string;
+  note: string;
+  transshipment: number;
 }
 export interface ItemOrder {
   id: number;

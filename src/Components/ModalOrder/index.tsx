@@ -13,32 +13,36 @@ import { getApi } from '../../services/api';
 export const ModalOrder = ({ modalRef, id, reender }: ItemModalProps) => {
   const { colors } = useTheme();
 
-  const [order, setOrder] = useState<Order>({ id: 0, total: 0, order_status: '' });
+  const [order, setOrder] = useState<Order>({ id: 0, total: 0, order_status: '', note: '', transshipment: 0 });
   const [items, setItems] = useState<ItemOrder[]>([]);
 
   const onClose = useCallback(() => {
     modalRef.current.close();
   }, []);
 
-  useEffect(() => {
+  const getOrder = useCallback(async () => {
     const api = getApi();
 
     if(id) {
-      api.get(`/show-order/${id}`)
-        .then(({ data }) => {
-          setItems(data.result.items)
-          setOrder(data.result.order)
-        })
-        .catch(err => {
-          Alert.alert('Erro', 'Erro ao buscar pedido', [
-            {
-              onPress: onClose,
-              text: 'Sair'
-            }
-          ])
-        })
+      try {
+        const { data } = await api.get(`/show-order/${id}`);
+
+        setItems(data.result.items)
+        setOrder(data.result.order)
+      } catch (err) {
+        Alert.alert('Erro', 'Erro ao buscar pedido', [
+          {
+            onPress: onClose,
+            text: 'Sair'
+          }
+        ])
+      }
     }
   }, [id]);
+
+  useEffect(() => {
+    getOrder();
+  }, [getOrder]);
 
   const accept = async () => {
     try {
@@ -52,6 +56,7 @@ export const ModalOrder = ({ modalRef, id, reender }: ItemModalProps) => {
       Alert.alert('Erro', 'Houve um erro ao aceitar o pedido');
     }
   };
+
   const refuse = async () => {
     try {
       const api = getApi();
@@ -83,6 +88,13 @@ export const ModalOrder = ({ modalRef, id, reender }: ItemModalProps) => {
         ))}
 
         <Text style={{ alignSelf: 'flex-end' }}>{formatNumber(order.total)}</Text>
+        {order.transshipment !== 0 ? <Text style={{ alignSelf: 'flex-end' }}> {`Troco ${formatNumber(order.transshipment)}`}</Text> : null}
+
+        {order.note &&  order.note !== '' ? (
+          <View style={{ paddingVertical: 10 }}>
+            <Text>Obs: {order.note}</Text>
+          </View>
+        ) : null}
 
         {order.order_status !== 'Finalizado' && order.order_status !== 'Cancelado' ? (
           <ViewButtons style={order.order_status !== 'Aberto' ? { alignSelf: 'flex-end' } : {}}>

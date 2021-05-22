@@ -24,10 +24,10 @@ export const Orders = () => {
       const { data } = await api.get('/list-orders-types', { params: { type: 'Aberto' } });
 
       setOrders(data.result);
-      setLoading(false);
     } catch (err) {
-      setLoading(false);
       Alert.alert('Erro', 'Erro ao buscar os pedidos');
+    } finally {
+      setLoading(false);
     }
   }, [])
 
