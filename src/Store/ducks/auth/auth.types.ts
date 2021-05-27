@@ -3,6 +3,7 @@ export const AUTH_REQUEST_LOGIN_SUCCESS = '@auth/REQUEST_LOGIN_SUCCESS';
 export const AUTH_REQUEST_LOGIN_FAILURE = '@auth/REQUEST_LOGIN_FAILURE';
 export const AUTH_LOGOUT = '@auth/LOGOUT';
 export const AUTH_REFRESH_TOKEN_SUCCESS = '@auth/REFRESH_TOKEN_SUCCESS';
+export const AUTH_REQUEST_ESTABLISHENT_EXISTS_SUCCESS = '@auth/REQUEST_ESTABLISHENT_EXISTS_SUCCESS';
 
 export interface RequestLoginAction {
   type: typeof AUTH_REQUEST_LOGIN;
@@ -19,10 +20,14 @@ export interface RequestLoginFailureAction {
   payload: { errorMessage: string };
 }
 
+export interface RequestEstablishmentExistsSuccessAction {
+  type: typeof AUTH_REQUEST_ESTABLISHENT_EXISTS_SUCCESS;
+  payload: { exists: boolean };
+}
+
 export interface LogoutAction {
   type: typeof AUTH_LOGOUT;
 }
-
 
 export interface RequestRefreshTokenSuccessAction {
   type: typeof AUTH_REFRESH_TOKEN_SUCCESS;
@@ -36,6 +41,7 @@ export type AuthActionTypes =
   | RequestLoginFailureAction
   | LogoutAction
   | RequestRefreshTokenSuccessAction
+  | RequestEstablishmentExistsSuccessAction
 
 export interface AuthState {
   token: string | null;
@@ -43,4 +49,5 @@ export interface AuthState {
   logged: boolean;
   keepMeConnected: boolean;
   loading: boolean;
+  establishmentExists: boolean;
 }

@@ -26,6 +26,7 @@ export const Orders = () => {
       setOrders(data.result);
     } catch (err) {
       Alert.alert('Erro', 'Erro ao buscar os pedidos');
+      setOrders([]);
     } finally {
       setLoading(false);
     }

@@ -31,6 +31,7 @@ export interface Order {
   payment: string;
   total: number;
   order_status: string;
+  client_order_status: string;
   createdAt: string;
 }
 

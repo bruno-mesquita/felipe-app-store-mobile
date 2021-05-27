@@ -2,8 +2,6 @@ import produce from 'immer';
 
 import {
   AuthState,
-  AUTH_LOGOUT,
-  AUTH_REQUEST_LOGIN_SUCCESS,
   AuthActionTypes,
 } from './auth.types';
 
@@ -13,6 +11,7 @@ const INITIAL_STATE: AuthState = {
   logged: false,
   keepMeConnected: false,
   loading: false,
+  establishmentExists: false,
 };
 
 const auth = (state = INITIAL_STATE, action: AuthActionTypes) => {
@@ -28,7 +27,12 @@ const auth = (state = INITIAL_STATE, action: AuthActionTypes) => {
         break;
       }
 
-      case AUTH_REQUEST_LOGIN_SUCCESS: {
+      case '@auth/REQUEST_ESTABLISHENT_EXISTS_SUCCESS': {
+        draft.establishmentExists = action.payload.exists;
+        break;
+      }
+
+      case '@auth/REQUEST_LOGIN_SUCCESS': {
         const { checked, token, refreshToken } = action.payload;
 
         draft.token = token;
@@ -39,7 +43,7 @@ const auth = (state = INITIAL_STATE, action: AuthActionTypes) => {
         break;
       }
 
-      case AUTH_LOGOUT: {
+      case '@auth/LOGOUT': {
         draft.logged = false;
         draft.token = null;
         draft.refreshToken = null;

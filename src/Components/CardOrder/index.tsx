@@ -8,7 +8,7 @@ import { CardBase } from '../_Bases';
 import { ItemProps, Address } from './props';
 import { Text, Content } from './styles';
 
-export const CardOrder = ({ address_client: { client, ...address }, order_status, createdAt, total, payment }: ItemProps) => {
+export const CardOrder = ({ address_client: { client, ...address }, createdAt, total, payment, client_order_status }: ItemProps) => {
   const formattedDate = (date: string) => {
     return format(parseISO(date), "dd/MM/yyyy '-' HH:mm")
   }
@@ -21,7 +21,7 @@ export const CardOrder = ({ address_client: { client, ...address }, order_status
     <CardBase component="view" style={{ width: '90%', alignSelf: 'center' }}>
       <Content>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingBottom: 10, width: '100%' }}>
-          <Text style={{ textTransform: 'uppercase' }}>Status: {order_status}</Text>
+          <Text style={{ textTransform: 'uppercase' }}>Status: {client_order_status}</Text>
           <Text>{formattedDate(createdAt)}</Text>
         </View>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', paddingTop: 10 }}>
