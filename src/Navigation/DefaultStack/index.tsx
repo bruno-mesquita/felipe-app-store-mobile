@@ -20,7 +20,8 @@ import {
   CanceledOrders,
   OrdersDelivered,
   Boletos,
-  SalesReport
+  SalesReport,
+  CreateEstablishment
 } from '../../Screens/Auth';
 import options from './configHeader';
 
@@ -142,6 +143,13 @@ export default function NativeStackRoutes() {
         component={SalesReport}
         options={({ navigation }) => options({ name: 'Relatório de vendas', navigation })}
       />
+
+      <Screen
+        name="CreateEstablishment"
+        component={CreateEstablishment}
+        options={({ navigation }) => options({ name: 'Minha loja', navigation })}
+      />
+
     </Navigator>
   );
 }

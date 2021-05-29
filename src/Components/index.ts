@@ -10,3 +10,4 @@ export { Checkbox } from './Checkbox';
 export { ButtonModal } from './ButtonModal';
 export { CardOrder } from './CardOrder';
 export { ModalOrder } from './ModalOrder';
+export { EstablishmentForm } from './EstablishmentForm';

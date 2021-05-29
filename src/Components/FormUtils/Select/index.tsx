@@ -34,7 +34,7 @@ export const Select = ({
     } else {
       getItems();
     }
-  }, [path]);
+  }, [path, value]);
 
   const myChange = (e) => {
     if(e) onChange(e)

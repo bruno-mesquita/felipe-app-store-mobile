@@ -15,6 +15,7 @@ export const styles = StyleSheet.create({
 export const Container = styled.TouchableOpacity`
   background-color: ${({ theme }) => theme.colors.third};
   border-radius: 50px;
+  align-self: center;
 `;
 
 export const Text = styled.Text`

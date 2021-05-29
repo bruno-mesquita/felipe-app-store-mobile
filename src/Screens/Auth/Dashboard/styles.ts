@@ -17,13 +17,14 @@ export const Row = styled.View`
 
 export const Header = styled.View`
   padding-top: 15px;
-  height: 65%;
+  height: auto;
   width: 100%;
 `;
 
 export const Footer = styled.View`
-  height: 35%;
+  height: auto;
   width: 100%;
+  justify-content: flex-end;
 `;
 
 export const TitleFooter = styled.Text`${({ theme }) => css`
