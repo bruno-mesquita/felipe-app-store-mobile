@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { ScrollView, Alert, TouchableOpacity, Text } from 'react-native';
-
 import { MaterialIcons } from '@expo/vector-icons';
+
 
 import { useTakePhoto } from '../../hooks/useTakePhoto'
 import { usePermissionGallery } from '../../hooks/permissions';
@@ -11,6 +11,7 @@ import { Button } from '../Button';
 import { ModalCategories } from './Components';
 import { Container, Image, ButtonModal, ContentButton, Label } from './styles';
 import { EstablishmentFormProps } from './props';
+import { getApi } from '../../services/api';
 
 export const EstablishmentForm = ({
   handleSubmit, values, handleChange, setFieldValue, isSubmitting, inputCepRef, inputPhoneRef, inputPriceRef
@@ -37,8 +38,19 @@ export const EstablishmentForm = ({
     try {
       const encoded = await takePhoto();
 
-      if(encoded) setFieldValue('image', encoded);
+      if(encoded) {
+        if(values?.id) {
+          const api = getApi();
+
+          await api.put('/image', { encoded });
+
+          setFieldValue('image', encoded);
+        } else {
+          setFieldValue('image', encoded);
+        }
+      };
     } catch (err) {
+      console.log(err.response.data);
       Alert.alert('Erro', 'Parece que houve um erro ao pegar a foto :(')
     }
   }
@@ -49,7 +61,7 @@ export const EstablishmentForm = ({
 
   return (
     <ScrollView style={{ paddingHorizontal: 30, paddingBottom: 30 }}>
-      <ModalCategories modalRef={modalRef} onPress={setCategories} categories={values.categories} />
+      <ModalCategories modalRef={modalRef} id={values?.id} onPress={setCategories} categories={values.categories} />
     <Container>
       <TouchableOpacity style={{ alignSelf: 'center', paddingVertical: 20 }} disabled={!permission} onPress={pickImage}>
         {values.image !== '' ? (

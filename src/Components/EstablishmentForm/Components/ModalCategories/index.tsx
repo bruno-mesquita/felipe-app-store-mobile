@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Alert, Text, ScrollView } from 'react-native';
+import { Alert, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 import { ModalBase } from '../../../ModalBase';
@@ -8,15 +8,15 @@ import { getApi } from '../../../../services/api';
 import { ModalCategoriesProps, Category } from './props';
 import { Container, Title, Row, Button } from './styles';
 
-export const ModalCategories = ({ modalRef, onPress, categories: items }: ModalCategoriesProps) => {
+export const ModalCategories = ({ modalRef, onPress, categories: items, id }: ModalCategoriesProps) => {
+  const api = getApi();
+
   const [categories, setCategories] = useState<Category[]>([]);
   const [originList, setOriginList] = useState<Category[]>([]);
   const [selected, setSelected] = useState<Category[]>([]);
 
   const getCategories = useCallback(async () => {
     try {
-      const api = getApi();
-
       const { data } = await api.get('/categories');
 
       setCategories(data.result);
@@ -35,17 +35,58 @@ export const ModalCategories = ({ modalRef, onPress, categories: items }: ModalC
       setSelected(originList.filter(c => !!items.find(i => i === c.id)))
       setCategories(originList.filter(c => !items.find(i => i === c.id)));
     }
-  }, [items])
+  }, [items, originList])
 
+  const add = async (categoryId: number) => {
+    try {
+      await api.post(`/establishments-categories/${categoryId}`);
 
-  const add = (category: Category) => () => {
-    setCategories(old => old.filter(item => item.id !== category.id));
-    setSelected(old => [...old, category]);
+      return true;
+    } catch (err) {
+      Alert.alert('Erro', 'Erro ao adicionar a lista')
+      return false;
+    }
   };
 
-  const remove = (category: Category) => () => {
-    setCategories(old => [...old, category]);
-    setSelected(old => old.filter(item => item.id !== category.id));
+  const remove = async (categoryId: number) => {
+    try {
+      await api.delete(`/establishments-categories/${categoryId}`);
+
+      return true;
+    } catch (err) {
+      Alert.alert('Erro', 'Erro ao remover a lista')
+      console.log(err.response);
+      return false;
+    }
+  };
+
+
+  const addList = (category: Category) => async () => {
+    if(id) {
+      const result = await add(category.id);
+
+      if(result) {
+        setCategories(old => old.filter(item => item.id !== category.id));
+        setSelected(old => [...old, category]);
+      }
+    } else {
+      setCategories(old => old.filter(item => item.id !== category.id));
+      setSelected(old => [...old, category]);
+    }
+  };
+
+  const removeList = (category: Category) => async () => {
+    if(id) {
+      const result = await remove(category.id);
+
+      if(result) {
+        setCategories(old => [...old, category]);
+        setSelected(old => old.filter(item => item.id !== category.id));
+      }
+    } else {
+      setCategories(old => [...old, category]);
+      setSelected(old => old.filter(item => item.id !== category.id));
+    }
   };
 
   const onSubmit = () => {
@@ -61,7 +102,9 @@ export const ModalCategories = ({ modalRef, onPress, categories: items }: ModalC
           {categories.map(category => (
             <Row key={category.id.toString()}>
               <Text key={category.id}>{category.name}</Text>
-              <Ionicons name="add-circle" size={25} onPress={add(category)} />
+              <TouchableOpacity onPress={addList(category)}>
+                <Ionicons name="add-circle" size={25} />
+              </TouchableOpacity>
             </Row>
           ))}
 
@@ -69,7 +112,9 @@ export const ModalCategories = ({ modalRef, onPress, categories: items }: ModalC
           {selected.map(category => (
             <Row key={category.id.toString()}>
               <Text key={category.id}>{category.name}</Text>
-              <Ionicons name="remove-circle" size={25} onPress={remove(category)} />
+              <TouchableOpacity onPress={removeList(category)}>
+                <Ionicons name="remove-circle" size={25} />
+              </TouchableOpacity>
             </Row>
           ))}
           <Button onPress={onSubmit}>Selecionar</Button>

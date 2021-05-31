@@ -3,6 +3,7 @@ import { TextInputMasked } from 'react-native-masked-text';
 import { FormikProps } from 'formik';
 
 interface Values {
+  id?: number | undefined;
   name: string;
   cellphone: string;
   openingTime: string;
