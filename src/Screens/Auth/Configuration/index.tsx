@@ -13,7 +13,7 @@ export const Configuration = () => {
 
   return (
     <Container>
-      <Item to="Profile">Meu perfil</Item>
+      <Item to="Profile">Meus dados</Item>
       <Divider />
       <Item to="ChangePassword">Alterar senha</Item>
       <Divider />

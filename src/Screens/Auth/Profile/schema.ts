@@ -1,14 +1,14 @@
-import { object, string, number, SchemaOf } from 'yup';
+import { object, string, SchemaOf } from 'yup';
 
 import { Values } from './props';
 
+const REQUIRED = 'Campo obrigatorio';
+
 const schema: SchemaOf<Values> = object({
-  name: string().required(),
-  email: string().required(),
-  cellphone: string().required(),
-  openingTime: number().required(),
-  closingTime: number().required(),
-  freightValue: number().required(),
+  first_name: string().required(REQUIRED),
+  last_name: string().required(REQUIRED),
+  email: string().email('Coloque um email valido').required(REQUIRED),
+  cellphone: string().required(REQUIRED),
 })
 
 export default schema;

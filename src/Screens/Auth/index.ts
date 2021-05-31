@@ -17,3 +17,5 @@ export { Support } from './Support';
 export { TermsUse } from './TermsUse';
 export { Boletos } from './Boletos';
 export { SalesReport } from './SalesReport';
+export { CreateEstablishment } from './CreateEstablishment';
+export { UpdateEstablishment } from './UpdateEstablishment';

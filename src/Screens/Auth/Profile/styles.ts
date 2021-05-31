@@ -16,15 +16,8 @@ export const Container = styled.View`
   align-items: center;
 `;
 
-export const Tabs = styled.View.attrs(props => ({
-  ...props,
-}))`
-  flex-direction: row;
+export const Form = styled.View`
+  flex: 1;
   justify-content: space-around;
-  width: 100%;
-  align-items: center;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  background-color: ${({ theme }) => theme.colors.primary};
+  padding: 25px 25px 0px 25px;
 `;
-
