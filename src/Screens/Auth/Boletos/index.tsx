@@ -19,9 +19,7 @@ export const Boletos = () => {
       const { data } = await api.get('/tickets');
 
       setBoletos(data.result);
-
     } catch (err) {
-      setLoading(false);
       Alert.alert('Erro', 'Erro ao buscar os boletos ');
     } finally {
       setLoading(false);
