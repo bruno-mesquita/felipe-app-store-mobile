@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Alert, Linking, ActivityIndicator } from 'react-native';
+import { View, Text, Alert, Linking, ActivityIndicator, ToastAndroid } from 'react-native';
 import { format, parseISO } from 'date-fns';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useTheme } from 'styled-components/native';
@@ -23,7 +23,10 @@ export const Card = (props: CardProps) => {
     setTicket(props);
   }, []);
 
-  const copy = () => Clipboard.setString(ticket.barcode);
+  const copy = () => {
+    Clipboard.setString(ticket.barcode);
+    ToastAndroid.show('Codigo de barra copiado', ToastAndroid.SHORT);
+  }
 
   const newTicket = async () => {
     try {

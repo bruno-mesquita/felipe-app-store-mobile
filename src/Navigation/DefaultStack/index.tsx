@@ -22,7 +22,8 @@ import {
   Boletos,
   SalesReport,
   CreateEstablishment,
-  UpdateEstablishment
+  UpdateEstablishment,
+  Deliverymen
 } from '../../Screens/Auth';
 import options from './configHeader';
 
@@ -156,6 +157,13 @@ export default function NativeStackRoutes() {
         component={UpdateEstablishment}
         options={({ navigation }) => options({ name: 'Minha loja', navigation })}
       />
+
+      <Screen
+        name="Deliverymen"
+        component={Deliverymen}
+        options={({ navigation }) => options({ name: 'Motoboys Flipp', navigation })}
+      />
+
     </Navigator>
   );
 }

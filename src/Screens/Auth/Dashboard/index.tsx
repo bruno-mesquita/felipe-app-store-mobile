@@ -46,7 +46,8 @@ export const Dashboard = ({ navigation }) => {
   const toGoOrdersDelivered = () => navigation.navigate('OrdersDelivered');
   const toGoBoletos = () => navigation.navigate('Boletos');
   const toGoSalesReport = () => navigation.navigate('SalesReport');
-  const toGoCreateEstablishment = () => navigation.navigate(establishmentExists ? 'UpdateEstablishment' : 'CreateEstablishment');
+  const toGoEstablishment = () => navigation.navigate(establishmentExists ? 'UpdateEstablishment' : 'CreateEstablishment');
+  const toGoDeliverymen = () => navigation.navigate('Deliverymen');
 
   const iconProps = (name: any) => ({ name, size: 50, color: '#fff' })
 
@@ -87,9 +88,13 @@ export const Dashboard = ({ navigation }) => {
               </Item>
             </Row>
             <Row>
-              <Item onPress={toGoCreateEstablishment} never>
+              <Item onPress={toGoEstablishment} never>
                 <MaterialIcons {...iconProps('store')} />
                 <Text>{establishmentExists ? 'Minha loja' : 'Cadastrar'}</Text>
+              </Item>
+              <Item onPress={toGoDeliverymen}>
+              <MaterialIcons {...iconProps('sports-motorsports')} />
+                <Text>Motoboys</Text>
               </Item>
             </Row>
             </Header>
@@ -105,7 +110,7 @@ export const Dashboard = ({ navigation }) => {
                 <Text>Cancelados</Text>
               </Item>
               <Item onPress={toGoOrdersDelivered}>
-                <MaterialIcons {...iconProps('sports-motorsports')} />
+                <AntDesign  {...iconProps('up-square-o')} name="up-square-o" />
                 <Text>Entregues</Text>
               </Item>
               <Item onPress={toGoOrders}>
