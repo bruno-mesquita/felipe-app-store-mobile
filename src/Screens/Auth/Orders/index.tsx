@@ -34,6 +34,10 @@ export const Orders = () => {
 
   useEffect(() => {
     getOrders()
+
+    const funcInterval = setInterval(getOrders, 8000);
+
+    return () => clearInterval(funcInterval);
   }, [getOrders])
 
   const loadMore = async () => {

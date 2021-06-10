@@ -98,7 +98,7 @@ export const ModalCategories = ({ modalRef, onPress, categories: items, id }: Mo
     <ModalBase ref={modalRef}>
       <Container>
         <ScrollView>
-          <Title>Categories</Title>
+          <Title>Categorias</Title>
           {categories.map(category => (
             <Row key={category.id.toString()}>
               <Text key={category.id}>{category.name}</Text>

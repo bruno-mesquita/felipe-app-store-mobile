@@ -1,5 +1,6 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { FlatList, Alert } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { getApi } from '../../../services/api';
 import { Item, AddButton, ListEmpty, FieldSearch } from './Components';
@@ -27,9 +28,9 @@ export const Products = () => {
     }
   }, [])
 
-  useEffect(() => {
+  useFocusEffect(useCallback(() => {
     getProducts()
-  }, [getProducts])
+  }, [getProducts]))
 
   const loadMore = async () => {
     if(!finish) {

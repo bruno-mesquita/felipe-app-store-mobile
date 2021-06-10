@@ -1,5 +1,6 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { FlatList, Alert } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { getApi } from '../../../services/api';
 import { Item, AddMenuButton, ListEmpty } from './Components';
@@ -25,9 +26,9 @@ export const Menus = () => {
     }
   }, [])
 
-  useEffect(() => {
-    getMenus()
-  }, [getMenus])
+  useFocusEffect(useCallback(() => {
+    getMenus();
+  }, [getMenus]))
 
   return (
     <Container>
