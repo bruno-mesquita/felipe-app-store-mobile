@@ -22,6 +22,23 @@ export const ProductUpdate = ({ route, navigation }) => {
     active: false,
   });
 
+  function PriceResult(fre: string) {
+    switch(fre.length) {
+      case 2: {
+        return Number(fre + '');
+        break;
+      }
+      case 3: {
+        return  Number(fre + '00');
+        break;
+      }
+      default: {
+        return fre;
+        break;
+      }
+    }
+  };
+
   const getProduct = useCallback(async () => {
     try {
       const api = getApi();
@@ -30,7 +47,14 @@ export const ProductUpdate = ({ route, navigation }) => {
 
       const { result } = data;
 
-      setProduct({ ...result, image: result.photo.encoded, menu: result.menu_id });
+      console.log(result);
+
+      setProduct({
+        ...result,
+        price: PriceResult(result.price),
+        image: result.photo.encoded,
+        menu: result.menu_id
+      });
     } catch (err) {
       Alert.alert('Erro', 'Erro ao pegar dados do produto', [
         {
@@ -39,11 +63,11 @@ export const ProductUpdate = ({ route, navigation }) => {
         }
       ]);
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     getProduct();
-  }, [getProduct])
+  }, [getProduct]);
 
   const onSubmit = async (values, { setSubmitting }: FormikHelpers<any>) => {
     try {
