@@ -38,6 +38,23 @@ export const UpdateEstablishment = ({ navigation }) => {
 
   const api = getApi();
 
+  function freightResult(fre: string) {
+    switch(fre.length) {
+      case 2: {
+        return Number(fre + '');
+        break;
+      }
+      case 3: {
+        return  Number(fre + '00');
+        break;
+      }
+      default: {
+        return fre;
+        break;
+      }
+    }
+  };
+
   const getEstablishment = useCallback(async () => {
     try {
       const { data } = await api.post('/establishments/me', { selects: ['full'] });
@@ -48,7 +65,7 @@ export const UpdateEstablishment = ({ navigation }) => {
         ...rest,
         openingTime: rest.openingTime.toString(),
         closingTime: rest.closingTime.toString(),
-        freightValue: rest.freightValue.length === 3 ? rest.freightValue + '0' : rest.freightValue,
+        freightValue: freightResult(rest.freightValue),
         address: {
           ...address,
           city: address.city.id.toString(),
@@ -57,7 +74,6 @@ export const UpdateEstablishment = ({ navigation }) => {
       });
       setLoading(false);
     } catch (err) {
-      console.log(err);
       Alert.alert('Erro', 'Houve um erro ao buscar dados da sua loja :(', [{
         onPress: () => navigation.goBack(),
         text: 'Ok'
@@ -87,11 +103,10 @@ export const UpdateEstablishment = ({ navigation }) => {
       delete body.image;
       delete body.categories;
 
-      await api.put('/establishments', values);
+      await api.put('/establishments', body);
 
       Alert.alert('Successo', 'Loja cadastrada com sucesso');
     } catch (err) {
-      console.log(err.response.data)
       Alert.alert('Erro', 'Houve um erro ao cadastrar sua loja :(');
     }
   }
