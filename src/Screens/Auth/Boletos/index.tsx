@@ -50,6 +50,7 @@ export const Boletos = () => {
         refreshing={loading}
         onRefresh={onRefresh}
         data={boletos}
+        onEndReachedThreshold={0}
         onEndReached={loadMore}
         keyExtractor={(item) => String(item.id)}
         renderItem={({ item }) => <Card {...item} />}

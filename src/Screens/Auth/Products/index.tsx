@@ -55,6 +55,7 @@ export const Products = () => {
         refreshing={loading}
         onRefresh={onRefresh}
         data={products}
+        onEndReachedThreshold={0}
         onEndReached={loadMore}
         keyExtractor={(item) => String(item.id)}
         renderItem={({ item }) => <Item {...item} reender={getProducts} photo={item.photo.encoded} />}

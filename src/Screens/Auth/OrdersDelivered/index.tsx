@@ -57,6 +57,7 @@ export const OrdersDelivered = () => {
         refreshing={loading}
         onRefresh={onRefresh}
         data={orders}
+        onEndReachedThreshold={0}
         onEndReached={loadMore}
         keyExtractor={(item) => String(item.id)}
         renderItem={({ item }) => <CardOrder onPress={onPressItem} {...item} />}

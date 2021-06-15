@@ -39,7 +39,7 @@ export const Deliverymen = () => {
     setPage(page + 1);
   };
 
-  const onRefresh = async () => {
+  const onRefresh = () => {
     setLoading(true);
     setPage(0);
   }
