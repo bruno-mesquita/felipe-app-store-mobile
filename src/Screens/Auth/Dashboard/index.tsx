@@ -60,7 +60,7 @@ export const Dashboard = ({ navigation }) => {
           <>
             <Header>
             <Row>
-              <Item onPress={toGoBoletos}>
+              <Item onPress={toGoBoletos} never>
                 <Ionicons {...iconProps('print-outline')} />
                 <Text>Boletos</Text>
               </Item>

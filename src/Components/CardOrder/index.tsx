@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { parseISO, format } from 'date-fns';
 
 import formatPrice from '../../utils/format-number';
@@ -8,7 +8,7 @@ import { CardBase } from '../_Bases';
 import { ItemProps, Address } from './props';
 import { Text, Content } from './styles';
 
-export const CardOrder = ({ address_client: { client, ...address }, createdAt, total, payment, client_order_status }: ItemProps) => {
+export const CardOrder = ({ address_client: { client, ...address }, createdAt, total, payment, client_order_status, onPress, id }: ItemProps) => {
   const formattedDate = (date: string) => {
     return format(parseISO(date), "dd/MM/yyyy '-' HH:mm")
   }
@@ -18,7 +18,7 @@ export const CardOrder = ({ address_client: { client, ...address }, createdAt, t
   }
 
   return (
-    <CardBase component="view" style={{ width: '90%', alignSelf: 'center' }}>
+    <CardBase onPress={() => onPress(id)} style={{ width: '90%', alignSelf: 'center' }}>
       <Content>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingBottom: 10, width: '100%' }}>
           <Text style={{ textTransform: 'uppercase' }}>Status: {client_order_status}</Text>

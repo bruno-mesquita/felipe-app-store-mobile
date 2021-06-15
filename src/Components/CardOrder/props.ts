@@ -36,4 +36,6 @@ export interface Order {
 }
 
 
-export interface ItemProps extends Order {}
+export interface ItemProps extends Order {
+  onPress: (id: number) => (Promise<void> | void)
+}

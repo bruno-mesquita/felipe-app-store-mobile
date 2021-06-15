@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
-import { FlatList, Alert, TouchableOpacity } from 'react-native';
+import { FlatList, Alert } from 'react-native';
 
 import { ModalBaseHandle } from '../../../Components/ModalBase/props';
 import { CardOrder, ModalOrder } from '../../../Components';
@@ -17,13 +17,13 @@ export const Orders = () => {
   const [selectedId, setSelectedId] = useState<number | undefined>();
   const modalRef = useRef<ModalBaseHandle>(null);
 
-  const getOrders = useCallback(async () => {
+  const getOrders = useCallback(async (newPage = 0) => {
     try {
       const api = getApi();
 
-      const { data } = await api.get('/list-orders-types', { params: { type: 'Aberto' } });
+      const { data } = await api.get('/list-orders-types', { params: { type: 'Aberto', page: newPage } });
 
-      setOrders(data.result);
+      setOrders(old => old.concat(data.result));
     } catch (err) {
       Alert.alert('Erro', 'Erro ao buscar os pedidos');
       setOrders([]);
@@ -40,32 +40,20 @@ export const Orders = () => {
     return () => clearInterval(funcInterval);
   }, [getOrders])
 
-  const loadMore = async () => {
-    if(!finish) {
-      const newPage = page + 1;
-      setPage(newPage);
-
-      const api = getApi();
-
-      const { data } = await api.get('/list-orders-types', { params: { page: newPage, type: 'Em andamento' } });
-
-      if(data.result.length === 0) {
-        setFinish(true);
-      } else {
-        setOrders(old => [...old, ...data.result]);
-      }
-    }
+  const loadMore = () => {
+    setLoading(true);
+    setPage(page + 1);
   }
 
-  const onRefresh = async () => {
+  const onRefresh = () => {
+    setLoading(true);
     setPage(0);
-    await getOrders();
   }
 
-  const onPressItem = useCallback((id: number) => {
+  const onPressItem = (id: number) => {
     setSelectedId(id)
     modalRef.current?.open();
-  }, []);
+  };
 
   return (
     <>
@@ -79,11 +67,7 @@ export const Orders = () => {
           data={orders}
           onEndReached={loadMore}
           keyExtractor={(item) => String(item.id)}
-          renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => onPressItem(item.id)}>
-              <CardOrder {...item} />
-            </TouchableOpacity>
-          )}
+          renderItem={({ item }) => <CardOrder onPress={onPressItem} {...item} />}
         />
       </Container>
     </>

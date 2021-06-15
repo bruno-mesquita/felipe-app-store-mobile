@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
-import { FlatList, Alert, TouchableOpacity } from 'react-native';
+import { FlatList, Alert } from 'react-native';
 
 import { ModalBaseHandle } from '../../../Components/ModalBase/props';
 import { getApi } from '../../../services/api';
@@ -12,54 +12,41 @@ export const OrdersDelivered = () => {
   const [orders, setOrders] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
-  const [finish, setFinish] = useState(false);
   const [selectedId, setSelectedId] = useState<number | undefined>();
   const modalRef = useRef<ModalBaseHandle>(null);
 
-  const getOrders = useCallback(async () => {
+  const getOrders = useCallback(async (newPage = 0) => {
     try {
       const api = getApi();
 
-      const { data } = await api.get('/list-orders-types', { params: { type: 'Finalizado' } });
+      const { data } = await api.get('/list-orders-types', { params: { type: 'Finalizado', page: newPage } });
 
-      setOrders(data.result);
-      setLoading(false);
+      setOrders(old => old.concat(data.result));
     } catch (err) {
-      setLoading(false);
       Alert.alert('Erro', 'Erro ao buscar os pedidos');
+    } finally {
+      setLoading(false);
     }
   }, [])
 
   useEffect(() => {
-    getOrders()
-  }, [getOrders])
+    getOrders(page)
+  }, [getOrders, page])
 
-  const loadMore = async () => {
-    if(!finish) {
-      const newPage = page + 1;
-      setPage(newPage);
-
-      const api = getApi();
-
-      const { data } = await api.get('/list-orders-types', { params: { page: newPage, type: 'Finalizado' } });
-
-      if(data.result.length === 0) {
-        setFinish(true);
-      } else {
-        setOrders(old => [...old, ...data.result]);
-      }
-    }
+  const loadMore =  () => {
+    setLoading(true);
+    setPage(page + 1);
   }
 
-  const onRefresh = async () => {
+  const onRefresh = () => {
+    setLoading(true);
     setPage(0);
-    await getOrders();
   }
 
-  const onPressItem = useCallback((id: number) => {
+  const onPressItem = (id: number) => {
     setSelectedId(id)
     modalRef.current?.open();
-  }, []);
+  };
 
   return (
     <Container>
@@ -72,11 +59,7 @@ export const OrdersDelivered = () => {
         data={orders}
         onEndReached={loadMore}
         keyExtractor={(item) => String(item.id)}
-        renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => onPressItem(item.id)}>
-            <CardOrder {...item} />
-          </TouchableOpacity>
-        )}
+        renderItem={({ item }) => <CardOrder onPress={onPressItem} {...item} />}
       />
     </Container>
   )
