@@ -43,11 +43,7 @@ export const ProductUpdate = ({ route, navigation }) => {
     try {
       const api = getApi();
 
-      const { data } = await api.get(`/products/${route.params.id}`);
-
-      const { result } = data;
-
-      console.log(result);
+      const { data: { result } } = await api.get(`/products/${route.params.id}`);
 
       setProduct({
         ...result,

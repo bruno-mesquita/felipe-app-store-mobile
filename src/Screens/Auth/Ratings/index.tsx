@@ -10,46 +10,33 @@ export const Ratings = () => {
   const [ratings, setRatings] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
-  const [finish, setFinish] = useState(false);
 
-  const getRating = useCallback(async () => {
+  const getRating = useCallback(async (newPage = 0) => {
     try {
       const api = getApi();
 
-      const { data } = await api.get('/list-rates');
+      const { data } = await api.get('/list-rates', { params: { page: newPage } });
 
-      setRatings(data.result);
-      setLoading(false);
+      setRatings(old => old.concat(data.result));
     } catch (err) {
-      setLoading(false);
       Alert.alert('Erro', 'Erro ao buscar as avaliações');
+    } finally {
+      setLoading(false);
     }
   }, [])
 
   useEffect(() => {
-    getRating()
-  }, [getRating])
+    getRating(page)
+  }, [getRating, page])
 
-  const loadMore = async () => {
-    if(!finish) {
-      const newPage = page + 1;
-      setPage(newPage);
-
-      const api = getApi();
-
-      const { data } = await api.get('/ratings', { params: { page: newPage } });
-
-      if(data.result.length === 0) {
-        setFinish(true);
-      } else {
-        setRatings(old => [...old, ...data.result]);
-      }
-    }
+  const loadMore = () => {
+    setLoading(true);
+    setPage(page + 1);
   }
 
-  const onRefresh = async () => {
+  const onRefresh = () => {
+    setLoading(true);
     setPage(0);
-    await getRating();
   }
 
   return (
@@ -61,6 +48,7 @@ export const Ratings = () => {
         refreshing={loading}
         onRefresh={onRefresh}
         data={ratings}
+        onEndReachedThreshold={0}
         onEndReached={loadMore}
         keyExtractor={(item) => String(item.id)}
         renderItem={({ item }) => <Item {...item.evaluation} />}

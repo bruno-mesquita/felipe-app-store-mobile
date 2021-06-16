@@ -12,17 +12,17 @@ export const Menus = () => {
   const [menus, setMenus] = useState<Menu[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const getMenus = useCallback(async () => {
+  const getMenus = useCallback(async (newPage = 0) => {
     try {
       const api = getApi();
 
       const { data } = await api.get('/menus');
 
       setMenus(data.result);
-      setLoading(false);
     } catch (err) {
-      setLoading(false);
       Alert.alert('Erro', 'Erro ao buscar os seus cardapios');
+    } finally {
+      setLoading(false);
     }
   }, [])
 

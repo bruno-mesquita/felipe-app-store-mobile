@@ -13,13 +13,16 @@ export const Deliverymen = () => {
   const [deliverymen, setDeliverymen] = useState<Deliveryman[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
-  const [finish, setFinish] = useState(false);
 
-  const getDeliverymen = useCallback(async () => {
+  const getDeliverymen = useCallback(async (newPage = 0) => {
     try {
-      const { data } = await api.get('/deliverymen');
+      const { data } = await api.get('/deliverymen', {
+        params: {
+          page: newPage,
+        }
+      });
 
-      setDeliverymen(data.result);
+      setDeliverymen(old => old.concat(data.result));
     } catch (err) {
       Alert.alert('Erro', 'Erro ao buscar os motoboy');
     } finally {
@@ -28,27 +31,17 @@ export const Deliverymen = () => {
   }, [])
 
   useEffect(() => {
-    getDeliverymen()
-  }, [getDeliverymen])
+    getDeliverymen(page)
+  }, [getDeliverymen, page])
 
-  const loadMore = async () => {
-    if(!finish) {
-      const newPage = page + 1;
-      setPage(newPage);
+  const loadMore = () => {
+    setLoading(true);
+    setPage(page + 1);
+  };
 
-      const { data } = await api.get('/deliverymen', { params: { page: newPage } });
-
-      if(data.result.length === 0) {
-        setFinish(true);
-      } else {
-        setDeliverymen(old => [...old, ...data.result]);
-      }
-    }
-  }
-
-  const onRefresh = async () => {
+  const onRefresh = () => {
+    setLoading(true);
     setPage(0);
-    await getDeliverymen();
   }
 
   return (
@@ -61,6 +54,7 @@ export const Deliverymen = () => {
         onRefresh={onRefresh}
         data={deliverymen}
         onEndReached={loadMore}
+        onEndReachedThreshold={0}
         keyExtractor={(item) => String(item.id)}
         renderItem={({ item }) => <Item {...item} />}
       />

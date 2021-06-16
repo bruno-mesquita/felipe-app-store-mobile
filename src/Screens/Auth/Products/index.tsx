@@ -12,57 +12,40 @@ export const Products = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
-  const [finish, setFinish] = useState(false);
 
-  const getProducts = useCallback(async () => {
+  const getProducts = useCallback(async (newPage = 0) => {
     try {
       const api = getApi();
 
-      const { data } = await api.get('/products');
+      const { data } = await api.get('/products', {
+        params: { page: newPage }
+      });
 
-      setProducts(data.result);
-      setLoading(false);
+      setProducts(old => old.concat(data.result));
     } catch (err) {
-      setLoading(false);
       Alert.alert('Erro', 'Erro ao buscar os produtos');
+    } finally {
+      setLoading(false);
     }
   }, []);
 
   useFocusEffect(useCallback(() => {
-    getProducts();
-  }, [getProducts]));
+    getProducts(page)
+  }, [getProducts, page]))
 
-  const loadMore = async () => {
-    if(!finish) {
-      const newPage = page + 1;
-      setPage(newPage);
-
-      const api = getApi();
-
-      const { data } = await api.get('/products', { params: { page: newPage } });
-
-      if(data.result.length === 0) {
-        setFinish(true);
-      } else {
-        setProducts(old => [...old, ...data.result]);
-      }
-    }
+  const loadMore = () => {
+    setLoading(true);
+    setPage(page + 1);
   }
 
-  const onRefresh = async () => {
+  const onRefresh = () => {
+    setLoading(true);
     setPage(0);
-    await getProducts();
-  }
-
-  const response = (data) => {
-    setProducts(data);
-    setPage(0);
-    setFinish(false);
   }
 
   const Header = () => (
     <>
-      <FieldSearch refreshing={loading} response={response} />
+      <FieldSearch refreshing={loading} response={loadMore} />
       <Tab />
     </>
   );
@@ -76,6 +59,7 @@ export const Products = () => {
         refreshing={loading}
         onRefresh={onRefresh}
         data={products}
+        onEndReachedThreshold={0}
         onEndReached={loadMore}
         keyExtractor={(item) => String(item.id)}
         renderItem={({ item }) => <Item {...item} reender={getProducts} photo={item.photo.encoded} />}

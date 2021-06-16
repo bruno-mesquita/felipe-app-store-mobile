@@ -10,15 +10,16 @@ export const Boletos = () => {
   const [boletos, setBoletos] = useState<Boleto[]>([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
-  const [finish, setFinish] = useState(false);
 
-  const getTickets = useCallback(async () => {
+  const getTickets = useCallback(async (newPage = 0) => {
     try {
       const api = getApi();
 
-      const { data } = await api.get('/tickets');
+      const { data } = await api.get('/tickets', {
+        params: { page: newPage }
+      });
 
-      setBoletos(data.result);
+      setBoletos(old => old.concat(data.result));
     } catch (err) {
       Alert.alert('Erro', 'Erro ao buscar os boletos ');
     } finally {
@@ -27,29 +28,17 @@ export const Boletos = () => {
   }, [])
 
   useEffect(() => {
-    getTickets()
-  }, [getTickets])
+    getTickets(page)
+  }, [getTickets, page])
 
   const loadMore = async () => {
-    if(!finish) {
-      const newPage = page + 1;
-      setPage(newPage);
-
-      const api = getApi();
-
-      const { data } = await api.get('/tickets', { params: { page: newPage } });
-
-      if(data.result.length === 0) {
-        setFinish(true);
-      } else {
-        setBoletos(old => [...old, ...data.result]);
-      }
-    }
+    setLoading(true);
+    setPage(page + 1);
   }
 
-  const onRefresh = async () => {
+  const onRefresh = () => {
+    setLoading(true);
     setPage(0);
-    await getTickets();
   }
 
   return (
@@ -61,6 +50,7 @@ export const Boletos = () => {
         refreshing={loading}
         onRefresh={onRefresh}
         data={boletos}
+        onEndReachedThreshold={0}
         onEndReached={loadMore}
         keyExtractor={(item) => String(item.id)}
         renderItem={({ item }) => <Card {...item} />}

@@ -16,24 +16,27 @@ const createApi = () => {
     const originalRequest = error.config;
 
     if (error.response.status === 401 && !originalRequest._retry) {
+      try {
+        originalRequest._retry = true;
 
-      originalRequest._retry = true;
+        const { refreshToken } = (store.getState() as any).auth;
 
-      const { refreshToken } = (store.getState() as any).auth;
+        if(!refreshToken) store.dispatch(logout());
 
-      if(!refreshToken) store.dispatch(logout());
+        const { data } = await api.post('/auth/refresh', { token: refreshToken })
 
-      const { data } = await api.post('/auth/refresh', { token: refreshToken })
+        const { accessToken, refreshToken: newRefreshToken } = data.result;
 
-      const { accessToken, refreshToken: newRefreshToken } = data.result;
+        api.defaults.headers.Authorization = `Bearer ${accessToken}`;
 
-      api.defaults.headers.Authorization = `Bearer ${accessToken}`;
+        store.dispatch(requestRefreshTokenSuccess(accessToken, newRefreshToken));
 
-      store.dispatch(requestRefreshTokenSuccess(accessToken, newRefreshToken));
-
-      return axios(originalRequest);
-     }
-     return Promise.reject(error);
+        return axios(originalRequest);
+      } catch (err) {
+        store.dispatch(logout());
+      }
+    }
+    return Promise.reject(error);
   });
 }
 

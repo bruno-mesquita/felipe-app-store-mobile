@@ -26,17 +26,17 @@ export const UpdateMenu = ({ route }) => {
     getMenu()
   }, [getMenu])
 
-  const onSubmit = async (values, { setSubmitting }: FormikHelpers<any>) => {
+  const onSubmit = async (values: any, { setSubmitting }: FormikHelpers<any>) => {
     try {
       const api = getApi();
 
       await api.put(`/menus/${route.params.id}`, values);
 
-      setSubmitting(false);
       Alert.alert('Atualizado com sucesso!')
     } catch (err) {
-      setSubmitting(false);
       Alert.alert('Erro', 'Houve um erro ao atualizar')
+    } finally {
+      setSubmitting(false);
     }
   }
 

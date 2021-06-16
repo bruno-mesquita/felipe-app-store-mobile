@@ -6,7 +6,6 @@ export const Container = styled.View`
   align-items: center;
 `;
 
-
 export const Divider = styled.View`
   ${({ theme }) => css`
     background: ${theme.colors.secundary};
