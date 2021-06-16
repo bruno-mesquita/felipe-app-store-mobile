@@ -25,6 +25,6 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
 
     alignSelf: 'center',
-    marginTop: 10
+    marginTop: 5
   },
 });

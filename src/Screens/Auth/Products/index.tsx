@@ -12,40 +12,57 @@ export const Products = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
+  const [finish, setFinish] = useState(false);
 
-  const getProducts = useCallback(async (newPage = 0) => {
+  const getProducts = useCallback(async () => {
     try {
       const api = getApi();
 
-      const { data } = await api.get('/products', {
-        params: { page: newPage }
-      });
+      const { data } = await api.get('/products');
 
-      setProducts(old => old.concat(data.result));
-    } catch (err) {
-      Alert.alert('Erro', 'Erro ao buscar os produtos');
-    } finally {
+      setProducts(data.result);
       setLoading(false);
+    } catch (err) {
+      setLoading(false);
+      Alert.alert('Erro', 'Erro ao buscar os produtos');
     }
   }, []);
 
   useFocusEffect(useCallback(() => {
-    getProducts(page)
-  }, [getProducts, page]))
+    getProducts();
+  }, [getProducts]));
 
-  const loadMore = () => {
-    setLoading(true);
-    setPage(page + 1);
+  const loadMore = async () => {
+    if(!finish) {
+      const newPage = page + 1;
+      setPage(newPage);
+
+      const api = getApi();
+
+      const { data } = await api.get('/products', { params: { page: newPage } });
+
+      if(data.result.length === 0) {
+        setFinish(true);
+      } else {
+        setProducts(old => [...old, ...data.result]);
+      }
+    }
   }
 
-  const onRefresh = () => {
-    setLoading(true);
+  const onRefresh = async () => {
     setPage(0);
+    await getProducts();
+  }
+
+  const response = (data) => {
+    setProducts(data);
+    setPage(0);
+    setFinish(false);
   }
 
   const Header = () => (
     <>
-      <FieldSearch refreshing={loading} response={loadMore} />
+      <FieldSearch refreshing={loading} response={response} />
       <Tab />
     </>
   );
@@ -59,12 +76,11 @@ export const Products = () => {
         refreshing={loading}
         onRefresh={onRefresh}
         data={products}
-        onEndReachedThreshold={0}
         onEndReached={loadMore}
         keyExtractor={(item) => String(item.id)}
         renderItem={({ item }) => <Item {...item} reender={getProducts} photo={item.photo.encoded} />}
       />
       <AddButton />
     </Container>
-  )
+  );
 }
