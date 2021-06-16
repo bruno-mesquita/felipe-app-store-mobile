@@ -3,7 +3,7 @@ import { FlatList, Alert } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 
 import { getApi } from '../../../services/api';
-import { Item, AddButton, ListEmpty, FieldSearch } from './Components';
+import { Item, AddButton, ListEmpty, FieldSearch, Tab } from './Components';
 
 import { Container } from './styles';
 import { Product } from './props';
@@ -26,11 +26,11 @@ export const Products = () => {
       setLoading(false);
       Alert.alert('Erro', 'Erro ao buscar os produtos');
     }
-  }, [])
+  }, []);
 
   useFocusEffect(useCallback(() => {
-    getProducts()
-  }, [getProducts]))
+    getProducts();
+  }, [getProducts]));
 
   const loadMore = async () => {
     if(!finish) {
@@ -55,18 +55,22 @@ export const Products = () => {
   }
 
   const response = (data) => {
-    setProducts(data)
+    setProducts(data);
     setPage(0);
     setFinish(false);
   }
 
-  const Header = () => <FieldSearch refreshing={loading} response={response} />
+  const Header = () => (
+    <>
+      <FieldSearch refreshing={loading} response={response} />
+      <Tab />
+    </>
+  );
 
   return (
     <Container>
       <FlatList
-        style={{ paddingTop: 15 }}
-        ListHeaderComponentStyle={{ alignSelf: 'center', paddingBottom: 15 }}
+        style={{  margin: 20 }}
         ListHeaderComponent={Header}
         ListEmptyComponent={ListEmpty}
         refreshing={loading}
@@ -80,4 +84,3 @@ export const Products = () => {
     </Container>
   )
 }
-

@@ -7,9 +7,8 @@ let api: AxiosInstance;
 
 const createApi = () => {
   api = axios.create({
-    baseURL: 'http://192.168.1.107:3030/api/app-store',
-    // baseURL: 'https://app-backend-felipe.herokuapp.com/api/app-store',
-  })
+    baseURL: 'https://app-backend-felipe.herokuapp.com/api/app-store',
+  });
 
   api.interceptors.response.use((response) => {
     return response

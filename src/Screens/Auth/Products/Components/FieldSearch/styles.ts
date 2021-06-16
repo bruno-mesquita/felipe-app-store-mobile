@@ -23,5 +23,8 @@ export const styles = StyleSheet.create({
     shadowOpacity: 0.9,
     shadowRadius: 5,
     flexDirection: 'row',
+
+    alignSelf: 'center',
+    marginTop: 10
   },
 });
