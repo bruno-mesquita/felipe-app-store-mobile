@@ -7,7 +7,6 @@ import { Container, Tabs, Text } from './styles';
 
 export const Tab = () => {
   const [menus, setMenus] = useState<Menus[]>([]);
-  // const [products, setProducts] = useState<[]>([]);
 
   const getMenu = async () => {
     try {
@@ -24,24 +23,6 @@ export const Tab = () => {
   useEffect(() => {
     getMenu();
   }, []);
-
-  // Parei neste código de baixo
-
-  // const getProduts = async () => {
-  //   try {
-  //     const api = getApi();
-
-  //     const { data } = await api.get('/products');
-
-  //     setProducts(data.result);
-  //   }catch(err) {
-  //     Alert.alert('Erro', 'Erro ao buscar os Produtos');
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getProduts();
-  // }, []);
 
   return (
     <Container>
