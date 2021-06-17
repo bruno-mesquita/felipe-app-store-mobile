@@ -1,59 +1,100 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { FlatList, Alert } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 
 import { getApi } from '../../../services/api';
-import { Item, AddButton, ListEmpty, FieldSearch, Tab } from './Components';
+import { Item, AddButton, ListEmpty, FieldSearch  } from './Components';
 
-import { Container } from './styles';
+import { Container, Tab, TabContainer, TabText } from './styles';
 import { Product } from './props';
 
 export const Products = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
+  const [menus, setMenus] = useState<any[]>([]);
   const [menuSelected, setMenuSelected] = useState(null);
 
-  const getProducts = async (newPage = 0, menu = null) => {
+  const getMenus = useCallback(async () => {
     try {
       const api = getApi();
 
-      const { data } = await api.get('/products', { params: { page: newPage, menu } });
+      const { data } = await api.get('/menus');
 
-      setProducts(old => old.concat(data.result));
+      setMenus(data.result);
+    } catch(err) {
+      Alert.alert('Erro', 'Erro ao buscar os Menus');
+    }
+  }, []);
+
+  const getProducts = useCallback(async (newPage = 0, menuId = null) => {
+    try {
+      const api = getApi();
+
+      const { data } = await api.get('/products', { params: { page: newPage, menuId } });
+
+
+      if(menuId && newPage === 0) setProducts(data.result);
+      else setProducts(old => old.concat(data.result));
     } catch (err) {
       Alert.alert('Erro', 'Erro ao buscar os produtos');
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    getMenus();
+  }, [getMenus]);
 
   useFocusEffect(useCallback(() => {
     getProducts(page, menuSelected);
   }, [getProducts, page, menuSelected]));
 
-  const loadMore = () => setPage(page + 1);
 
-  const onRefresh = () => setPage(0);
+  const loadMore = () => {
+    setLoading(true);
+    setPage(page + 1);
+  }
+
+  const onRefresh = () => {
+    setLoading(true);
+    setPage(0);
+  }
+
+  const setMenu = (id: number) => {
+    setMenuSelected(id);
+    setPage(0);
+  }
 
   const Header = () => (
     <>
       <FieldSearch refreshing={loading} response={setProducts} />
-      <Tab setMenuSelected={setMenuSelected} />
+      <TabContainer>
+        {
+          menus.map((menu, index) => {
+            const selected = menuSelected === menu.id;
+
+            return (
+              <Tab first={index === 0} selected={selected} onPress={() => setMenu(menu.id)}>
+                <TabText selected={selected}>{menu.name}</TabText>
+              </Tab>
+            )}
+          )
+        }
+      </TabContainer>
     </>
   );
 
   return (
     <Container>
       <FlatList
-        style={{  margin: 20 }}
         ListHeaderComponent={Header}
         ListEmptyComponent={ListEmpty}
         refreshing={loading}
         onRefresh={onRefresh}
         data={products}
         onEndReached={loadMore}
-        onEndReachedThreshold={0}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => <Item {...item} reender={getProducts} photo={item.photo.encoded} />}
       />

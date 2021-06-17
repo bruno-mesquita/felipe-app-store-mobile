@@ -38,7 +38,7 @@ export const Item = ({ id, name, price, photo, menu_id, reender }: ItemProps) =>
   }
 
   return (
-    <CardBase onPress={edit} onLongPress={del}>
+    <CardBase onPress={edit} onLongPress={del} style={{ width: '80%', alignSelf: 'center' }}>
       <Container>
         <Content>
           <Photo source={{ uri: photo }} />
