@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Alert } from 'react-native';
 
 import { getApi } from '../../../../../services/api';
-import { Menus } from '../Tabs/props';
+import { Menu } from '../Tabs/props';
 import { Container, Tabs, Text } from './styles';
 
-export const Tab = () => {
-  const [menus, setMenus] = useState<Menus[]>([]);
+export const Tab = ({ setMenuSelected }) => {
+  const [menus, setMenus] = useState<Menu[]>([]);
 
   const getMenu = async () => {
     try {
@@ -15,7 +15,7 @@ export const Tab = () => {
       const { data } = await api.get('/menus');
 
       setMenus(data.result);
-    }catch(err) {
+    } catch(err) {
       Alert.alert('Erro', 'Erro ao buscar os Menus');
     }
   };
@@ -28,9 +28,9 @@ export const Tab = () => {
     <Container>
       {
         menus.map(
-          index => (
-            <Tabs>
-              <Text>{index.name}</Text>
+          menu => (
+            <Tabs onPress={() => setMenuSelected(menu.id)}>
+              <Text>{menu.name}</Text>
             </Tabs>
           )
         )

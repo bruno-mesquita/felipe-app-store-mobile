@@ -12,58 +12,34 @@ export const Products = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
-  const [finish, setFinish] = useState(false);
+  const [menuSelected, setMenuSelected] = useState(null);
 
-  const getProducts = useCallback(async () => {
+  const getProducts = async (newPage = 0, menu = null) => {
     try {
       const api = getApi();
 
-      const { data } = await api.get('/products');
+      const { data } = await api.get('/products', { params: { page: newPage, menu } });
 
-      setProducts(data.result);
-      setLoading(false);
+      setProducts(old => old.concat(data.result));
     } catch (err) {
-      setLoading(false);
       Alert.alert('Erro', 'Erro ao buscar os produtos');
+    } finally {
+      setLoading(false);
     }
-  }, []);
+  };
 
   useFocusEffect(useCallback(() => {
-    getProducts();
-  }, [getProducts]));
+    getProducts(page, menuSelected);
+  }, [getProducts, page, menuSelected]));
 
-  const loadMore = async () => {
-    if(!finish) {
-      const newPage = page + 1;
-      setPage(newPage);
+  const loadMore = () => setPage(page + 1);
 
-      const api = getApi();
-
-      const { data } = await api.get('/products', { params: { page: newPage } });
-
-      if(data.result.length === 0) {
-        setFinish(true);
-      } else {
-        setProducts(old => [...old, ...data.result]);
-      }
-    }
-  }
-
-  const onRefresh = async () => {
-    setPage(0);
-    await getProducts();
-  }
-
-  const response = (data) => {
-    setProducts(data);
-    setPage(0);
-    setFinish(false);
-  }
+  const onRefresh = () => setPage(0);
 
   const Header = () => (
     <>
-      <FieldSearch refreshing={loading} response={response} />
-      <Tab />
+      <FieldSearch refreshing={loading} response={setProducts} />
+      <Tab setMenuSelected={setMenuSelected} />
     </>
   );
 
@@ -77,7 +53,8 @@ export const Products = () => {
         onRefresh={onRefresh}
         data={products}
         onEndReached={loadMore}
-        keyExtractor={(item) => String(item.id)}
+        onEndReachedThreshold={0}
+        keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => <Item {...item} reender={getProducts} photo={item.photo.encoded} />}
       />
       <AddButton />
