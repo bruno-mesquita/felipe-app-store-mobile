@@ -13,17 +13,20 @@ export const Orders = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
-  const [finish, setFinish] = useState(false);
   const [selectedId, setSelectedId] = useState<number | undefined>();
   const modalRef = useRef<ModalBaseHandle>(null);
 
-  const getOrders = useCallback(async (newPage = 0) => {
+  const getOrders = useCallback(async (newPage = 0, reset = false) => {
     try {
       const api = getApi();
 
-      const { data } = await api.get('/list-orders-types', { params: { type: 'Aberto', page: newPage } });
+      const { data } = await api.get('/list-orders-types', { params: { type: 'Aberto', page: reset ? 0 : newPage } });
 
-      setOrders(old => old.concat(data.result));
+      if(reset) {
+        setOrders(data.result);
+        setPage(0);
+      } else setOrders(old => old.concat(data.result));
+
     } catch (err) {
       Alert.alert('Erro', 'Erro ao buscar os pedidos');
       setOrders([]);
@@ -55,9 +58,11 @@ export const Orders = () => {
     modalRef.current?.open();
   };
 
+  const reender = async () => getOrders(0, true);
+
   return (
     <>
-      <ModalOrder reender={getOrders} modalRef={modalRef} id={selectedId} />
+      <ModalOrder reender={reender} modalRef={modalRef} id={selectedId} />
       <Container>
         <FlatList
           style={{ paddingTop: 15 }}

@@ -15,13 +15,14 @@ export const OrdersDelivered = () => {
   const [selectedId, setSelectedId] = useState<number | undefined>();
   const modalRef = useRef<ModalBaseHandle>(null);
 
-  const getOrders = useCallback(async (newPage = 0) => {
+  const getOrders = useCallback(async (newPage = 0, reset = false) => {
     try {
       const api = getApi();
 
-      const { data } = await api.get('/list-orders-types', { params: { type: 'Finalizado', page: newPage } });
+      const { data } = await api.get('/list-orders-types', { params: { type: 'Finalizado', page: reset ? 0 : newPage } });
 
-      setOrders(old => old.concat(data.result));
+      if(reset) setOrders(data.result);
+      else setOrders(old => old.concat(data.result));
     } catch (err) {
       Alert.alert('Erro', 'Erro ao buscar os pedidos');
     } finally {
@@ -48,9 +49,11 @@ export const OrdersDelivered = () => {
     modalRef.current?.open();
   };
 
+  const reender = async () => getOrders(page, true)
+
   return (
     <Container>
-      <ModalOrder reender={getOrders} modalRef={modalRef} id={selectedId} />
+      <ModalOrder reender={reender} modalRef={modalRef} id={selectedId} />
       <FlatList
         style={{ paddingTop: 15 }}
         ListEmptyComponent={ListEmpty}

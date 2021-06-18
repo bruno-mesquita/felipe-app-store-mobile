@@ -27,15 +27,21 @@ export const Products = () => {
     }
   }, []);
 
-  const getProducts = useCallback(async (newPage = 0, menuId = null) => {
+  const getProducts = useCallback(async (newPage = 0, menuId = null, reset = false) => {
     try {
       const api = getApi();
 
-      const { data } = await api.get('/products', { params: { page: newPage, menuId } });
-
+      const { data } = await api.get('/products', { params: { page: reset ? 0 : newPage, menuId } });
 
       if(menuId && newPage === 0) setProducts(data.result);
-      else setProducts(old => old.concat(data.result));
+      else {
+        if(reset) {
+          setPage(0);
+          setProducts(old => old.concat(data.result));
+        }
+        else setProducts(data.result);
+      }
+
     } catch (err) {
       Alert.alert('Erro', 'Erro ao buscar os produtos');
     } finally {
@@ -50,7 +56,6 @@ export const Products = () => {
   useFocusEffect(useCallback(() => {
     getProducts(page, menuSelected);
   }, [getProducts, page, menuSelected]));
-
 
   const loadMore = () => {
     setLoading(true);
@@ -86,6 +91,8 @@ export const Products = () => {
     </>
   );
 
+  const reender = async () => getProducts(page, menuSelected, true);
+
   return (
     <Container>
       <FlatList
@@ -96,7 +103,7 @@ export const Products = () => {
         data={products}
         onEndReached={loadMore}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => <Item {...item} reender={getProducts} photo={item.photo.encoded} />}
+        renderItem={({ item }) => <Item {...item} reender={reender} photo={item.photo.encoded} />}
       />
       <AddButton />
     </Container>

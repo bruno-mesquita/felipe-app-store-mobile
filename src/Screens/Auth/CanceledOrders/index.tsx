@@ -51,7 +51,7 @@ export const CanceledOrders = () => {
 
   return (
     <Container>
-      <ModalOrder reender={getOrders} modalRef={modalRef} id={selectedId} />
+      <ModalOrder reender={onRefresh} modalRef={modalRef} id={selectedId} />
       <FlatList
         style={{ paddingTop: 15 }}
         ListEmptyComponent={ListEmpty}
