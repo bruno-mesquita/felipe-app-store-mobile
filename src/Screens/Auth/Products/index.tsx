@@ -35,11 +35,10 @@ export const Products = () => {
 
       if(menuId && newPage === 0) setProducts(data.result);
       else {
-        if(reset) {
+        if(reset || newPage === 0) {
           setPage(0);
-          setProducts(old => newPage === 0 ? data.result : old.concat(data.result));
-        }
-        else setProducts(data.result);
+          setProducts(data.result);
+        } else setProducts(old => old.concat(data.result));
       }
 
     } catch (err) {
