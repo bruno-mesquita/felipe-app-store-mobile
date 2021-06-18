@@ -21,8 +21,7 @@ export const OrdersDelivered = () => {
 
       const { data } = await api.get('/list-orders-types', { params: { type: 'Finalizado', page: reset ? 0 : newPage } });
 
-      if(reset) setOrders(data.result);
-      else setOrders(old => old.concat(data.result));
+      setOrders(old => reset || newPage === 0 ? data.result : old.concat(data.result));
     } catch (err) {
       Alert.alert('Erro', 'Erro ao buscar os pedidos');
     } finally {

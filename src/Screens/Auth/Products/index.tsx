@@ -37,7 +37,7 @@ export const Products = () => {
       else {
         if(reset) {
           setPage(0);
-          setProducts(old => old.concat(data.result));
+          setProducts(old => newPage === 0 ? data.result : old.concat(data.result));
         }
         else setProducts(data.result);
       }

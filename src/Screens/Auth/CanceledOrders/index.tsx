@@ -7,7 +7,6 @@ import { ListEmpty } from './Components';
 import { CardOrder, ModalOrder } from '../../../Components';
 
 import { Container } from './styles';
-import { Order } from './props';
 
 export const CanceledOrders = () => {
   const [orders, setOrders] = useState<any[]>([]);
@@ -22,7 +21,7 @@ export const CanceledOrders = () => {
 
       const { data } = await api.get('/list-orders-types', { params: { type: 'Cancelado', page: newPage } });
 
-      setOrders(old => old.concat(data.result));
+      setOrders(old => newPage === 0 ? data.result : old.concat(data.result));
     } catch (err) {
       Alert.alert('Erro', 'Erro ao buscar os pedidos');
     } finally {
