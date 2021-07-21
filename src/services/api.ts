@@ -1,14 +1,13 @@
 import axios, { AxiosInstance } from 'axios';
-import { store } from '../Store/store';
 
+import { store } from '../Store/store';
 import { requestRefreshTokenSuccess, logout } from '../Store/ducks/auth/auth.actions';
+import { api_url } from '../../env.json';
 
 let api: AxiosInstance;
 
 const createApi = () => {
-  api = axios.create({
-    baseURL: 'https://app-backend-felipe.herokuapp.com/api/app-store',
-  });
+  api = axios.create({ baseURL: api_url });
 
   api.interceptors.response.use((response) => {
     return response

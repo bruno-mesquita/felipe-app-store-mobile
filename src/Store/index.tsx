@@ -5,10 +5,9 @@ import { Provider } from 'react-redux';
 import { persistor, store } from './store';
 import { Props } from '../utils/props';
 
-const Store = ({ children }: Props) => (
+export const Store = ({ children }: Props) => (
   <Provider store={store}>
     <PersistGate persistor={persistor}>{children}</PersistGate>
   </Provider>
 );
 
-export default Store;
