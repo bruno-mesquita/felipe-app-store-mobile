@@ -1,24 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { Text, Alert } from 'react-native';
+import React from 'react';
+import { WebView } from 'react-native-webview';
 
-import { getApi } from '../../../services/api';
+import { StatusBar } from '../../../Components/StatusBar';
 
-import { Container } from './styles';
-
-export const TermsUse = () => {
-  const [terms, setTerms] = useState('');
-
-  useEffect(() => {
-    const api = getApi();
-
-    api.get('/terms-of-use')
-      .then(({ data }) => setTerms(data.result.description))
-      .catch(err => Alert.alert('Erro', 'erro ao buscar o termo de uso'))
-  }, []);
-
-  return (
-    <Container>
-      <Text>{terms}</Text>
-    </Container>
-  );
-}
+export const TermsUse = () => (
+  <>
+    <StatusBar translucent={false} />
+    <WebView source={{ uri: 'https://www.termos.flippdelivery.com.br' }} />
+  </>
+);
