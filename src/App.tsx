@@ -2,7 +2,6 @@ import 'react-native-gesture-handler';
 
 import React from 'react';
 import registerRootComponent from 'expo/build/launch/registerRootComponent';
-import { Root } from 'native-base';
 
 import './config/reactotron';
 import { Styles } from './Styles';
@@ -12,14 +11,12 @@ import { StatusBar, AppLoading } from './Components';
 
 const App = () => (
   <AppLoading>
-    <Root>
-      <Store>
-        <Styles>
-          <StatusBar />
-          <Navigation />
-        </Styles>
-      </Store>
-    </Root>
+    <Store>
+      <Styles>
+        <StatusBar />
+        <Navigation />
+      </Styles>
+    </Store>
   </AppLoading>
 );
 

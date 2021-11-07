@@ -1,7 +1,4 @@
+import { FC } from 'react';
 import { TouchableOpacityProps } from 'react-native';
 
-import { Props as DefaultProps } from '../../../utils/props';
-
-export interface Props extends DefaultProps, TouchableOpacityProps {
-  component?: 'button' | 'view'
-}
+export type Props = FC<TouchableOpacityProps & { component?: 'button' | 'view' }>

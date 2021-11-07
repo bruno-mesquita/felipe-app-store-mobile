@@ -1,10 +1,10 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { Login, CodeToForgotPassword, CodeToPassword, ForgotPassword } from '../../Screens/NotAuth';
 import options from './configHeader';
 
-const { Navigator, Screen } = createStackNavigator();
+const { Navigator, Screen } = createNativeStackNavigator();
 
 export default function NavigationStackNotAuth() {
   return (

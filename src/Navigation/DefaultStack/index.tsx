@@ -1,5 +1,5 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import {
   Dashboard,
@@ -27,7 +27,7 @@ import {
 } from '../../Screens/Auth';
 import options from './configHeader';
 
-const { Navigator, Screen } = createStackNavigator();
+const { Navigator, Screen } = createNativeStackNavigator();
 
 export default function NativeStackRoutes() {
   return (
