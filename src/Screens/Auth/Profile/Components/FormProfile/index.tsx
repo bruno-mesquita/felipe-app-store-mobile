@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { Alert, TouchableOpacity, ScrollView } from 'react-native';
 import { Formik, FormikHelpers } from 'formik';
 import { MaterialIcons } from '@expo/vector-icons';

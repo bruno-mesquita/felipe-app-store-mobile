@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Container, ContainerTextField, Label, TextField } from './styles';
 import { FieldProps } from './props';
 

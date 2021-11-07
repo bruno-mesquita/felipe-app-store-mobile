@@ -1,4 +1,3 @@
-import React from 'react';
 import { View, ToastAndroid } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Clipboard from 'expo-clipboard';

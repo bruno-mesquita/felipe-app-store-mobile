@@ -1,4 +1,3 @@
-import React from 'react';
 import { StatusBar as ExpoStatusBar } from 'expo-status-bar';
 import { useTheme } from 'styled-components/native';
 

@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import { Alert } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { Formik } from 'formik';

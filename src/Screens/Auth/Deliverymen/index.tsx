@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { FlatList, Alert } from 'react-native';
 
 import { getApi } from '../../../services/api';

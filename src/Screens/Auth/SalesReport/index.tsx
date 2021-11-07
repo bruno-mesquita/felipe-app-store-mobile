@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Alert, FlatList, View, Text, ScrollView } from 'react-native';
 import { format, parseISO } from 'date-fns';
 

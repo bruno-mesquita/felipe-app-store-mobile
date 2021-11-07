@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Container, Text, styles } from './styles';
 import { ButtonModalProps } from './props';
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState } from 'react';
+import { useEffect, useCallback, useState } from 'react';
 import { ActivityIndicator, useWindowDimensions, ScrollView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Ionicons, MaterialIcons, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';

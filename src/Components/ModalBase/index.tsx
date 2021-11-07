@@ -1,9 +1,4 @@
-import React, {
-  useImperativeHandle,
-  forwardRef,
-  useState,
-  useCallback,
-} from 'react';
+import { useImperativeHandle, forwardRef, useState, useCallback } from 'react';
 import { Modal, View } from 'react-native';
 
 import { ModalBaseHandle, Props } from './props';

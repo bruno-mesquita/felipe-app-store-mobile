@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Container, ContainerLogo, Logo, BackGround } from './styles';
 import { LayoutProps } from './props';
 

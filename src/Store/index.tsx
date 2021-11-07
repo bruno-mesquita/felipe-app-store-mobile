@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { PersistGate } from 'redux-persist/es/integration/react';
 import { Provider } from 'react-redux';
 

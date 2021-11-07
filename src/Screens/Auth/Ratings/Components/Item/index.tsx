@@ -1,4 +1,3 @@
-import React from 'react';
 import { useWindowDimensions } from 'react-native';
 import { Rating } from 'react-native-ratings';
 

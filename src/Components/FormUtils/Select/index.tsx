@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import RNPickerSelect, { Item } from 'react-native-picker-select';
 import { Ionicons } from '@expo/vector-icons';
 

@@ -10,7 +10,20 @@
     "noEmit": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
-    "strict": false
+    "strict": false,
+    "baseUrl": ".",
+    "paths": {
+      "@components": ["./src/Components"],
+      "@utils/*": ["./src/utils/*"],
+      "@services/*": ["./src/services/*"],
+      "@screens/*": ["./src/Screens/*"],
+      "@store/*": ["./src/Store/*"],
+      "@hooks": ["./src/hooks"]
+    },
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/@types"
+    ]
   },
   "extends": "expo/tsconfig.base"
 }

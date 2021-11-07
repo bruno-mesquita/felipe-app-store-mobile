@@ -1,4 +1,3 @@
-import React from 'react';
 import { View, Alert } from 'react-native';
 import { Formik, ErrorMessage, FormikHelpers } from 'formik';
 

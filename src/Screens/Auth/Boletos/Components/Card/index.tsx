@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { View, Text, Alert, Linking, ActivityIndicator, ToastAndroid } from 'react-native';
 import { format, parseISO } from 'date-fns';
 import { MaterialCommunityIcons } from '@expo/vector-icons';

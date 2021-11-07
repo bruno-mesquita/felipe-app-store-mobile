@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { FlatList, Alert } from 'react-native';
 
 import { ModalBaseHandle } from '../../../Components/ModalBase/props';

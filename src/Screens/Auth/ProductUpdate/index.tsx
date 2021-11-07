@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState, useRef } from 'react';
+import { useCallback, useEffect, useState, useRef } from 'react';
 import { Alert } from 'react-native';
 import { Formik, FormikHelpers } from 'formik';
 import { TextInputMasked } from 'react-native-masked-text';

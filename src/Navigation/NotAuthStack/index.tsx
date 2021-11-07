@@ -1,4 +1,3 @@
-import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { Login, CodeToForgotPassword, CodeToPassword, ForgotPassword } from '../../Screens/NotAuth';
