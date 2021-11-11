@@ -3,6 +3,8 @@ import { Alert } from 'react-native';
 import { Formik, FormikHelpers } from 'formik';
 import { TextInputMasked } from 'react-native-masked-text';
 
+import formatNumber from '@utils/format-number';
+
 import { ProductForm } from '../../../Components';
 
 import { Container } from './styles';
@@ -22,23 +24,6 @@ export const ProductUpdate = ({ route, navigation }) => {
     active: false,
   });
 
-  function PriceResult(fre: string) {
-    switch(fre.length) {
-      case 2: {
-        return Number(fre + '');
-        break;
-      }
-      case 3: {
-        return  Number(fre + '00');
-        break;
-      }
-      default: {
-        return fre;
-        break;
-      }
-    }
-  };
-
   const getProduct = useCallback(async () => {
     try {
       const api = getApi();
@@ -47,7 +32,7 @@ export const ProductUpdate = ({ route, navigation }) => {
 
       setProduct({
         ...result,
-        price: PriceResult(result.price),
+        price: formatNumber(result.price),
         image: result.photo.encoded,
         menu: result.menu_id
       });
