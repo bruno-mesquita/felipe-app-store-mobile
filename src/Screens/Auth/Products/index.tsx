@@ -80,7 +80,7 @@ export const Products = () => {
             const selected = menuSelected === menu.id;
 
             return (
-              <Tab first={index === 0} selected={selected} onPress={() => setMenu(menu.id)}>
+              <Tab key={menu.id} first={index === 0} selected={selected} onPress={() => setMenu(menu.id)}>
                 <TabText selected={selected}>{menu.name}</TabText>
               </Tab>
             )}

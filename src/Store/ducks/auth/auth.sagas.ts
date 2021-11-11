@@ -23,7 +23,7 @@ export function* signIn({ payload }: RequestLoginAction) {
 
     const { token, refreshToken } = data;
 
-    api.defaults.headers.Authorization = `Bearer ${token}`;
+    api.defaults.headers.common.Authorization = `Bearer ${token}`;
 
     yield put(requestLoginSuccess(token, refreshToken, checked));
   } catch (err) {
@@ -43,7 +43,7 @@ export function* setToken({ payload }: { payload: DefaultRootState }) {
   if (token && keepMeConnected && refreshToken) {
 
 
-    api.defaults.headers.Authorization = `Bearer ${token}`;
+    api.defaults.headers.common.Authorization = `Bearer ${token}`;
   } else {
     yield put(logout());
   }

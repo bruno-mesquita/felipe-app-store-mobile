@@ -18,14 +18,14 @@ export const ViewButton = styled.View`
 export const Image = styled.Image`
   width: 100%;
   height: 100%;
-  border-radius: 11px;
+  border-radius: 100px;
 `;
 
 export const ViewImage = styled.TouchableOpacity`
-  width: 40%;
-  height: 15%;
+  width: 43%;
+  height: 20%;
   border: 1px dashed #c4c4c4;
-  border-radius: 11px;
+  border-radius: 100px;
   justify-content: center;
   align-items: center;
 `;
