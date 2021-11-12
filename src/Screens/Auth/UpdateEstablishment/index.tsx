@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Alert, ActivityIndicator } from 'react-native';
 import { Formik } from 'formik';
 import { TextInputMasked } from 'react-native-masked-text';
@@ -50,35 +50,31 @@ export const UpdateEstablishment = ({ navigation }) => {
     }
   };
 
-  const getEstablishment = useCallback(async () => {
-    try {
-      const { data } = await api.post('/establishments/me', { selects: ['full'] });
-
-      const { result: { address, ...rest } } = data;
-
-      setEstablishment({
-        ...rest,
-        openingTime: rest.openingTime.toString(),
-        closingTime: rest.closingTime.toString(),
-        freightValue: freightResult(rest.freightValue),
-        address: {
-          ...address,
-          city: address.city.id.toString(),
-          state: address.city.state.id.toString()
-        }
-      });
-      setLoading(false);
-    } catch (err) {
-      Alert.alert('Erro', 'Houve um erro ao buscar dados da sua loja :(', [{
-        onPress: () => navigation.goBack(),
-        text: 'Ok'
-      }]);
-    }
-  }, []);
-
   useEffect(() => {
-    getEstablishment();
-  }, [getEstablishment]);
+    api.post('/establishments/me', { selects: ['full'] })
+      .then(({ data }) => {
+        const { result: { address, ...rest } } = data;
+
+        setEstablishment({
+          ...rest,
+          openingTime: rest.openingTime.toString(),
+          closingTime: rest.closingTime.toString(),
+          freightValue: freightResult(rest.freightValue),
+          address: {
+            ...address,
+            city: address.city.id.toString(),
+            state: address.city.state.id.toString()
+          }
+        });
+      })
+      .catch(() => {
+        Alert.alert('Erro', 'Houve um erro ao buscar dados da sua loja :(', [{
+          onPress: () => navigation.goBack(),
+          text: 'Ok'
+        }]);
+      })
+      .finally(() => setLoading(false))
+  }, []);
 
   const onSubmit = async (values: any) => {
     try {

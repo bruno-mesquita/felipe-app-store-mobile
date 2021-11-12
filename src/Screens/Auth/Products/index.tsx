@@ -38,6 +38,7 @@ export const Products = () => {
       }
 
     } catch (err) {
+      console.log(err);
       Alert.alert('Erro', 'Erro ao buscar os produtos');
     } finally {
       setLoading(false);

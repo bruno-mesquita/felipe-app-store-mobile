@@ -1,3 +1,4 @@
+import { Alert } from 'react-native';
 import { Formik, FormikHelpers } from 'formik';
 
 import { useAuth } from '@contexts/AuthContext';
@@ -6,7 +7,7 @@ import { Button } from '../../../Components';
 import { Layout } from '../_Layout';
 
 import {
-  Error,
+  MyError,
   Form,
   ContainerInput,
   ForgotPassword,
@@ -20,8 +21,17 @@ import { Values } from './types';
 export const Login = ({ navigation }) => {
   const { signIn } = useAuth();
 
-  const onSubmit = ({ email, password }: Values, { setSubmitting }: FormikHelpers<Values>) => {
-    signIn(email, password).finally(() => setSubmitting(false));
+  const onSubmit = async ({ email, password }: Values, { setSubmitting, resetForm }: FormikHelpers<Values>) => {
+    try {
+      const result = await signIn(email, password);
+
+      if(!result) throw new Error();
+    } catch (err) {
+      Alert.alert('Credenciais invalidas', 'Email ou senha estão incorretos');
+      resetForm();
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const forgotPassword = () => navigation.navigate('ForgotPassword');
@@ -43,7 +53,7 @@ export const Login = ({ navigation }) => {
                 placeholder="E-mail"
                 label="E-mail"
               />
-              <Error name="email" />
+              <MyError name="email" />
 
               <FieldSecure
                 onChangeText={handleChange('password')}
@@ -51,7 +61,7 @@ export const Login = ({ navigation }) => {
                 placeholder="Senha"
                 label="Senha"
               />
-              <Error name="password" />
+              <MyError name="password" />
             </ContainerInput>
 
             <ForgotPassword>

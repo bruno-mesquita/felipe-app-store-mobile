@@ -7,24 +7,24 @@ const api = axios.create({
   baseURL: 'https://api.flippdelivery.com.br/api/app-store',
   headers: {
     api_version: Constants.manifest.version,
-  },
+  }
 });
 
-api.interceptors.request.use(async request => {
-  if(!request.headers.Authorization) {
-    const token = await getToken();
+// api.interceptors.request.use(async request => {
+//   if(!request.headers?.Authorization) {
+//     const token = await getToken();
 
-    if(token) request.headers.Authorization = `Bearer ${token}`;
-  }
+//     if(token) request.headers.Authorization = `Bearer ${token}`;
+//   }
 
-  if(!request.headers.Authorization.split(' ')[1]) {
-    const token = await getToken();
+//   if(!request.headers?.Authorization.split(' ')[1]) {
+//     const token = await getToken();
 
-    if(token) request.headers.Authorization = `Bearer ${token}`;
-  }
+//     if(token) request.headers.Authorization = `Bearer ${token}`;
+//   }
 
-  return request;
-}, (error) => Promise.reject(error));
+//   return request;
+// }, (error) => Promise.reject(error));
 
 api.interceptors.response.use(response => response, async (error) => {
   const originalRequest = error.config;

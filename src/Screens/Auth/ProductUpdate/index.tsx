@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Alert } from 'react-native';
 import { Formik, FormikHelpers } from 'formik';
 import { TextInputMasked } from 'react-native-masked-text';
@@ -24,29 +24,25 @@ export const ProductUpdate = ({ route, navigation }) => {
     active: false,
   });
 
-  const getProduct = useCallback(async () => {
-    try {
-      const { data: { result } } = await api.get(`/products/${route.params.id}`);
-
-      setProduct({
-        ...result,
-        price: formatNumber(result.price),
-        image: result.photo.encoded,
-        menu: result.menu_id
-      });
-    } catch (err) {
-      Alert.alert('Erro', 'Erro ao pegar dados do produto', [
-        {
-          text: 'Sair',
-          onPress: () => navigation.goBack(),
-        }
-      ]);
-    }
-  }, []);
-
   useEffect(() => {
-    getProduct();
-  }, [getProduct]);
+    api.get(`/products/${route.params.id}`)
+      .then(({ data: { result } }) => {
+        setProduct({
+          ...result,
+          price: formatNumber(result.price),
+          image: result.photo.encoded,
+          menu: result.menu_id
+        });
+      })
+      .catch(() => {
+        Alert.alert('Erro', 'Erro ao pegar dados do produto', [
+          {
+            text: 'Sair',
+            onPress: () => navigation.goBack(),
+          }
+        ]);
+      })
+  }, []);
 
   const onSubmit = async (values, { setSubmitting }: FormikHelpers<any>) => {
     try {

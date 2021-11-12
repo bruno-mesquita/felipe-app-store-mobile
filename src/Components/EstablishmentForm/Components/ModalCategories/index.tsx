@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Alert, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -13,19 +13,13 @@ export const ModalCategories = ({ modalRef, onPress, categories: items, id }: Mo
   const [originList, setOriginList] = useState<Category[]>([]);
   const [selected, setSelected] = useState<Category[]>([]);
 
-  const getCategories = useCallback(async () => {
-    try {
-      const { data } = await api.get('/categories');
-
-      setCategories(data.result);
-      setOriginList(data.result);
-    } catch (err) {
-      Alert.alert('Erro', 'Erro ao listar categorias');
-    }
-  }, []);
-
   useEffect(() => {
-    getCategories();
+    api.get('/categories')
+      .then(({ data }) => {
+        setCategories(data.result);
+        setOriginList(data.result);
+      })
+      .catch(() => Alert.alert('Erro', 'Erro ao listar categorias'))
   }, []);
 
   useEffect(() => {

@@ -30,7 +30,7 @@ export const ForgotPasswordText = styled.Text`
   font-size: 14px;
 `;
 
-export const Error = styled(ErrorMessage).attrs(props => ({
+export const MyError = styled(ErrorMessage).attrs(props => ({
   ...props,
   component: Text,
 }))`

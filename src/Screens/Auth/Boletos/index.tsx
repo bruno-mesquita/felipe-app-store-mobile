@@ -19,6 +19,7 @@ export const Boletos = () => {
 
       setBoletos(old => old.concat(data.result));
     } catch (err) {
+      console.log(err.response);
       Alert.alert('Erro', 'Erro ao buscar os boletos ');
     } finally {
       setLoading(false);

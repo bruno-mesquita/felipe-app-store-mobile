@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { Text, TouchableOpacity, Alert, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from 'styled-components/native';
@@ -17,31 +17,23 @@ export const ModalOrder = ({ modalRef, id, reender }: ItemModalProps) => {
   const [order, setOrder] = useState<Order>({ id: 0, total: 0, order_status: '', note: '', transshipment: 0 });
   const [items, setItems] = useState<ItemOrder[]>([]);
 
-  const onClose = useCallback(() => {
-    modalRef.current.close();
-  }, []);
+  const onClose = () => modalRef.current.close();
 
-  const getOrder = useCallback(async () => {
-    if(id) {
-      try {
-        const { data } = await api.get(`/show-order/${id}`);
-
+  useEffect(() => {
+    api.get(`/show-order/${id}`)
+      .then(({ data }) => {
         setItems(data.result.items)
         setOrder(data.result.order)
-      } catch (err) {
+      })
+      .catch(() => {
         Alert.alert('Erro', 'Erro ao buscar pedido', [
           {
             onPress: onClose,
             text: 'Sair'
           }
         ])
-      }
-    }
+      })
   }, [id]);
-
-  useEffect(() => {
-    getOrder();
-  }, [getOrder]);
 
   const accept = async () => {
     try {

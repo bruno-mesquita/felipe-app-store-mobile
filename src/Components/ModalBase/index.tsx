@@ -1,4 +1,4 @@
-import { useImperativeHandle, forwardRef, useState, useCallback } from 'react';
+import { useImperativeHandle, forwardRef, useState } from 'react';
 import { Modal, View } from 'react-native';
 
 import { ModalBaseHandle, Props } from './props';
@@ -8,8 +8,8 @@ export const ModalBase = forwardRef<ModalBaseHandle, Props>(
   ({ children, ...rest }, ref) => {
     const [visible, setVisible] = useState(false);
 
-    const open = useCallback(() => setVisible(true), []);
-    const close = useCallback(() => setVisible(false), []);
+    const open = () => setVisible(true);
+    const close = () => setVisible(false);
 
     useImperativeHandle(ref, () => ({ open, close }));
 
