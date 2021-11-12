@@ -1,8 +1,8 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { FlatList, Alert } from 'react-native';
 
+import api from '@services/api';
 import { ModalBaseHandle } from '../../../Components/ModalBase/props';
-import { getApi } from '../../../services/api';
 import { ListEmpty } from './Components';
 import { CardOrder, ModalOrder } from '../../../Components';
 
@@ -17,8 +17,6 @@ export const OrdersDelivered = () => {
 
   const getOrders = useCallback(async (newPage = 0, reset = false) => {
     try {
-      const api = getApi();
-
       const { data } = await api.get('/list-orders-types', { params: { type: 'Finalizado', page: reset ? 0 : newPage } });
 
       setOrders(old => reset || newPage === 0 ? data.result : old.concat(data.result));

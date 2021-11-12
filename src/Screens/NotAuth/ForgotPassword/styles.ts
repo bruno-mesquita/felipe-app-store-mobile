@@ -1,18 +1,15 @@
 import styled from 'styled-components/native';
-import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 import { Dimensions } from 'react-native';
 
 const { height } = Dimensions.get('screen');
 
 export const Container = styled.View`
   flex: 1;
-  padding-top: ${getStatusBarHeight()}px;
   height: ${height}px;
 `;
 
 export const BackGround = styled.ImageBackground`
   flex: 1;
-  padding-top: ${getStatusBarHeight()}px;
   height: ${height}px;
   justify-content: space-around;
   align-items: center;

@@ -1,35 +1,23 @@
-import { useEffect, useCallback, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Alert } from 'react-native';
 import { Formik, FormikHelpers } from 'formik';
 
+import api from '@services/api';
 import { MenuForm } from '../../../Components';
-import { getApi } from '../../../services/api';
 
 import { Container } from './styles';
 
 export const UpdateMenu = ({ route }) => {
   const [menu, setMenu] = useState({ id: '', name: '' });
 
-  const getMenu = useCallback(async () => {
-    try {
-      const api = getApi();
-
-      const { data } = await api.get(`/menus/${route.params.id}`);
-
-      setMenu(data.result);
-    } catch (err) {
-      Alert.alert('Erro ao buscar dados do cardápio');
-    }
-  }, []);
-
   useEffect(() => {
-    getMenu()
-  }, [getMenu])
+    api.get(`/menus/${route.params.id}`)
+      .then(({ data }) => setMenu(data.result))
+      .catch(() => Alert.alert('Erro ao buscar dados do cardápio'));
+  }, [])
 
   const onSubmit = async (values: any, { setSubmitting }: FormikHelpers<any>) => {
     try {
-      const api = getApi();
-
       await api.put(`/menus/${route.params.id}`, values);
 
       Alert.alert('Atualizado com sucesso!')

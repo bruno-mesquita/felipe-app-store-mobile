@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { FlatList, Alert } from 'react-native';
 
-import { getApi } from '../../../services/api';
+import api from '@services/api';
 import { Item, ListEmpty } from './Components';
 
 import { Container } from './styles';
@@ -13,8 +13,6 @@ export const Ratings = () => {
 
   const getRating = useCallback(async (newPage = 0) => {
     try {
-      const api = getApi();
-
       const { data } = await api.get('/list-rates', { params: { page: newPage } });
 
       setRatings(old => old.concat(data.result));

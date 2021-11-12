@@ -5,18 +5,18 @@ import registerRootComponent from 'expo/build/launch/registerRootComponent';
 import './config/reactotron';
 import { Styles } from './Styles';
 import Navigation from './Navigation';
-import { Store } from './Store';
 import { StatusBar, AppLoading } from './Components';
+import { AuthProvider } from './contexts/AuthContext';
 
 const App = () => (
-  <AppLoading>
-    <Store>
+  <AuthProvider>
+    <AppLoading>
       <Styles>
         <StatusBar />
         <Navigation />
       </Styles>
-    </Store>
-  </AppLoading>
+    </AppLoading>
+  </AuthProvider>
 );
 
 registerRootComponent(App);

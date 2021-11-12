@@ -16,18 +16,14 @@ export default function NavigationStackNotAuth() {
         <Screen
           name="ForgotPassword"
           component={ForgotPassword}
-          options={{
-            ...options('Esqueci minha senha'),
-          }}
+          options={{ headerShown: false }}
         />
         <Screen
           name="CodePassword"
           component={CodeToPassword}
-          options={{
-            ...options('Código de trocar senha'),
-          }}
+          options={{ headerShown: false }}
         />
-        <Screen name="CodeToForgotPassword" component={CodeToForgotPassword} />
+        <Screen name="CodeToForgotPassword" component={CodeToForgotPassword} options={{ headerShown: false }} />
       </Navigator>
   );
 }

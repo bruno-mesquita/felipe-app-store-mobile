@@ -1,18 +1,17 @@
 import { useRef } from 'react';
 import { Alert } from 'react-native';
-import { useDispatch } from 'react-redux';
 import { Formik } from 'formik';
 import { TextInputMasked } from 'react-native-masked-text';
 
+import { useAuth } from '@contexts/AuthContext';
 import { EstablishmentForm } from '../../../Components';
-import { requestEstablishmentExistsSuccess } from '../../../Store/ducks/auth/auth.actions';
-import { getApi } from '../../../services/api';
+import api from '@services/api';
 
 import { Container } from './styles';
 import { schema } from './schema';
 
 export const CreateEstablishment = ({ navigation }) => {
-  const dispatch = useDispatch();
+  const { setEstablishmentExists } = useAuth();
 
   const inputPhoneRef = useRef<TextInputMasked>(null);
   const inputCepRef = useRef<TextInputMasked>(null);
@@ -38,14 +37,12 @@ export const CreateEstablishment = ({ navigation }) => {
   };
 
   const ok = () => {
-    dispatch(requestEstablishmentExistsSuccess(true));
-    navigation.navigate('Dashboard')
+    setEstablishmentExists(true);
+    navigation.navigate('Dashboard');
   }
 
   const onSubmit = async (values: typeof initialValues) => {
     try {
-      const api = getApi();
-
       const body = {
         ...values,
         cellphone: inputPhoneRef.current?.getRawValue(),
@@ -66,7 +63,6 @@ export const CreateEstablishment = ({ navigation }) => {
         text: 'Ok'
       }]);
     } catch (err) {
-      console.log(err.response.data);
       Alert.alert('Erro', 'Houve um erro ao cadastrar sua loja :(');
     }
   }

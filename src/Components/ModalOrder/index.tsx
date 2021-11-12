@@ -3,12 +3,13 @@ import { Text, TouchableOpacity, Alert, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from 'styled-components/native';
 
-import { ModalBase, ButtonModal } from '../index';
+import { ModalBase } from '../ModalBase';
+import { ButtonModal } from '../ButtonModal';
 import formatNumber from '../../utils/format-number';
 
 import { Content, ViewButtons } from './styles';
 import { ItemModalProps, ItemOrder, Order } from './props';
-import { getApi } from '../../services/api';
+import api from '@services/api';
 
 export const ModalOrder = ({ modalRef, id, reender }: ItemModalProps) => {
   const { colors } = useTheme();
@@ -21,8 +22,6 @@ export const ModalOrder = ({ modalRef, id, reender }: ItemModalProps) => {
   }, []);
 
   const getOrder = useCallback(async () => {
-    const api = getApi();
-
     if(id) {
       try {
         const { data } = await api.get(`/show-order/${id}`);
@@ -46,8 +45,6 @@ export const ModalOrder = ({ modalRef, id, reender }: ItemModalProps) => {
 
   const accept = async () => {
     try {
-      const api = getApi();
-
       await api.put(`/update-status-order/${id}`);
 
       onClose();
@@ -59,8 +56,6 @@ export const ModalOrder = ({ modalRef, id, reender }: ItemModalProps) => {
 
   const refuse = async () => {
     try {
-      const api = getApi();
-
       await api.put(`/cancel-order/${id}`);
 
       onClose();

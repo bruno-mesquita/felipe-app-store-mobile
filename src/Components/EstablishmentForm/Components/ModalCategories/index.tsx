@@ -2,15 +2,13 @@ import { useCallback, useEffect, useState } from 'react';
 import { Alert, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
+import api from '@services/api';
 import { ModalBase } from '../../../ModalBase';
-import { getApi } from '../../../../services/api';
 
 import { ModalCategoriesProps, Category } from './props';
 import { Container, Title, Row, Button } from './styles';
 
 export const ModalCategories = ({ modalRef, onPress, categories: items, id }: ModalCategoriesProps) => {
-  const api = getApi();
-
   const [categories, setCategories] = useState<Category[]>([]);
   const [originList, setOriginList] = useState<Category[]>([]);
   const [selected, setSelected] = useState<Category[]>([]);
@@ -55,7 +53,6 @@ export const ModalCategories = ({ modalRef, onPress, categories: items, id }: Mo
       return true;
     } catch (err) {
       Alert.alert('Erro', 'Erro ao remover a lista')
-      console.log(err.response);
       return false;
     }
   };

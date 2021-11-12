@@ -8,7 +8,7 @@ import formatNumber from '@utils/format-number';
 import { ProductForm } from '../../../Components';
 
 import { Container } from './styles';
-import { getApi } from '../../../services/api';
+import api from '@services/api';
 import schema from './schema';
 
 export const ProductUpdate = ({ route, navigation }) => {
@@ -26,8 +26,6 @@ export const ProductUpdate = ({ route, navigation }) => {
 
   const getProduct = useCallback(async () => {
     try {
-      const api = getApi();
-
       const { data: { result } } = await api.get(`/products/${route.params.id}`);
 
       setProduct({
@@ -52,8 +50,6 @@ export const ProductUpdate = ({ route, navigation }) => {
 
   const onSubmit = async (values, { setSubmitting }: FormikHelpers<any>) => {
     try {
-      const api = getApi();
-
       const body = {
         ...values,
         price: inputPriceRef.current?.getRawValue(),

@@ -4,11 +4,11 @@ import { Formik, FormikHelpers } from 'formik';
 import { MaterialIcons } from '@expo/vector-icons';
 import { TextInputMasked } from 'react-native-masked-text';
 
+import api from '@services/api';
 import { useUser, useTakePhoto } from '../../../../../hooks';
 import { usePermissionGallery } from '../../../../../hooks/permissions';
 import { Field, FieldMask, FieldError } from '../../../../../Components/FormUtils';
 import { Button } from '../../../../../Components';
-import { getApi } from '../../../../../services/api';
 
 import { Container, Form, UserAvatar } from './styles';
 import { Values } from './props';
@@ -24,8 +24,6 @@ export const FormProfile = () => {
 
   const onSubmit = async (values: Values, { setSubmitting }: FormikHelpers<Values>) => {
     try {
-      const api = getApi();
-
       const body = {
         name: values.name,
         email: values.email,
@@ -49,8 +47,6 @@ export const FormProfile = () => {
       const encoded = await takePhoto();
 
       if(encoded) {
-        const api = getApi();
-
         await api.put('/image', { encoded });
 
         setImg(encoded);

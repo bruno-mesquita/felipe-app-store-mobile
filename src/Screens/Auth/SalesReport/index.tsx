@@ -2,12 +2,11 @@ import { useState } from 'react';
 import { Alert, FlatList, View, Text, ScrollView } from 'react-native';
 import { format, parseISO } from 'date-fns';
 
+import api from '@services/api';
 import { FieldMask } from '../../../Components/FormUtils';
 import { Button } from '../../../Components';
-
 import formatNumber from '../../../utils/format-number';
 import { Container, FlatListHeader } from './styles';
-import { getApi } from '../../../services/api';
 
 export const SalesReport = () => {
   const [init, setInit] = useState('');
@@ -21,8 +20,6 @@ export const SalesReport = () => {
 
   const onSubmit = async () => {
     try {
-      const api = getApi();
-
       const { data } = await api.get<{ result: any[] }>('/generate-report', {
         params: {
           data_initial: init,

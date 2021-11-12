@@ -5,7 +5,7 @@ import { useTheme } from 'styled-components/native';
 
 import { ItemProps } from './props';
 import { Container, Text } from './styles';
-import { getApi } from '../../../../../services/api';
+import api from '@services/api';
 
 export const Item = ({ item, reender }: ItemProps) => {
   const navigation = useNavigation();
@@ -15,8 +15,6 @@ export const Item = ({ item, reender }: ItemProps) => {
 
   const deleteMenu = async () => {
     try {
-      const api = getApi();
-
       await api.delete(`/menus/${item.id}`);
       await reender();
     } catch (err) {

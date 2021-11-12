@@ -30,19 +30,6 @@ export const ForgotPasswordText = styled.Text`
   font-size: 14px;
 `;
 
-export const StayConnect = styled.View`
-  width: 100%;
-  height: 40px;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 20px;
-`;
-
-export const ContainerButton = styled.View`
-  width: 100%;
-  align-items: center;
-`;
-
 export const Error = styled(ErrorMessage).attrs(props => ({
   ...props,
   component: Text,

@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { ScrollView, Alert, TouchableOpacity, Text } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
-
+import api from '@services/api';
 import { useTakePhoto } from '../../hooks/useTakePhoto'
 import { usePermissionGallery } from '../../hooks/permissions';
 import { Field, Select, FieldMask, FieldError } from '../FormUtils';
@@ -11,7 +11,6 @@ import { Button } from '../Button';
 import { ModalCategories } from './Components';
 import { Container, Image, ButtonModal, ContentButton, Label } from './styles';
 import { EstablishmentFormProps } from './props';
-import { getApi } from '../../services/api';
 
 export const EstablishmentForm = ({
   handleSubmit, values, handleChange, setFieldValue, isSubmitting, inputCepRef, inputPhoneRef, inputPriceRef
@@ -40,8 +39,6 @@ export const EstablishmentForm = ({
 
       if(encoded) {
         if(values?.id) {
-          const api = getApi();
-
           await api.put('/image', { encoded });
 
           setFieldValue('image', encoded);
@@ -50,7 +47,6 @@ export const EstablishmentForm = ({
         }
       };
     } catch (err) {
-      console.log(err.response.data);
       Alert.alert('Erro', 'Parece que houve um erro ao pegar a foto :(')
     }
   }

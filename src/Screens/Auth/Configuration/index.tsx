@@ -1,14 +1,10 @@
-import { useDispatch } from 'react-redux';
-
-import { logout } from '../../../Store/ducks/auth/auth.actions';
+import { useAuth } from '@contexts/AuthContext';
 import { Item } from './Components';
 
 import { Container, Divider } from './styles';
 
 export const Configuration = () => {
-  const dispatch = useDispatch();
-
-  const quit = () => dispatch(logout());
+  const { logout } = useAuth();
 
   return (
     <Container>
@@ -20,7 +16,7 @@ export const Configuration = () => {
       <Divider />
       <Item to="AboutApp">Sobre o aplicativo</Item>
       <Divider />
-      <Item onPress={quit}>Sair do aplicativo</Item>
+      <Item onPress={logout}>Sair do aplicativo</Item>
       <Divider />
     </Container>
   );

@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback } from 'react';
 import RNPickerSelect, { Item } from 'react-native-picker-select';
 import { Ionicons } from '@expo/vector-icons';
 
-import { getApi } from '../../../services/api';
+import api from '@services/api';
 import { SelectProps } from './props';
 import styles, { Container, Label } from './styles';
 
@@ -19,8 +19,6 @@ export const Select = ({
 
   const getItems = useCallback(async () => {
     try {
-      const api = getApi();
-
       const { data } = await api.get(path);
 
       setItems(data.result.map(item => ({ value: String(item.id), label: item.name })));

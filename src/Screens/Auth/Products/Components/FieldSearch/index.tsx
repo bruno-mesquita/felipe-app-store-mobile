@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-import { getApi } from '../../../../../services/api';
+import api from '@services/api';
 import { Input, styles } from './styles';
 import { Props } from './props';
 
@@ -15,8 +15,6 @@ export const FieldSearch = ({ response, refreshing }: Props) => {
 
   const searchForEstablishment = async () => {
     try {
-      const api = getApi();
-
       const { data } = await api.get(`/products/search-name`, {
         params: { search: text }
       });

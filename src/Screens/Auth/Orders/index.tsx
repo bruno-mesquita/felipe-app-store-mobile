@@ -3,7 +3,7 @@ import { FlatList, Alert } from 'react-native';
 
 import { ModalBaseHandle } from '../../../Components/ModalBase/props';
 import { CardOrder, ModalOrder } from '../../../Components';
-import { getApi } from '../../../services/api';
+import api from '@services/api';
 import { ListEmpty } from './Components';
 
 import { Container } from './styles';
@@ -18,8 +18,6 @@ export const Orders = () => {
 
   const getOrders = useCallback(async (newPage = 0, loop = false, reset = false) => {
     try {
-      const api = getApi();
-
       const { data } = await api.get('/list-orders-types', { params: { type: 'Aberto', page: reset ? 0 : newPage } });
 
       if(reset || loop) {

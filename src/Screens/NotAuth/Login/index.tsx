@@ -1,48 +1,39 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { Formik } from 'formik';
-import { Text } from 'react-native';
+import { Formik, FormikHelpers } from 'formik';
 
+import { useAuth } from '@contexts/AuthContext';
 import { Field, FieldSecure } from '../../../Components/FormUtils';
 import { Button } from '../../../Components';
-import { Checkbox } from './Components';
 import { Layout } from '../_Layout';
 
 import {
   Error,
   Form,
-  ContainerButton,
   ContainerInput,
   ForgotPassword,
   ForgotPasswordButton,
   ForgotPasswordText,
-  StayConnect,
 } from './styles';
 
-import { requestLogin } from '../../../Store/ducks/auth/auth.actions';
 import schema from './schema';
 import { Values } from './types';
 
 export const Login = ({ navigation }) => {
-  const dispatch = useDispatch();
+  const { signIn } = useAuth();
 
-  const { loading } = useSelector(({ auth }) => auth);
-
-  const onSubmit = ({ email, password, checked }: Values) => {
-    dispatch(requestLogin(email, password, checked));
+  const onSubmit = ({ email, password }: Values, { setSubmitting }: FormikHelpers<Values>) => {
+    signIn(email, password).finally(() => setSubmitting(false));
   };
 
-  const forgotPassword = () => {
-    navigation.navigate('ForgotPassword');
-  };
+  const forgotPassword = () => navigation.navigate('ForgotPassword');
 
   return (
     <Layout>
       <Formik
-        initialValues={{ email: '', password: '', checked: false }}
+        initialValues={{ email: '', password: '' }}
         onSubmit={onSubmit}
         validationSchema={schema}
       >
-        {({ handleSubmit, handleChange, values, setFieldValue }) => (
+        {({ handleSubmit, handleChange, values, setFieldValue, isSubmitting }) => (
           <Form>
             <ContainerInput>
               <Field
@@ -70,21 +61,9 @@ export const Login = ({ navigation }) => {
                 </ForgotPasswordText>
               </ForgotPasswordButton>
             </ForgotPassword>
-
-            <StayConnect>
-              <Checkbox
-                checked={values.checked}
-                onChange={value => setFieldValue('checked', value)}
-              >
-                <Text style={{ color: '#fff' }}>Mantenhe-me conectado</Text>
-              </Checkbox>
-            </StayConnect>
-
-            <ContainerButton>
-              <Button loading={loading} onPress={() => handleSubmit()}>
-                Login
-              </Button>
-            </ContainerButton>
+            <Button style={{ marginTop: 20 }} loading={isSubmitting} onPress={() => handleSubmit()}>
+              Login
+            </Button>
           </Form>
         )}
       </Formik>

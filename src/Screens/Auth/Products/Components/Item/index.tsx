@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import formatPrice from '../../../../../utils/format-number';
 import { CardBase } from '../../../../../Components/_Bases';
 
-import { getApi } from '../../../../../services/api';
+import api from '@services/api';
 import { ItemProps } from './props';
 import { Container, Text, Content, Photo, Info } from './styles';
 
@@ -15,8 +15,6 @@ export const Item = ({ id, name, price, photo, menu_id, reender }: ItemProps) =>
 
   const deleteProduct = async () => {
     try {
-      const api = getApi();
-
       await api.delete(`/products/${menu_id}/${id}`);
       await reender();
     } catch (err) {

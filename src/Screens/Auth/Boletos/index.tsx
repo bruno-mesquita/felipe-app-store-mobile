@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { FlatList, Alert } from 'react-native';
-import { getApi } from '../../../services/api';
+import api from '@services/api';
 
 import { Card, ListEmpty } from './Components';
 import { Boleto } from './props';
@@ -13,8 +13,6 @@ export const Boletos = () => {
 
   const getTickets = useCallback(async (newPage = 0) => {
     try {
-      const api = getApi();
-
       const { data } = await api.get('/tickets', {
         params: { page: newPage }
       });

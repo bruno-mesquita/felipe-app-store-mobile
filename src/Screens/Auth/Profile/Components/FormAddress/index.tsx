@@ -1,10 +1,10 @@
 import { Alert, ScrollView } from 'react-native';
 import { Formik, FormikHelpers } from 'formik';
 
+import api from '@services/api';
 import { useUser } from '../../../../../hooks';
 import { Field, FieldError, Select } from '../../../../../Components/FormUtils';
 import { Button } from '../../../../../Components';
-import { getApi } from '../../../../../services/api';
 
 import { Container, Form } from './styles';
 import { Values } from './props';
@@ -15,8 +15,6 @@ export const FormAddress = () => {
 
   const onSubmit = async (values: Values, { setSubmitting }: FormikHelpers<Values>) => {
     try {
-      const api = getApi();
-
       await api.put('/establishments/address', values);
       setSubmitting(false);
       Alert.alert('Sucesso', 'Dados atualizados com sucesso :)')

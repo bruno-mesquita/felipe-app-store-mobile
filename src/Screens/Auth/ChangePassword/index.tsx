@@ -3,7 +3,7 @@ import { Formik, ErrorMessage, FormikHelpers } from 'formik';
 
 import { Button } from '../../../Components';
 import { FieldSecure } from '../../../Components/FormUtils';
-import { getApi } from '../../../services/api';
+import api from '@services/api';
 
 import { Container, ViewField, ViewForm, ViewFields } from './styles';
 
@@ -16,8 +16,6 @@ export const ChangePassword = () => {
 
   const onSubmit = async (values: typeof initialValues, { resetForm, setSubmitting }: FormikHelpers<typeof initialValues>) => {
     try {
-      const api = getApi();
-
       if (values.newPassword === values.confirmNewPassword) {
         await api.put('/establisments/update-password', values);
 

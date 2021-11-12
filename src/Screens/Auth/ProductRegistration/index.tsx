@@ -3,10 +3,10 @@ import { Alert } from 'react-native';
 import { Formik, FormikHelpers } from 'formik';
 import { TextInputMasked } from 'react-native-masked-text';
 
+import api from '@services/api';
 import { ProductForm } from '../../../Components';
 
 import { Container } from './styles';
-import { getApi } from '../../../services/api';
 import schema from './schema';
 
 export const ProductRegistration = () => {
@@ -23,8 +23,6 @@ export const ProductRegistration = () => {
 
   const onSubmit = async (values, { resetForm, setSubmitting }: FormikHelpers<any>) => {
     try {
-      const api = getApi();
-
       const data = {
         ...values,
         menu: Number(values.menu),

@@ -3,10 +3,10 @@ import { Alert, ScrollView } from 'react-native';
 import { Formik, FormikHelpers } from 'formik';
 import { TextInputMasked } from 'react-native-masked-text';
 
+import api from '@services/api';
 import { useUser } from '../../../hooks';
 import { Field, FieldMask, FieldError } from '../../../Components/FormUtils';
 import { Button } from '../../../Components';
-import { getApi } from '../../../services/api';
 
 import { Container, Form } from './styles';
 import { Values } from './props';
@@ -18,8 +18,6 @@ export const Profile = () => {
 
   const onSubmit = async (values: Values, { setSubmitting }: FormikHelpers<Values>) => {
     try {
-      const api = getApi();
-
       const body = {
         first_name: values.first_name,
         last_name: values.last_name,

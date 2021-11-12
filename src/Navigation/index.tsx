@@ -1,13 +1,13 @@
-import { useSelector } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 
+import { useAuth } from '@contexts/AuthContext';
 import DefaultStack from './DefaultStack';
 import NotAuthStack from './NotAuthStack';
 
 const Navigation = () => {
-  const { logged } = useSelector(({ auth }) => auth);
+  const { signed } = useAuth();
 
-  return <NavigationContainer>{logged ? <DefaultStack /> : <NotAuthStack />}</NavigationContainer>;
+  return <NavigationContainer>{signed ? <DefaultStack /> : <NotAuthStack />}</NavigationContainer>;
 };
 
 export default Navigation;

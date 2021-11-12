@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Alert } from 'react-native';
 
-import { getApi } from '../services/api';
+import api from '@services/api';
 interface User {
   id: number;
   first_name: string;
@@ -24,8 +24,6 @@ export const useUser = (selects: UserAttributes[] = []) => {
   });
 
   useEffect(() => {
-    const api = getApi();
-
     if(selects.length !== 0) {
       api.post('/owners/me', { selects })
         .then(({ data }) => setUser(data.result))

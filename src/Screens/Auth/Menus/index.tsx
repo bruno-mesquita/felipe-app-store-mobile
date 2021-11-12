@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 import { FlatList, Alert } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 
-import { getApi } from '../../../services/api';
+import api from '@services/api';
 import { Item, AddMenuButton, ListEmpty } from './Components';
 
 import { Container, Divider } from './styles';
@@ -14,8 +14,6 @@ export const Menus = () => {
 
   const getMenus = useCallback(async (newPage = 0) => {
     try {
-      const api = getApi();
-
       const { data } = await api.get('/menus');
 
       setMenus(data.result);

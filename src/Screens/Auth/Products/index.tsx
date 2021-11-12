@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from 'react';
 import { FlatList, Alert } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 
-import { getApi } from '../../../services/api';
+import api from '@services/api';
 import { Item, AddButton, ListEmpty, FieldSearch  } from './Components';
 
 import { Container, Tab, TabContainer, TabText } from './styles';
@@ -17,8 +17,6 @@ export const Products = () => {
 
   const getMenus = useCallback(async () => {
     try {
-      const api = getApi();
-
       const { data } = await api.get('/menus');
 
       setMenus(data.result);
@@ -29,8 +27,6 @@ export const Products = () => {
 
   const getProducts = useCallback(async (newPage = 0, menuId = null, reset = false) => {
     try {
-      const api = getApi();
-
       const { data } = await api.get('/products', { params: { page: reset ? 0 : newPage, menuId } });
 
       if(menuId && newPage === 0) setProducts(data.result);

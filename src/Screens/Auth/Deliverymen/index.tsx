@@ -1,15 +1,13 @@
 import { useEffect, useState, useCallback } from 'react';
 import { FlatList, Alert } from 'react-native';
 
-import { getApi } from '../../../services/api';
+import api from '@services/api';
 import { Item, ListEmpty } from './Components';
 
 import { Container } from './styles';
 import { Deliveryman } from './props';
 
 export const Deliverymen = () => {
-  const api = getApi();
-
   const [deliverymen, setDeliverymen] = useState<Deliveryman[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);

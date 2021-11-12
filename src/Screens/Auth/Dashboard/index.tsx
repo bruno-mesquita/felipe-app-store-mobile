@@ -1,40 +1,26 @@
-import { useEffect, useCallback, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ActivityIndicator, useWindowDimensions, ScrollView } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
 import { Ionicons, MaterialIcons, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useTheme } from 'styled-components/native';
 
-import { getApi } from '../../../services/api';
-import { requestEstablishmentExistsSuccess } from '../../../Store/ducks/auth/auth.actions';
+import api from '@services/api';
 
 import { Item, Divider } from './Components';
 import { Container, Row, Footer, Header, TitleFooter, ViewTitle, Text } from './styles';
+import { useAuth } from '@contexts/AuthContext';
 
 export const Dashboard = ({ navigation }) => {
-  const dispatch = useDispatch();
+  const { establishmentExists, setEstablishmentExists } = useAuth();
   const { colors } = useTheme();
   const { width } = useWindowDimensions();
-  const { establishmentExists } = useSelector(({ auth }) => auth);
 
   const [loading, setLoading] = useState(false);
 
-  const getEstablishmentExists = useCallback(async () => {
-    try {
-      const api = getApi();
-
-      const { data } = await api.get('/establishments/exists');
-
-      dispatch(requestEstablishmentExistsSuccess(data.result));
-    } catch (err) {
-
-    } finally {
-      setLoading(false);
-    }
-  }, [dispatch]);
-
   useEffect(() => {
-    getEstablishmentExists();
-  }, [getEstablishmentExists])
+    api.get('/establishments/exists')
+      .then(({ data }) => setEstablishmentExists(data.result))
+      .finally(() => setLoading(false))
+  }, [])
 
 
   const toGoMenus = () => navigation.navigate('Menus');

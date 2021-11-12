@@ -9,7 +9,7 @@ import formatNumber from '../../../../../utils/format-number';
 import { CardBase } from '../../../../../Components';
 import { CardProps } from './props';
 import { Content } from './styles';
-import { getApi } from '../../../../../services/api';
+import api from '@services/api';
 
 export const Card = (props: CardProps) => {
   const { colors } = useTheme();
@@ -30,14 +30,11 @@ export const Card = (props: CardProps) => {
 
   const newTicket = async () => {
     try {
-      const api = getApi();
-
       setNewBoletoLoading(true)
       const { data } = await api.get(`/tickets/${ticket.id}/new`);
 
       setTicket(data.result);
     } catch (err) {
-      console.log(err.response);
       Alert.alert('Erro', 'Houve um erro ao atualizar o boleto, se o erro persistir entre em contato com o suporte')
     } finally {
       setNewBoletoLoading(false);

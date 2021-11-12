@@ -4,10 +4,10 @@ import { Formik } from 'formik';
 import { TextInputMasked } from 'react-native-masked-text';
 import { useTheme } from 'styled-components/native';
 
+import api from '@services/api';
 import { EstablishmentForm } from '../../../Components';
 
 import { Container } from './styles';
-import { getApi } from '../../../services/api';
 
 export const UpdateEstablishment = ({ navigation }) => {
   const { colors } = useTheme();
@@ -36,21 +36,16 @@ export const UpdateEstablishment = ({ navigation }) => {
   const inputCepRef = useRef<TextInputMasked>(null);
   const inputPriceRef = useRef<TextInputMasked>(null);
 
-  const api = getApi();
-
   function freightResult(fre: string) {
     switch(fre.length) {
       case 2: {
         return Number(fre + '');
-        break;
       }
       case 3: {
         return  Number(fre + '00');
-        break;
       }
       default: {
         return fre;
-        break;
       }
     }
   };
