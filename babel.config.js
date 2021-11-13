@@ -13,7 +13,8 @@ module.exports = function(api) {
       ['babel-preset-expo', { jsxRuntime: 'automatic' }],
     ],
     plugins: [
-      ["module-resolver", { alias }]
+      ["module-resolver", { alias }],
+      'react-native-reanimated/plugin',
     ]
   };
 };
