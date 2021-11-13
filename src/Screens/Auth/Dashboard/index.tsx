@@ -62,7 +62,7 @@ export const Dashboard = ({ navigation }) => {
             <Row>
               <Item onPress={toGoMenus}>
                 <AntDesign {...iconProps('menufold')} />
-                <Text>Cardapios</Text>
+                <Text>Categorias</Text>
               </Item>
               <Item onPress={toGoProducts}>
                 <AntDesign {...iconProps('barcode')} />

@@ -1,6 +1,8 @@
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { ScrollView, Alert, TouchableOpacity, Text } from 'react-native';
+import { Form } from 'formik';
 import { MaterialIcons } from '@expo/vector-icons';
+import axios from 'axios';
 
 import api from '@services/api';
 import { useTakePhoto } from '../../hooks/useTakePhoto'
@@ -8,6 +10,7 @@ import { usePermissionGallery } from '../../hooks/permissions';
 import { Field, Select, FieldMask, FieldError } from '../FormUtils';
 import { Button } from '../Button';
 
+import convertUf from './estados';
 import { ModalCategories } from './Components';
 import { Container, Image, ButtonModal, ContentButton, Label } from './styles';
 import { EstablishmentFormProps } from './props';
@@ -18,7 +21,31 @@ export const EstablishmentForm = ({
   const takePhoto = useTakePhoto();
   const permission = usePermissionGallery();
 
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
   const modalRef = useRef(null);
+
+  useEffect(() => {
+    api.get('/states')
+      .then(({ data }) => setStates(data.result.map(state => ({ label: state.name, value: String(state.id) }))));
+  }, []);
+
+  useEffect(() => {
+    if (values.address.state) {
+      api.get(`/cities/${values.address.state}`)
+        .then(({ data }) => setCities(data.result.map(city => ({ label: city.name, value: String(city.id) }))));
+    }
+  }, [values.address.state]);
+
+  const getCities = async (stateId: number) => {
+    const { data } = await api.get(`/cities/${stateId}`);
+
+    const valuesConverted = data.result.map(city => ({ label: city.name, value: String(city.id) }));
+
+    setCities(valuesConverted);
+
+    return valuesConverted;
+  }
 
   const setTime = (value: string, field: string) => {
     if(value === '') {
@@ -30,8 +57,6 @@ export const EstablishmentForm = ({
 
     if(convert > 0) setFieldValue(field, value);
   }
-
-  const onSubmit = () => handleSubmit();
 
   const pickImage = async () => {
     try {
@@ -55,21 +80,50 @@ export const EstablishmentForm = ({
     setFieldValue('categories', categories);
   }
 
+  const onChangeZipCode = async (value: string) => {
+    const valueReplace = value.replace('-', '');
+
+    if(valueReplace.length === 8) {
+      try {
+        const { data } = await axios.get(`https://brasilapi.com.br/api/cep/v2/${valueReplace}`);
+        const stateConverted = convertUf[data.state];
+
+        const state = states.find(state => state.label === stateConverted);
+        if(!state) Alert.alert('Estado não encontrado!', 'Parece que a flipp não atende nessa região ainda')
+        else {
+          setFieldValue('address.state', state.value);
+          const values = await getCities(state.value);
+
+          const city = values.find(city => city.label === data.city);
+          if(city) setFieldValue('address.city', city.value);
+        }
+
+        setFieldValue('address.neighborhood', data.neighborhood);
+        setFieldValue('address.street', data.street);
+        setFieldValue('address.cep', data.cep);
+      } catch (err) {
+        Alert.alert('Erro', 'Parece que houve um erro ao buscar o cep');
+      }
+    }
+  }
+
+  const onSubmit = () => handleSubmit();
+
   return (
     <ScrollView style={{ paddingHorizontal: 30, paddingBottom: 30 }}>
       <ModalCategories modalRef={modalRef} id={values?.id} onPress={setCategories} categories={values.categories} />
-    <Container>
-      <TouchableOpacity style={{ alignSelf: 'center', paddingVertical: 20 }} disabled={!permission} onPress={pickImage}>
-        {values.image !== '' ? (
-          <Image source={{ uri: values.image }} />
-        ) : (
-          <MaterialIcons
-            name="account-circle"
-            size={120}
-            color="#c4c4c4"
-          />
-        )}
-      </TouchableOpacity>
+      <Container>
+        <TouchableOpacity style={{ alignSelf: 'center', paddingVertical: 20 }} disabled={!permission} onPress={pickImage}>
+          {values.image !== '' ? (
+            <Image source={{ uri: values.image }} />
+          ) : (
+            <MaterialIcons
+              name="account-circle"
+              size={120}
+              color="#c4c4c4"
+            />
+          )}
+        </TouchableOpacity>
 
         <Field
           labelColor="#000"
@@ -135,12 +189,22 @@ export const EstablishmentForm = ({
         </ButtonModal>
         <FieldError name="categories" />
 
+        <FieldMask
+          maskRef={inputCepRef}
+          type="zip-code"
+          labelColor="#000"
+          label="CEP"
+          value={values.address.cep}
+          placeholder="CEP"
+          onChangeText={value => onChangeZipCode(value)}
+        />
+        <FieldError name="address.cep" />
+
         <Field
           labelColor="#000"
-          label="Logradouro"
+          label="Rua"
           value={values.address.street}
-          placeholder="Logradouro"
-          onChangeText={handleChange('address.street')}
+          placeholder="Rua"
         />
         <FieldError name="address.street" />
 
@@ -159,28 +223,15 @@ export const EstablishmentForm = ({
           label="Bairro"
           value={values.address.neighborhood}
           placeholder="Bairro"
-          onChangeText={handleChange('address.neighborhood')}
         />
         <FieldError name="address.neighborhood" />
-
-        <FieldMask
-          maskRef={inputCepRef}
-          type="zip-code"
-          labelColor="#000"
-          label="CEP"
-          value={values.address.cep}
-          placeholder="CEP"
-          onChangeText={handleChange('address.cep')}
-        />
-        <FieldError name="address.cep" />
 
         <Select
           labelColor="#000"
           label="Estado"
           value={values.address.state}
           placeholder="Estado"
-          onChange={handleChange('address.state')}
-          path="/states"
+          items={states}
         />
         <FieldError name="address.state" />
 
@@ -189,8 +240,7 @@ export const EstablishmentForm = ({
           label="Cidade"
           value={values.address.city}
           placeholder="Cidade"
-          onChange={handleChange('address.city')}
-          path={`/cities/${values.address.state}`}
+          items={cities}
         />
         <FieldError name="address.city" />
 

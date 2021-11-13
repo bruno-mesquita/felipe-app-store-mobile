@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 
 import { Field, Select, FieldError, FieldMask } from '../FormUtils';
@@ -8,10 +9,17 @@ import { useTakePhoto } from '../../hooks';
 
 import { Container, Fields, ViewButton, Image, ViewImage, CheckboxContainer } from './styles';
 import { ProductFormProps } from './props';
+import api from '@services/api';
 
 export const ProductForm = ({ values, handleChange, handleSubmit, isSubmitting, setFieldValue, inputPriceRef }: ProductFormProps) => {
   const permission = usePermissionGallery();
   const pickImage = useTakePhoto();
+
+  const [menus, setMenus] = useState([]);
+
+  useEffect(() => {
+    api.get('/menus').then(({ data }) => setMenus(data.result.map(menu => ({ label: menu.name, value: String(menu.id) }))));
+  }, []);
 
   const takeImage = async () => {
     const encoded = await pickImage();
@@ -65,9 +73,9 @@ export const ProductForm = ({ values, handleChange, handleSubmit, isSubmitting, 
         <FieldError name="description" />
 
         <Select
-          label="Cardápio"
-          path="/menus"
-          placeholder="Selecione um cardápio"
+          label="Categoria"
+          items={menus}
+          placeholder="Selecione uma categoria"
           labelColor="#000"
           value={String(values.menu)}
           onChange={handleChange('menu')}

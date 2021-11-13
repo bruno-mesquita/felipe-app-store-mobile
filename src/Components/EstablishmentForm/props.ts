@@ -9,7 +9,7 @@ interface Values {
   openingTime: string;
   closingTime: string;
   freightValue: string;
-  categories: number[],
+  categories: number[];
   image: string;
   address: {
     street: string;
@@ -18,7 +18,11 @@ interface Values {
     state: string;
     city: string;
     cep: string;
-  },
+  };
+  coordinates?: {
+    longitude: string;
+    latitude: string;
+  }
 }
 
 export type EstablishmentFormProps = FormikProps<Values> & {
