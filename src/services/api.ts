@@ -11,13 +11,13 @@ const api = axios.create({
 });
 
 api.interceptors.request.use(async request => {
-  if(!request.headers?.Authorization) {
+  const { Authorization = null } = request.headers;
+
+  if(!Authorization) {
     const token = await getToken();
 
     if(token) request.headers.Authorization = `Bearer ${token}`;
-  }
-
-  if(!request.headers?.Authorization.split(' ')[1]) {
+  } else if(!Authorization.split(' ')[1]) {
     const token = await getToken();
 
     if(token) request.headers.Authorization = `Bearer ${token}`;

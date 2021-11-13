@@ -55,7 +55,6 @@ export const AuthProvider: FC = ({ children }) => {
 
       return true;
     } catch (err) {
-      new Error();
       return false;
     }
   };
