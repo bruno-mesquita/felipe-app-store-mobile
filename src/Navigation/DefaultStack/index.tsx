@@ -58,19 +58,19 @@ export default function NativeStackRoutes() {
       <Screen
         name="Menus"
         component={Menus}
-        options={({ navigation }) => options({ name: 'Cardapios', navigation })}
+        options={({ navigation }) => options({ name: 'Categorias', navigation })}
       />
 
       <Screen
         name="RegisterMenu"
         component={RegisterMenu}
-        options={({ navigation }) => options({ name: 'Cadastro de cardápio', navigation })}
+        options={({ navigation }) => options({ name: 'Cadastro de Categoria', navigation })}
       />
 
       <Screen
         name="UpdateMenu"
         component={UpdateMenu}
-        options={({ navigation }) => options({ name: 'Atualizar cardápio', navigation })}
+        options={({ navigation }) => options({ name: 'Atualizar Categoria', navigation })}
       />
 
       <Screen

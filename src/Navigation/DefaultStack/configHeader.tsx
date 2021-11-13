@@ -24,6 +24,8 @@ export default ({ name, navigation }: HeaderProps) => {
     headerTitle: name ? name : () => <Header />,
   }
 
+  if(name) props.title = name;
+
   if(navigation) props.headerRight = ({ tintColor }) => <TouchableOpacity onPress={() => navigation.navigate('Configuration')}><Ionicons name="md-settings-sharp" size={30} color={tintColor} style={{ paddingRight: 15 }} /></ TouchableOpacity>
 
   return props;
