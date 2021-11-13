@@ -82,7 +82,7 @@ export const ProductForm = ({ values, handleChange, handleSubmit, isSubmitting, 
         />
         <FieldError name="menu" />
         <CheckboxContainer>
-          <Checkbox  checked={values.active} onChange={value => setFieldValue('active', value)}>Ativado</Checkbox>
+          <Checkbox checked={values.active} onChange={value => setFieldValue('active', value)}>Ativado</Checkbox>
         </CheckboxContainer>
       </Fields>
 

@@ -21,6 +21,7 @@
     "expo-clipboard": "~2.0.3",
     "expo-file-system": "~13.0.3",
     "expo-font": "~10.0.3",
+    "expo-image-manipulator": "~10.1.2",
     "expo-image-picker": "~11.0.3",
     "expo-secure-store": "~11.0.3",
     "expo-status-bar": "~1.1.0",

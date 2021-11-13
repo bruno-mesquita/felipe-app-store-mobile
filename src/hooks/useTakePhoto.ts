@@ -1,13 +1,23 @@
 import * as ImagePicker from 'expo-image-picker';
+import { manipulateAsync, SaveFormat } from 'expo-image-manipulator';
 
 export const useTakePhoto = () => {
   const pickImage = async () => {
-    const { base64, cancelled, type, uri }: any = await ImagePicker.launchImageLibraryAsync({
+    const { cancelled, uri: originalUri }: any = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      base64: true,
+      quality: 1,
+      allowsEditing: true,
     });
 
     if (!cancelled) {
+      const { base64, uri } = await manipulateAsync(originalUri, [
+        { resize: { height: 250, width: 250 } }
+      ], {
+        base64: true,
+        compress: 1,
+        format: SaveFormat.PNG,
+      });
+
       const pathArray = uri.split('.');
       const ext = pathArray[pathArray.length - 1];
       const encoded = `data:image/${ext};base64,${base64}`;
