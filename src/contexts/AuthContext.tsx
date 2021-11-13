@@ -22,16 +22,23 @@ export const AuthProvider: FC = ({ children }) => {
   const [establishmentExists, setEstablishmentExists] = useState(false);
 
   useEffect(() => {
-    store.getToken().then(value => {
+    (async () => {
+      const value = await store.getToken();
+
       if(value) {
         setToken(value);
         api.defaults.headers.common.Authorization = `Bearer ${token}`;
         setSigned(true);
+
+        const { data } = await api.get('/establishments/exists');
+        setEstablishmentExists(data.result);
       }
-    });
-    store.getRefreshToken().then(value => {
-      value && setRefreshToken(value);
-    });
+
+      store.getRefreshToken().then(value => {
+        value && setRefreshToken(value);
+      });
+    })();
+
   }, []);
 
   const signIn = async (email: string, password: string) => {

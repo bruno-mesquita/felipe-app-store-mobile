@@ -10,21 +10,21 @@ const api = axios.create({
   }
 });
 
-// api.interceptors.request.use(async request => {
-//   if(!request.headers?.Authorization) {
-//     const token = await getToken();
+api.interceptors.request.use(async request => {
+  if(!request.headers?.Authorization) {
+    const token = await getToken();
 
-//     if(token) request.headers.Authorization = `Bearer ${token}`;
-//   }
+    if(token) request.headers.Authorization = `Bearer ${token}`;
+  }
 
-//   if(!request.headers?.Authorization.split(' ')[1]) {
-//     const token = await getToken();
+  if(!request.headers?.Authorization.split(' ')[1]) {
+    const token = await getToken();
 
-//     if(token) request.headers.Authorization = `Bearer ${token}`;
-//   }
+    if(token) request.headers.Authorization = `Bearer ${token}`;
+  }
 
-//   return request;
-// }, (error) => Promise.reject(error));
+  return request;
+}, (error) => Promise.reject(error));
 
 api.interceptors.response.use(response => response, async (error) => {
   const originalRequest = error.config;
@@ -49,6 +49,7 @@ api.interceptors.response.use(response => response, async (error) => {
       return api(originalRequest);
     } catch (err) {
       await removeToken();
+      return Promise.reject(error);
     }
   }
   return Promise.reject(error);
