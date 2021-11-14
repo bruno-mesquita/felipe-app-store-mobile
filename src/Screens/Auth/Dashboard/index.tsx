@@ -1,5 +1,7 @@
+import { useEffect } from 'react';
 import { ScrollView } from 'react-native';
 import { Ionicons, MaterialIcons, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
+import { useIsFocused } from '@react-navigation/native';
 
 import api from '@services/api';
 
@@ -8,7 +10,7 @@ import { Container, Row, Footer, Header, TitleFooter, ViewTitle, Text } from './
 import { useAuth } from '@contexts/AuthContext';
 
 export const Dashboard = ({ navigation }) => {
-  const { establishmentExists } = useAuth();
+  const { establishmentExists, setEstablishmentExists, token } = useAuth();
 
   const toGoMenus = () => navigation.navigate('Menus');
   const toGoProducts = () => navigation.navigate('Products');
@@ -23,6 +25,10 @@ export const Dashboard = ({ navigation }) => {
   const toGoDeliverymen = () => navigation.navigate('Deliverymen');
 
   const iconProps = (name: any) => ({ name, size: 50, color: '#fff' })
+
+  useEffect(() => {
+    api.get('/establishments/exists').then(({ data }) => setEstablishmentExists(data.result))
+  } , [token]);
 
   return (
     <ScrollView>

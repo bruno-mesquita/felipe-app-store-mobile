@@ -78,7 +78,7 @@ export const ProductForm = ({ values, handleChange, handleSubmit, isSubmitting, 
           placeholder="Selecione uma categoria"
           labelColor="#000"
           value={String(values.menu)}
-          onChange={handleChange('menu')}
+          onChange={(value ) =>setFieldValue('menu', value )}
         />
         <FieldError name="menu" />
         <CheckboxContainer>
