@@ -205,6 +205,7 @@ export const EstablishmentForm = ({
           label="Rua"
           value={values.address.street}
           placeholder="Rua"
+          onChangeText={handleChange('address.street')}
         />
         <FieldError name="address.street" />
 
@@ -223,6 +224,7 @@ export const EstablishmentForm = ({
           label="Bairro"
           value={values.address.neighborhood}
           placeholder="Bairro"
+          onChangeText={handleChange('address.neighborhood')}
         />
         <FieldError name="address.neighborhood" />
 
@@ -232,6 +234,7 @@ export const EstablishmentForm = ({
           value={values.address.state}
           placeholder="Estado"
           items={states}
+          onChange={value => setFieldValue('address.state', value)}
         />
         <FieldError name="address.state" />
 
@@ -241,6 +244,7 @@ export const EstablishmentForm = ({
           value={values.address.city}
           placeholder="Cidade"
           items={cities}
+          onChange={value => setFieldValue('address.city', value)}
         />
         <FieldError name="address.city" />
 
