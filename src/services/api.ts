@@ -51,7 +51,12 @@ api.interceptors.response.use(
 
       try {
         const response = await fetch(`${BASE_URL}/auth/refresh`, {
-          body: { token: refreshToken },
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ token: refreshToken }),
         });
 
         const data = await response.json();
