@@ -26,7 +26,7 @@ export const ContainerTextField = styled.View`
   padding-right: 10px;
 `;
 
-export const TextField = styled(TextInput).attrs(props => ({
+export const TextField = styled(TextInput).attrs((props) => ({
   placeholderTextColor: '#C4C4C4',
   ...props,
 }))`

@@ -16,7 +16,7 @@ export const FieldSearch = ({ response, refreshing }: Props) => {
   const searchForEstablishment = async () => {
     try {
       const { data } = await api.get(`/products/search-name`, {
-        params: { search: text }
+        params: { search: text },
       });
 
       response(data.result);

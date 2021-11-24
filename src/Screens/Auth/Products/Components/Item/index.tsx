@@ -6,10 +6,17 @@ import { CardBase } from '../../../../../Components/_Bases';
 
 import api from '@services/api';
 import { ItemProps } from './props';
-import { Container, Text, Content, Photo, Info } from './styles';
+import { Container, Text, Photo, Info } from './styles';
 
-export const Item = ({ id, name, price, photo, menu_id, reender }: ItemProps) => {
-  const navigation = useNavigation();
+export const Item = ({
+  id,
+  name,
+  price,
+  photo,
+  menu_id,
+  reender,
+}: ItemProps) => {
+  const navigation = useNavigation<any>();
 
   const edit = () => navigation.navigate('ProductUpdate', { id });
 
@@ -20,31 +27,37 @@ export const Item = ({ id, name, price, photo, menu_id, reender }: ItemProps) =>
     } catch (err) {
       Alert.alert('Erro', 'Erro ao deletar produto');
     }
-  }
+  };
 
   const del = () => {
-    Alert.alert('Apagar', `Você tem certeza que deseja apagar o produto ${name}?`, [
-      {
-        text: 'Apagar',
-        onPress: deleteProduct
-      },
-      {
-        text: 'Sair',
-      }
-    ])
-  }
+    Alert.alert(
+      'Apagar',
+      `Você tem certeza que deseja apagar o produto ${name}?`,
+      [
+        {
+          text: 'Apagar',
+          onPress: deleteProduct,
+        },
+        {
+          text: 'Sair',
+        },
+      ]
+    );
+  };
 
   return (
-    <CardBase onPress={edit} onLongPress={del} style={{ width: '80%', alignSelf: 'center' }}>
+    <CardBase
+      onPress={edit}
+      onLongPress={del}
+      style={{ width: '80%', alignSelf: 'center' }}
+    >
       <Container>
-        <Content>
-          <Photo source={{ uri: photo }} />
-          <Info>
-            <Text>{name}</Text>
-            <Text>{formatPrice(price)}</Text>
-          </Info>
-        </Content>
+        <Photo source={{ uri: photo }} />
+        <Info>
+          <Text>{name.length > 25 ? name.substring(0, 22) + '...' : name}</Text>
+          <Text>{formatPrice(price)}</Text>
+        </Info>
       </Container>
     </CardBase>
-  )
-}
+  );
+};

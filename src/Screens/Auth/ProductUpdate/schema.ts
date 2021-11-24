@@ -9,6 +9,6 @@ const schema = object({
   price: string().required(REQUIRED),
   image: string().required(REQUIRED).nullable(),
   menu: number().min(1).positive(REQUIRED).integer(REQUIRED).required(REQUIRED),
-})
+});
 
 export default schema;

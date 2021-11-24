@@ -6,4 +6,4 @@ export default (name: string) => ({
   },
   headerTitle: name,
   headerTintColor: '#fff',
-})
+});

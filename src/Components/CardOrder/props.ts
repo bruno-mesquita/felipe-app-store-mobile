@@ -6,7 +6,7 @@ interface State {
 interface City {
   id: number;
   name: string;
-  state: State
+  state: State;
 }
 
 export interface Address {
@@ -35,7 +35,6 @@ export interface Order {
   createdAt: string;
 }
 
-
 export interface ItemProps extends Order {
-  onPress: (id: number) => (Promise<void> | void)
+  onPress: (id: number) => Promise<void> | void;
 }

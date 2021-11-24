@@ -1,16 +1,30 @@
 import { useEffect } from 'react';
 import { ScrollView } from 'react-native';
-import { Ionicons, MaterialIcons, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
-import { useIsFocused } from '@react-navigation/native';
+import {
+  Ionicons,
+  MaterialIcons,
+  AntDesign,
+  MaterialCommunityIcons,
+} from '@expo/vector-icons';
+import { useTheme } from 'styled-components/native';
 
 import api from '@services/api';
 
 import { Item, Divider } from './Components';
-import { Container, Row, Footer, Header, TitleFooter, ViewTitle, Text } from './styles';
+import {
+  Container,
+  Row,
+  Footer,
+  Header,
+  TitleFooter,
+  ViewTitle,
+  Text,
+} from './styles';
 import { useAuth } from '@contexts/AuthContext';
 
 export const Dashboard = ({ navigation }) => {
   const { establishmentExists, setEstablishmentExists, token } = useAuth();
+  const { metrics } = useTheme();
 
   const toGoMenus = () => navigation.navigate('Menus');
   const toGoProducts = () => navigation.navigate('Products');
@@ -21,80 +35,89 @@ export const Dashboard = ({ navigation }) => {
   const toGoOrdersDelivered = () => navigation.navigate('OrdersDelivered');
   const toGoBoletos = () => navigation.navigate('Boletos');
   const toGoSalesReport = () => navigation.navigate('SalesReport');
-  const toGoEstablishment = () => navigation.navigate(establishmentExists ? 'UpdateEstablishment' : 'CreateEstablishment');
+  const toGoEstablishment = () =>
+    navigation.navigate(
+      establishmentExists ? 'UpdateEstablishment' : 'CreateEstablishment'
+    );
   const toGoDeliverymen = () => navigation.navigate('Deliverymen');
 
-  const iconProps = (name: any) => ({ name, size: 50, color: '#fff' })
+  const iconProps = (name: any) => ({
+    name,
+    size: metrics.px(80),
+    color: '#fff',
+  });
 
   useEffect(() => {
-    api.get('/establishments/exists').then(({ data }) => setEstablishmentExists(data.result))
-  } , [token]);
+    api
+      .get('/establishments/exists')
+      .then(({ data }) => setEstablishmentExists(data.result));
+  }, [token]);
 
   return (
     <ScrollView>
       <Container>
         <Header>
-        <Row>
-          <Item onPress={toGoBoletos} never>
-            <Ionicons {...iconProps('print-outline')} />
-            <Text>Boletos</Text>
-          </Item>
-          <Item onPress={toGoSalesReport}>
-            <Ionicons {...iconProps('bar-chart-outline')} />
-            <Text>Relatório de vendas</Text>
-          </Item>
-          <Item onPress={toGoSupport} never>
-            <MaterialIcons {...iconProps('support-agent')} />
-            <Text>Suporte</Text>
-          </Item>
-        </Row>
-        <Row>
-          <Item onPress={toGoMenus}>
-            <AntDesign {...iconProps('menufold')} />
-            <Text>Categorias</Text>
-          </Item>
-          <Item onPress={toGoProducts}>
-            <AntDesign {...iconProps('barcode')} />
-            <Text>Produtos</Text>
-          </Item>
-          <Item onPress={toGoRatings}>
-            <Ionicons {...iconProps('star-sharp')} />
-            <Text>Avaliações</Text>
-          </Item>
-        </Row>
-        <Row>
-          <Item onPress={toGoEstablishment} never>
-            <MaterialIcons {...iconProps('store')} />
-            <Text>{establishmentExists ? 'Minha loja' : 'Cadastrar'}</Text>
-          </Item>
-          <Item onPress={toGoDeliverymen}>
-          <MaterialIcons {...iconProps('sports-motorsports')} />
-            <Text>Motoboys</Text>
-          </Item>
-        </Row>
+          <Row>
+            <Item onPress={toGoBoletos} never>
+              <Ionicons {...iconProps('print-outline')} />
+              <Text>Boletos</Text>
+            </Item>
+            <Item onPress={toGoSalesReport}>
+              <Ionicons {...iconProps('bar-chart-outline')} />
+              <Text>Relatório de vendas</Text>
+            </Item>
+            <Item onPress={toGoSupport} never>
+              <MaterialIcons {...iconProps('support-agent')} />
+              <Text>Suporte</Text>
+            </Item>
+          </Row>
+          <Row>
+            <Item onPress={toGoMenus}>
+              <AntDesign {...iconProps('menufold')} />
+              <Text>Categorias</Text>
+            </Item>
+            <Item onPress={toGoProducts}>
+              <AntDesign {...iconProps('barcode')} />
+              <Text>Produtos</Text>
+            </Item>
+            <Item onPress={toGoRatings}>
+              <Ionicons {...iconProps('star-sharp')} />
+              <Text>Avaliações</Text>
+            </Item>
+          </Row>
+          <Row>
+            <Item onPress={toGoEstablishment} never>
+              <MaterialIcons {...iconProps('store')} />
+              <Text>{establishmentExists ? 'Minha loja' : 'Cadastrar'}</Text>
+            </Item>
+            <Item onPress={toGoDeliverymen}>
+              <MaterialIcons {...iconProps('sports-motorsports')} />
+              <Text>Motoboys</Text>
+            </Item>
+          </Row>
         </Header>
         <Footer>
-        <ViewTitle>
-          <Divider />
-          <TitleFooter>Pedidos</TitleFooter>
-          <Divider />
-        </ViewTitle>
-        <Row>
-          <Item onPress={toGoCanceledOrders}>
-            <MaterialCommunityIcons {...iconProps('cancel')} />
-            <Text>Cancelados</Text>
-          </Item>
-          <Item onPress={toGoOrdersDelivered}>
-            <AntDesign  {...iconProps('up-square-o')} name="up-square-o" />
-            <Text>Entregues</Text>
-          </Item>
-          <Item onPress={toGoOrders}>
-            <MaterialIcons  {...iconProps('schedule')} />
-            <Text>Em andamento</Text>
-          </Item>
-        </Row>
+          <ViewTitle>
+            <Divider />
+            <TitleFooter>Pedidos</TitleFooter>
+            <Divider />
+          </ViewTitle>
+          <Row>
+            <Item onPress={toGoCanceledOrders}>
+              <MaterialCommunityIcons {...iconProps('cancel')} />
+              <Text>Cancelados</Text>
+            </Item>
+            <Item onPress={toGoOrdersDelivered}>
+              <AntDesign {...iconProps('up-square-o')} name="up-square-o" />
+              <Text>Entregues</Text>
+            </Item>
+            <Item onPress={toGoOrders}>
+              <MaterialIcons {...iconProps('schedule')} />
+              <Text>Em andamento</Text>
+            </Item>
+          </Row>
         </Footer>
       </Container>
     </ScrollView>
-  )
-}
+  );
+};

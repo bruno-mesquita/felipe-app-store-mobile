@@ -9,6 +9,6 @@ const schema: SchemaOf<Values> = object({
   last_name: string().required(REQUIRED),
   email: string().email('Coloque um email valido').required(REQUIRED),
   cellphone: string().required(REQUIRED),
-})
+});
 
 export default schema;

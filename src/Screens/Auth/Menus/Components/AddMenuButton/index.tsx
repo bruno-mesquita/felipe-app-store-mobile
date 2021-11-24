@@ -12,5 +12,5 @@ export const AddMenuButton = () => {
     <FloatButton onPress={onPress}>
       <Ionicons name="add" size={30} color="#fff" />
     </FloatButton>
-  )
-}
+  );
+};

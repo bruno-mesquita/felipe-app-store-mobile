@@ -7,7 +7,11 @@ import NotAuthStack from './NotAuthStack';
 const Navigation = () => {
   const { signed } = useAuth();
 
-  return <NavigationContainer>{signed ? <DefaultStack /> : <NotAuthStack />}</NavigationContainer>;
+  return (
+    <NavigationContainer>
+      {signed ? <DefaultStack /> : <NotAuthStack />}
+    </NavigationContainer>
+  );
 };
 
 export default Navigation;

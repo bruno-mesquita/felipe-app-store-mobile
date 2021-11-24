@@ -17,20 +17,20 @@ export const Deliverymen = () => {
       const { data } = await api.get('/deliverymen', {
         params: {
           page: newPage,
-        }
+        },
       });
 
-      setDeliverymen(old => old.concat(data.result));
+      setDeliverymen((old) => old.concat(data.result));
     } catch (err) {
       Alert.alert('Erro', 'Erro ao buscar os motoboy');
     } finally {
       setLoading(false);
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
-    getDeliverymen(page)
-  }, [getDeliverymen, page])
+    getDeliverymen(page);
+  }, [getDeliverymen, page]);
 
   const loadMore = () => {
     setLoading(true);
@@ -40,7 +40,7 @@ export const Deliverymen = () => {
   const onRefresh = () => {
     setLoading(true);
     setPage(0);
-  }
+  };
 
   return (
     <Container>
@@ -57,6 +57,5 @@ export const Deliverymen = () => {
         renderItem={({ item }) => <Item {...item} />}
       />
     </Container>
-  )
-}
-
+  );
+};

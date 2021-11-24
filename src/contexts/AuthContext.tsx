@@ -25,31 +25,39 @@ export const AuthProvider: FC = ({ children }) => {
     (async () => {
       const value = await store.getToken();
 
-      if(value) {
+      if (value) {
         setToken(value);
         api.defaults.headers.common.Authorization = `Bearer ${token}`;
         setSigned(true);
 
-        const { data } = await api.get('/establishments/exists');
-        setEstablishmentExists(data.result);
+        try {
+          const { data } = await api.get('/establishments/exists');
+          setEstablishmentExists(data.result);
+        } catch (err) {
+          setSigned(false);
+        }
+      } else {
+        setSigned(false);
       }
 
-      store.getRefreshToken().then(value => {
+      store.getRefreshToken().then((value) => {
         value && setRefreshToken(value);
       });
     })();
-
   }, []);
 
   const signIn = async (email: string, password: string) => {
     try {
-      const { data } = await api.post<{ token: string; refreshToken: string; }>('/auth/login', { email, password });
+      const { data } = await api.post<{ token: string; refreshToken: string }>(
+        '/auth/login',
+        { email, password }
+      );
       setToken(data.token);
       setRefreshToken(data.refreshToken);
       await store.setToken(data.token);
       await store.setRefreshToken(data.refreshToken);
 
-      api.defaults.headers.common.Authorization = `Bearer ${data.token}`
+      api.defaults.headers.common.Authorization = `Bearer ${data.token}`;
 
       setSigned(true);
 
@@ -65,7 +73,7 @@ export const AuthProvider: FC = ({ children }) => {
     setToken(null);
     setRefreshToken(null);
     setSigned(false);
-  }
+  };
 
   return (
     <AuthContext.Provider
@@ -76,12 +84,12 @@ export const AuthProvider: FC = ({ children }) => {
         signIn,
         logout,
         establishmentExists,
-        setEstablishmentExists
+        setEstablishmentExists,
       }}
     >
       {children}
     </AuthContext.Provider>
-  )
-}
+  );
+};
 
 export const useAuth = () => useContext(AuthContext);

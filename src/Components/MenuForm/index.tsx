@@ -7,7 +7,12 @@ import { Field, FieldError } from '../FormUtils';
 import { Container } from './styles';
 import { Values } from './props';
 
-export const MenuForm = ({ values, handleChange, handleSubmit, isSubmitting }: FormikProps<Values>) => {
+export const MenuForm = ({
+  values,
+  handleChange,
+  handleSubmit,
+  isSubmitting,
+}: FormikProps<Values>) => {
   return (
     <Container>
       <Field
@@ -18,7 +23,9 @@ export const MenuForm = ({ values, handleChange, handleSubmit, isSubmitting }: F
       />
       <FieldError name="name" />
 
-      <Button loading={isSubmitting} onPress={() => handleSubmit()}>{values?.id ? 'Atualizar' : 'Cadastrar'}</Button>
+      <Button loading={isSubmitting} onPress={() => handleSubmit()}>
+        {values?.id ? 'Atualizar' : 'Cadastrar'}
+      </Button>
     </Container>
-  )
-}
+  );
+};

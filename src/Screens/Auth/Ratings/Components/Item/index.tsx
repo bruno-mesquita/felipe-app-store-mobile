@@ -15,5 +15,5 @@ export const Item = ({ message, value }: ItemProps) => {
         <Rating imageSize={25} readonly startingValue={value} />
       </Container>
     </CardBase>
-  )
-}
+  );
+};

@@ -1,5 +1,12 @@
 import { useState, useEffect } from 'react';
-import { View, Text, Alert, Linking, ActivityIndicator, ToastAndroid } from 'react-native';
+import {
+  View,
+  Text,
+  Alert,
+  Linking,
+  ActivityIndicator,
+  ToastAndroid,
+} from 'react-native';
 import { format, parseISO } from 'date-fns';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useTheme } from 'styled-components/native';
@@ -16,7 +23,12 @@ export const Card = (props: CardProps) => {
 
   const [newBoletoLoading, setNewBoletoLoading] = useState(false);
   const [ticket, setTicket] = useState<CardProps>({
-    barcode: '', status: '', date_of_expiration: '', id: 0, link: '', price: 0
+    barcode: '',
+    status: '',
+    date_of_expiration: '',
+    id: 0,
+    link: '',
+    price: 0,
   });
 
   useEffect(() => {
@@ -26,44 +38,47 @@ export const Card = (props: CardProps) => {
   const copy = () => {
     Clipboard.setString(ticket.barcode);
     ToastAndroid.show('Codigo de barra copiado', ToastAndroid.SHORT);
-  }
+  };
 
   const newTicket = async () => {
     try {
-      setNewBoletoLoading(true)
+      setNewBoletoLoading(true);
       const { data } = await api.get(`/tickets/${ticket.id}/new`);
 
       setTicket(data.result);
     } catch (err) {
-      Alert.alert('Erro', 'Houve um erro ao atualizar o boleto, se o erro persistir entre em contato com o suporte')
+      Alert.alert(
+        'Erro',
+        'Houve um erro ao atualizar o boleto, se o erro persistir entre em contato com o suporte'
+      );
     } finally {
       setNewBoletoLoading(false);
     }
-  }
+  };
 
   const download = async () => {
     const result = await Linking.canOpenURL(ticket.link);
 
-    if(result) Linking.openURL(ticket.link);
+    if (result) Linking.openURL(ticket.link);
   };
 
   const formattedDate = (date: string) => {
-    return date !== '' ? format(parseISO(date), "dd/MM/yyyy") : date;
-  }
+    return date !== '' ? format(parseISO(date), 'dd/MM/yyyy') : date;
+  };
 
   const onPress = () => {
     const buttons: any = [
       {
         text: 'Fechar',
       },
-    ]
+    ];
 
-    if(ticket.status === 'pending') {
+    if (ticket.status === 'pending') {
       buttons.push({ text: 'Baixar', onPress: download });
       buttons.push({ text: 'Copiar codigo de barra', onPress: copy });
     }
 
-    if(ticket.status === 'cancelled') {
+    if (ticket.status === 'cancelled') {
       buttons.push({ text: 'Gerar novo boleto', onPress: newTicket });
     }
 
@@ -72,12 +87,16 @@ export const Card = (props: CardProps) => {
 
   const getIcon = () => {
     switch (ticket.status) {
-      case 'pending': return 'clock'
-      case 'cancelled': return 'close-circle'
-      case 'approved': return 'check-circle'
-      default: return 'clock'
+      case 'pending':
+        return 'clock';
+      case 'cancelled':
+        return 'close-circle';
+      case 'approved':
+        return 'check-circle';
+      default:
+        return 'clock';
     }
-  }
+  };
 
   return (
     <CardBase onPress={onPress} style={{ width: '80%', alignSelf: 'center' }}>
@@ -86,7 +105,13 @@ export const Card = (props: CardProps) => {
           {newBoletoLoading ? (
             <ActivityIndicator color={colors.third} size={30} />
           ) : (
-            <MaterialCommunityIcons name={getIcon()} size={30} color={ticket.status === 'cancelled' ? colors.primary : colors.third} />
+            <MaterialCommunityIcons
+              name={getIcon()}
+              size={30}
+              color={
+                ticket.status === 'cancelled' ? colors.primary : colors.third
+              }
+            />
           )}
         </View>
         <View style={{ justifyContent: 'space-between' }}>
@@ -95,5 +120,5 @@ export const Card = (props: CardProps) => {
         </View>
       </Content>
     </CardBase>
-  )
+  );
 };

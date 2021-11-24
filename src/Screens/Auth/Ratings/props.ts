@@ -5,5 +5,4 @@ export interface Rate {
 export interface Order {
   createdAt: string;
   total: number;
-
 }

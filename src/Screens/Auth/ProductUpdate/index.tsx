@@ -25,13 +25,14 @@ export const ProductUpdate = ({ route, navigation }) => {
   });
 
   useEffect(() => {
-    api.get(`/products/${route.params.id}`)
+    api
+      .get(`/products/${route.params.id}`)
       .then(({ data: { result } }) => {
         setProduct({
           ...result,
           price: formatNumber(result.price),
           image: result.photo.encoded,
-          menu: result.menu_id
+          menu: result.menu_id,
         });
       })
       .catch(() => {
@@ -39,9 +40,9 @@ export const ProductUpdate = ({ route, navigation }) => {
           {
             text: 'Sair',
             onPress: () => navigation.goBack(),
-          }
+          },
         ]);
-      })
+      });
   }, []);
 
   const onSubmit = async (values, { setSubmitting }: FormikHelpers<any>) => {
@@ -49,7 +50,7 @@ export const ProductUpdate = ({ route, navigation }) => {
       const body = {
         ...values,
         price: inputPriceRef.current?.getRawValue(),
-      }
+      };
 
       await api.put(`/products/${route.params.id}`, body);
 
@@ -59,17 +60,19 @@ export const ProductUpdate = ({ route, navigation }) => {
     } finally {
       setSubmitting(false);
     }
-  }
+  };
 
   return (
     <Container>
       <Formik
         onSubmit={onSubmit}
         initialValues={product}
-        component={(props) => <ProductForm {...props} inputPriceRef={inputPriceRef} />}
+        component={(props) => (
+          <ProductForm {...props} inputPriceRef={inputPriceRef} />
+        )}
         validationSchema={schema}
         enableReinitialize
       />
     </Container>
-  )
-}
+  );
+};

@@ -20,9 +20,7 @@ export const CodeToPassword = ({ navigation }) => {
     confirmPassword: '',
   };
 
-  const onSubmit = (values: typeof initialValues) => {
-
-  };
+  const onSubmit = (values: typeof initialValues) => {};
 
   const confirmCodeToPassword = () => {
     navigation.navigate('Login');

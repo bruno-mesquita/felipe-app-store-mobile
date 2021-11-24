@@ -3,7 +3,7 @@ import { ModalBaseProps } from '../../../ModalBase/props';
 export interface ModalCategoriesProps extends ModalBaseProps {
   id?: number | undefined;
   onPress: (categories: number[]) => void;
-  categories: number[]
+  categories: number[];
 }
 
 export interface Category {

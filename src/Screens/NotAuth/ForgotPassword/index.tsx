@@ -16,7 +16,6 @@ import {
 import { Values } from './props';
 
 export const ForgotPassword = ({ navigation }) => {
-
   const codeValue: Values = {
     email: '',
   };

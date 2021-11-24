@@ -5,7 +5,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import axios from 'axios';
 
 import api from '@services/api';
-import { useTakePhoto } from '../../hooks/useTakePhoto'
+import { useTakePhoto } from '../../hooks/useTakePhoto';
 import { usePermissionGallery } from '../../hooks/permissions';
 import { Field, Select, FieldMask, FieldError } from '../FormUtils';
 import { Button } from '../Button';
@@ -16,8 +16,15 @@ import { Container, Image, ButtonModal, ContentButton, Label } from './styles';
 import { EstablishmentFormProps } from './props';
 
 export const EstablishmentForm = ({
-  handleSubmit, values, handleChange, setFieldValue, isSubmitting, inputCepRef, inputPhoneRef, inputPriceRef
- }: EstablishmentFormProps) => {
+  handleSubmit,
+  values,
+  handleChange,
+  setFieldValue,
+  isSubmitting,
+  inputCepRef,
+  inputPhoneRef,
+  inputPriceRef,
+}: EstablishmentFormProps) => {
   const takePhoto = useTakePhoto();
   const permission = usePermissionGallery();
 
@@ -26,76 +33,97 @@ export const EstablishmentForm = ({
   const modalRef = useRef(null);
 
   useEffect(() => {
-    api.get('/states')
-      .then(({ data }) => setStates(data.result.map(state => ({ label: state.name, value: String(state.id) }))));
+    api.get('/states').then(({ data }) =>
+      setStates(
+        data.result.map((state) => ({
+          label: state.name,
+          value: String(state.id),
+        }))
+      )
+    );
   }, []);
 
   useEffect(() => {
     if (values.address.state) {
-      api.get(`/cities/${values.address.state}`)
-        .then(({ data }) => setCities(data.result.map(city => ({ label: city.name, value: String(city.id) }))));
+      api.get(`/cities/${values.address.state}`).then(({ data }) =>
+        setCities(
+          data.result.map((city) => ({
+            label: city.name,
+            value: String(city.id),
+          }))
+        )
+      );
     }
   }, [values.address.state]);
 
   const getCities = async (stateId: number) => {
     const { data } = await api.get(`/cities/${stateId}`);
 
-    const valuesConverted = data.result.map(city => ({ label: city.name, value: String(city.id) }));
+    const valuesConverted = data.result.map((city) => ({
+      label: city.name,
+      value: String(city.id),
+    }));
 
     setCities(valuesConverted);
 
     return valuesConverted;
-  }
+  };
 
   const setTime = (value: string, field: string) => {
-    if(value === '') {
+    if (value === '') {
       setFieldValue(field, value);
       return;
     }
 
     const convert = Number(value);
 
-    if(convert > 0) setFieldValue(field, value);
-  }
+    if (convert > 0) setFieldValue(field, value);
+  };
 
   const pickImage = async () => {
     try {
       const encoded = await takePhoto();
 
-      if(encoded) {
-        if(values?.id) {
+      if (encoded) {
+        if (values?.id) {
           await api.put('/image', { encoded });
 
           setFieldValue('image', encoded);
         } else {
           setFieldValue('image', encoded);
         }
-      };
+      }
     } catch (err) {
-      Alert.alert('Erro', 'Parece que houve um erro ao pegar a foto :(')
+      Alert.alert('Erro', 'Parece que houve um erro ao pegar a foto :(');
     }
-  }
+  };
 
   const setCategories = (categories: number[]) => {
     setFieldValue('categories', categories);
-  }
+  };
 
   const onChangeZipCode = async (value: string) => {
     const valueReplace = value.replace('-', '');
 
-    if(valueReplace.length === 8) {
+    if (valueReplace.length === 8) {
       try {
-        const { data } = await axios.get(`https://brasilapi.com.br/api/cep/v2/${valueReplace}`);
+        const { data } = await axios.get(
+          `https://brasilapi.com.br/api/cep/v2/${valueReplace}`
+        );
         const stateConverted = convertUf[data.state];
 
-        const state = states.find(state => state.label === stateConverted);
-        if(!state) Alert.alert('Estado não encontrado!', 'Parece que a flipp não atende nessa região ainda')
+        const state = states.find((state) => state.label === stateConverted);
+        if (!state)
+          Alert.alert(
+            'Estado não encontrado!',
+            'Parece que a flipp não atende nessa região ainda'
+          );
         else {
           setFieldValue('address.state', state.value);
           const values = await getCities(state.value);
 
-          const city = values.find(city => city.label === data.city);
-          if(city) setFieldValue('address.city', city.value);
+          const city = values.find((city) => city.label === data.city);
+          if (city) setFieldValue('address.city', city.value);
         }
 
         setFieldValue('address.neighborhood', data.neighborhood);
@@ -105,23 +133,28 @@ export const EstablishmentForm = ({
         Alert.alert('Erro', 'Parece que houve um erro ao buscar o cep');
       }
     }
-  }
+  };
 
   const onSubmit = () => handleSubmit();
 
   return (
     <ScrollView style={{ paddingHorizontal: 30, paddingBottom: 30 }}>
-      <ModalCategories modalRef={modalRef} id={values?.id} onPress={setCategories} categories={values.categories} />
+      <ModalCategories
+        modalRef={modalRef}
+        id={values?.id}
+        onPress={setCategories}
+        categories={values.categories}
+      />
       <Container>
-        <TouchableOpacity style={{ alignSelf: 'center', paddingVertical: 20 }} disabled={!permission} onPress={pickImage}>
+        <TouchableOpacity
+          style={{ alignSelf: 'center', paddingVertical: 20 }}
+          disabled={!permission}
+          onPress={pickImage}
+        >
           {values.image !== '' ? (
             <Image source={{ uri: values.image }} />
           ) : (
-            <MaterialIcons
-              name="account-circle"
-              size={120}
-              color="#c4c4c4"
-            />
+            <MaterialIcons name="account-circle" size={120} color="#c4c4c4" />
           )}
         </TouchableOpacity>
 
@@ -184,7 +217,7 @@ export const EstablishmentForm = ({
         <ButtonModal onPress={() => modalRef.current?.open()}>
           <Label>Categorias</Label>
           <ContentButton>
-          <Text style={{ color: '#fff' }}>Selecionar categorias</Text>
+            <Text style={{ color: '#fff' }}>Selecionar categorias</Text>
           </ContentButton>
         </ButtonModal>
         <FieldError name="categories" />
@@ -196,7 +229,7 @@ export const EstablishmentForm = ({
           label="CEP"
           value={values.address.cep}
           placeholder="CEP"
-          onChangeText={value => onChangeZipCode(value)}
+          onChangeText={(value) => onChangeZipCode(value)}
         />
         <FieldError name="address.cep" />
 
@@ -234,7 +267,7 @@ export const EstablishmentForm = ({
           value={values.address.state}
           placeholder="Estado"
           items={states}
-          onChange={value => setFieldValue('address.state', value)}
+          onChange={(value) => setFieldValue('address.state', value)}
         />
         <FieldError name="address.state" />
 
@@ -244,12 +277,19 @@ export const EstablishmentForm = ({
           value={values.address.city}
           placeholder="Cidade"
           items={cities}
-          onChange={value => setFieldValue('address.city', value)}
+          onChange={(value) => setFieldValue('address.city', value)}
         />
         <FieldError name="address.city" />
 
-        <Button disabled={isSubmitting} loading={isSubmitting} style={{ marginTop: 20 }} onPress={onSubmit}>Salvar</Button>
+        <Button
+          disabled={isSubmitting}
+          loading={isSubmitting}
+          style={{ marginTop: 20 }}
+          onPress={onSubmit}
+        >
+          Salvar
+        </Button>
       </Container>
     </ScrollView>
-  )
+  );
 };

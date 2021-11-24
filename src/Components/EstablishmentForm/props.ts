@@ -22,11 +22,11 @@ interface Values {
   coordinates?: {
     longitude: string;
     latitude: string;
-  }
+  };
 }
 
 export type EstablishmentFormProps = FormikProps<Values> & {
-  inputPhoneRef: MutableRefObject<TextInputMasked>
-  inputCepRef: MutableRefObject<TextInputMasked>
-  inputPriceRef: MutableRefObject<TextInputMasked>
-}
+  inputPhoneRef: MutableRefObject<TextInputMasked>;
+  inputCepRef: MutableRefObject<TextInputMasked>;
+  inputPriceRef: MutableRefObject<TextInputMasked>;
+};

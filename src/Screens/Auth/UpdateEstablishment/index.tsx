@@ -28,7 +28,7 @@ export const UpdateEstablishment = ({ navigation }) => {
       neighborhood: '',
       state: '',
       city: '',
-      cep: ''
+      cep: '',
     },
   });
 
@@ -37,23 +37,26 @@ export const UpdateEstablishment = ({ navigation }) => {
   const inputPriceRef = useRef<TextInputMasked>(null);
 
   function freightResult(fre: string) {
-    switch(fre.length) {
+    switch (fre.length) {
       case 2: {
         return Number(fre + '');
       }
       case 3: {
-        return  Number(fre + '00');
+        return Number(fre + '00');
       }
       default: {
         return fre;
       }
     }
-  };
+  }
 
   useEffect(() => {
-    api.post('/establishments/me', { selects: ['full'] })
+    api
+      .post('/establishments/me', { selects: ['full'] })
       .then(({ data }) => {
-        const { result: { address, ...rest } } = data;
+        const {
+          result: { address, ...rest },
+        } = data;
 
         setEstablishment({
           ...rest,
@@ -63,17 +66,19 @@ export const UpdateEstablishment = ({ navigation }) => {
           address: {
             ...address,
             city: address.city.id.toString(),
-            state: address.city.state.id.toString()
-          }
+            state: address.city.state.id.toString(),
+          },
         });
       })
       .catch(() => {
-        Alert.alert('Erro', 'Houve um erro ao buscar dados da sua loja :(', [{
-          onPress: () => navigation.goBack(),
-          text: 'Ok'
-        }]);
+        Alert.alert('Erro', 'Houve um erro ao buscar dados da sua loja :(', [
+          {
+            onPress: () => navigation.goBack(),
+            text: 'Ok',
+          },
+        ]);
       })
-      .finally(() => setLoading(false))
+      .finally(() => setLoading(false));
   }, []);
 
   const onSubmit = async (values: any) => {
@@ -85,11 +90,11 @@ export const UpdateEstablishment = ({ navigation }) => {
         address: {
           ...values.address,
           cep: inputCepRef.current?.getRawValue(),
-          city: Number(values.address.city)
+          city: Number(values.address.city),
         },
         closingTime: Number(values.closingTime),
-        openingTime: Number(values.openingTime)
-      }
+        openingTime: Number(values.openingTime),
+      };
 
       delete body.image;
       delete body.categories;
@@ -100,7 +105,7 @@ export const UpdateEstablishment = ({ navigation }) => {
     } catch (err) {
       Alert.alert('Erro', 'Houve um erro ao cadastrar sua loja :(');
     }
-  }
+  };
 
   return (
     <Container>
@@ -110,10 +115,17 @@ export const UpdateEstablishment = ({ navigation }) => {
         <Formik
           onSubmit={onSubmit}
           initialValues={establishment}
-          component={props => <EstablishmentForm {...props} inputPhoneRef={inputPhoneRef} inputCepRef={inputCepRef} inputPriceRef={inputPriceRef} />}
+          component={(props) => (
+            <EstablishmentForm
+              {...props}
+              inputPhoneRef={inputPhoneRef}
+              inputCepRef={inputCepRef}
+              inputPriceRef={inputPriceRef}
+            />
+          )}
           enableReinitialize
         />
       )}
     </Container>
-  )
+  );
 };

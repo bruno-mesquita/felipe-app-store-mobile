@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import * as Font from 'expo-font';
 import ExpoAppLoading from 'expo-app-loading';
@@ -32,5 +31,5 @@ export const AppLoading = ({ children }) => {
     })();
   }, []);
 
-  return <>{isReady && fontsLoaded ? (<>{children}</>) : (<ExpoAppLoading />)}</>
+  return <>{isReady && fontsLoaded ? <>{children}</> : <ExpoAppLoading />}</>;
 };

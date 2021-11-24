@@ -1,3 +1,3 @@
 import { Container } from './styles';
 
-export const FieldError = (props) => <Container {...props} />
+export const FieldError = (props) => <Container {...props} />;

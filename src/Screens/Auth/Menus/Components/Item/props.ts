@@ -5,5 +5,5 @@ interface Item {
 
 export interface ItemProps {
   item: Item;
-  reender: () => Promise<void>
+  reender: () => Promise<void>;
 }

@@ -1,4 +1,4 @@
-import styled from 'styled-components/native';
+import styled, { css } from 'styled-components/native';
 
 export const Container = styled.View`
   flex-direction: row;
@@ -9,25 +9,24 @@ export const Container = styled.View`
 
 export const Text = styled.Text`
   color: #000;
-  font-size: 14px;
+  font-size: ${({ theme }) => theme.metrics.px(23)}px;
 `;
 
-export const Content = styled.View`
-  flex-direction: row;
-  width: 100%;
-  height: 100%;
-`;
-
-export const Photo = styled.Image.attrs(props => ({ ...props, resizeMode: 'cover' }))`
-  width: 70px;
-  height: 70px;
-  border-radius: 10px;
+export const Photo = styled.Image.attrs((props) => ({
+  ...props,
+  resizeMode: 'cover',
+}))`
+  ${({ theme: { metrics } }) => css`
+    width: ${metrics.px(125)}px;
+    height: ${metrics.px(125)}px;
+    border-radius: ${metrics.px(18)}px;
+  `}
 `;
 
 export const Info = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
+  padding: 0px 10px;
   width: 85%;
 `;

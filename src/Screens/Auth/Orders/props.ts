@@ -6,7 +6,7 @@ interface State {
 interface City {
   id: number;
   name: string;
-  state: State
+  state: State;
 }
 
 export interface Address {

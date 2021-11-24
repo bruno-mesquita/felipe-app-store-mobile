@@ -8,26 +8,32 @@ import { ModalBase } from '../../../ModalBase';
 import { ModalCategoriesProps, Category } from './props';
 import { Container, Title, Row, Button } from './styles';
 
-export const ModalCategories = ({ modalRef, onPress, categories: items, id }: ModalCategoriesProps) => {
+export const ModalCategories = ({
+  modalRef,
+  onPress,
+  categories: items,
+  id,
+}: ModalCategoriesProps) => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [originList, setOriginList] = useState<Category[]>([]);
   const [selected, setSelected] = useState<Category[]>([]);
 
   useEffect(() => {
-    api.get('/categories')
+    api
+      .get('/categories')
       .then(({ data }) => {
         setCategories(data.result);
         setOriginList(data.result);
       })
-      .catch(() => Alert.alert('Erro', 'Erro ao listar categorias'))
+      .catch(() => Alert.alert('Erro', 'Erro ao listar categorias'));
   }, []);
 
   useEffect(() => {
-    if(items.length > 0) {
-      setSelected(originList.filter(c => !!items.find(i => i === c.id)))
-      setCategories(originList.filter(c => !items.find(i => i === c.id)));
+    if (items.length > 0) {
+      setSelected(originList.filter((c) => !!items.find((i) => i === c.id)));
+      setCategories(originList.filter((c) => !items.find((i) => i === c.id)));
     }
-  }, [items, originList])
+  }, [items, originList]);
 
   const add = async (categoryId: number) => {
     try {
@@ -35,7 +41,7 @@ export const ModalCategories = ({ modalRef, onPress, categories: items, id }: Mo
 
       return true;
     } catch (err) {
-      Alert.alert('Erro', 'Erro ao adicionar a lista')
+      Alert.alert('Erro', 'Erro ao adicionar a lista');
       return false;
     }
   };
@@ -46,42 +52,41 @@ export const ModalCategories = ({ modalRef, onPress, categories: items, id }: Mo
 
       return true;
     } catch (err) {
-      Alert.alert('Erro', 'Erro ao remover a lista')
+      Alert.alert('Erro', 'Erro ao remover a lista');
       return false;
     }
   };
 
-
   const addList = (category: Category) => async () => {
-    if(id) {
+    if (id) {
       const result = await add(category.id);
 
-      if(result) {
-        setCategories(old => old.filter(item => item.id !== category.id));
-        setSelected(old => [...old, category]);
+      if (result) {
+        setCategories((old) => old.filter((item) => item.id !== category.id));
+        setSelected((old) => [...old, category]);
       }
     } else {
-      setCategories(old => old.filter(item => item.id !== category.id));
-      setSelected(old => [...old, category]);
+      setCategories((old) => old.filter((item) => item.id !== category.id));
+      setSelected((old) => [...old, category]);
     }
   };
 
   const removeList = (category: Category) => async () => {
-    if(id) {
+    if (id) {
       const result = await remove(category.id);
 
-      if(result) {
-        setCategories(old => [...old, category]);
-        setSelected(old => old.filter(item => item.id !== category.id));
+      if (result) {
+        setCategories((old) => [...old, category]);
+        setSelected((old) => old.filter((item) => item.id !== category.id));
       }
     } else {
-      setCategories(old => [...old, category]);
-      setSelected(old => old.filter(item => item.id !== category.id));
+      setCategories((old) => [...old, category]);
+      setSelected((old) => old.filter((item) => item.id !== category.id));
     }
   };
 
   const onSubmit = () => {
-    onPress(selected.map(e => e.id));
+    onPress(selected.map((e) => e.id));
     modalRef.current?.close();
   };
 
@@ -90,7 +95,7 @@ export const ModalCategories = ({ modalRef, onPress, categories: items, id }: Mo
       <Container>
         <ScrollView>
           <Title>Categorias</Title>
-          {categories.map(category => (
+          {categories.map((category) => (
             <Row key={category.id.toString()}>
               <Text key={category.id}>{category.name}</Text>
               <TouchableOpacity onPress={addList(category)}>
@@ -100,7 +105,7 @@ export const ModalCategories = ({ modalRef, onPress, categories: items, id }: Mo
           ))}
 
           <Title>Selecionados</Title>
-          {selected.map(category => (
+          {selected.map((category) => (
             <Row key={category.id.toString()}>
               <Text key={category.id}>{category.name}</Text>
               <TouchableOpacity onPress={removeList(category)}>
@@ -112,5 +117,5 @@ export const ModalCategories = ({ modalRef, onPress, categories: items, id }: Mo
         </ScrollView>
       </Container>
     </ModalBase>
-  )
+  );
 };

@@ -17,7 +17,7 @@ export const ContainerLogo = styled.View`
   margin-top: 50px;
 `;
 
-export const Logo = styled.Image.attrs(props => ({
+export const Logo = styled.Image.attrs((props) => ({
   ...props,
   resizeMode: 'contain',
 }))`

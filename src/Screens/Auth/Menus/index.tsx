@@ -22,11 +22,13 @@ export const Menus = () => {
     } finally {
       setLoading(false);
     }
-  }, [])
+  }, []);
 
-  useFocusEffect(useCallback(() => {
-    getMenus();
-  }, [getMenus]))
+  useFocusEffect(
+    useCallback(() => {
+      getMenus();
+    }, [getMenus])
+  );
 
   return (
     <Container>
@@ -42,6 +44,5 @@ export const Menus = () => {
       />
       <AddMenuButton />
     </Container>
-  )
-}
-
+  );
+};

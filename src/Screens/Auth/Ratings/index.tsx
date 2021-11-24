@@ -13,29 +13,31 @@ export const Ratings = () => {
 
   const getRating = useCallback(async (newPage = 0) => {
     try {
-      const { data } = await api.get('/list-rates', { params: { page: newPage } });
+      const { data } = await api.get('/list-rates', {
+        params: { page: newPage },
+      });
 
-      setRatings(old => old.concat(data.result));
+      setRatings((old) => old.concat(data.result));
     } catch (err) {
       Alert.alert('Erro', 'Erro ao buscar as avaliações');
     } finally {
       setLoading(false);
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
-    getRating(page)
-  }, [getRating, page])
+    getRating(page);
+  }, [getRating, page]);
 
   const loadMore = () => {
     setLoading(true);
     setPage(page + 1);
-  }
+  };
 
   const onRefresh = () => {
     setLoading(true);
     setPage(0);
-  }
+  };
 
   return (
     <Container>
@@ -52,6 +54,5 @@ export const Ratings = () => {
         renderItem={({ item }) => <Item {...item.evaluation} />}
       />
     </Container>
-  )
-}
-
+  );
+};

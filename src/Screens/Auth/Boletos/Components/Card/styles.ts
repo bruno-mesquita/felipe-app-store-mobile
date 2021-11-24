@@ -5,4 +5,3 @@ export const Content = styled.View`
   flex-direction: row;
   justify-content: space-around;
 `;
-

@@ -25,7 +25,7 @@ export const ContainerTextField = styled.View`
   padding-left: 10px;
 `;
 
-export const TextField = styled(TextInputMask).attrs(props => ({
+export const TextField = styled(TextInputMask).attrs((props) => ({
   placeholderTextColor: '#C4C4C4',
   ...props,
 }))`

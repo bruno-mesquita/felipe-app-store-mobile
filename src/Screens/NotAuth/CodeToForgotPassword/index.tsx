@@ -14,7 +14,6 @@ import {
   ContainerButton,
 } from './styles';
 
-
 export const CodeToForgotPassword = ({ navigation }) => {
   const codeValue = {
     code: '',

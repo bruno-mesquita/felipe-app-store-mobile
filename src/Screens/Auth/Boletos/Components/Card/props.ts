@@ -5,4 +5,4 @@ export interface CardProps {
   price: number;
   date_of_expiration: string;
   status: string;
-};
+}

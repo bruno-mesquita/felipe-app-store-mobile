@@ -16,23 +16,29 @@ export const Profile = () => {
   const user = useUser(['last_name', 'first_name', 'email', 'cellphone']);
   const inputPhoneRef = useRef<TextInputMasked>(null);
 
-  const onSubmit = async (values: Values, { setSubmitting }: FormikHelpers<Values>) => {
+  const onSubmit = async (
+    values: Values,
+    { setSubmitting }: FormikHelpers<Values>
+  ) => {
     try {
       const body = {
         first_name: values.first_name,
         last_name: values.last_name,
         email: values.email,
         cellphone: inputPhoneRef.current?.getRawValue(),
-      }
+      };
 
       await api.put('/owners', body);
-      Alert.alert('Sucesso', 'Dados atualizados com sucesso :)')
+      Alert.alert('Sucesso', 'Dados atualizados com sucesso :)');
     } catch (err) {
-      Alert.alert('Erro', 'Parece que houve um erro ao atualizar os seus dados :(')
+      Alert.alert(
+        'Erro',
+        'Parece que houve um erro ao atualizar os seus dados :('
+      );
     } finally {
       setSubmitting(false);
     }
-  }
+  };
 
   return (
     <ScrollView>
@@ -80,11 +86,18 @@ export const Profile = () => {
               />
               <FieldError name="cellphone" />
 
-              <Button disabled={isSubmitting} loading={isSubmitting} style={{ marginTop: 20 }} onPress={() => handleSubmit()}>Atualizar</Button>
+              <Button
+                disabled={isSubmitting}
+                loading={isSubmitting}
+                style={{ marginTop: 20 }}
+                onPress={() => handleSubmit()}
+              >
+                Atualizar
+              </Button>
             </Form>
           )}
         </Formik>
       </Container>
     </ScrollView>
-  )
-}
+  );
+};

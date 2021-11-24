@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 import { StyleSheet } from 'react-native';
 
-export const Input = styled.TextInput.attrs(props => ({
+export const Input = styled.TextInput.attrs((props) => ({
   ...props,
   placeholderTextColor: '#727272',
 }))`
@@ -25,6 +25,6 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
 
     alignSelf: 'center',
-    marginTop: 25
+    marginTop: 25,
   },
 });

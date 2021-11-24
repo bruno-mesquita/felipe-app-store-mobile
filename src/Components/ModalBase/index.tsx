@@ -25,6 +25,5 @@ export const ModalBase = forwardRef<ModalBaseHandle, Props>(
         </Container>
       </Modal>
     );
-  },
+  }
 );
-

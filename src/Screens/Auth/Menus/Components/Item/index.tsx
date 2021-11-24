@@ -20,24 +20,28 @@ export const Item = ({ item, reender }: ItemProps) => {
     } catch (err) {
       Alert.alert('Erro', 'Erro ao deletar menu');
     }
-  }
+  };
 
   const del = () => {
-    Alert.alert('Apagar', `Você tem certeza que deseja apagar o cardápio ${item.name}? todos os produtos desse cardápio também vão ser apagados`, [
-      {
-        text: 'Apagar',
-        onPress: deleteMenu
-      },
-      {
-        text: 'Sair',
-      }
-    ])
-  }
+    Alert.alert(
+      'Apagar',
+      `Você tem certeza que deseja apagar o cardápio ${item.name}? todos os produtos desse cardápio também vão ser apagados`,
+      [
+        {
+          text: 'Apagar',
+          onPress: deleteMenu,
+        },
+        {
+          text: 'Sair',
+        },
+      ]
+    );
+  };
 
   return (
     <Container onPress={edit} onLongPress={del}>
       <Text>{item.name}</Text>
       <Ionicons name="chevron-forward" size={25} color={colors.primary} />
     </Container>
-  )
-}
+  );
+};

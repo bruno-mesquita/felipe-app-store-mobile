@@ -6,9 +6,9 @@ export const Container = styled.View`
   align-items: center;
 `;
 
-export const Image = styled.Image.attrs(props => ({
+export const Image = styled.Image.attrs((props) => ({
   ...props,
-  resizeMode: 'cover'
+  resizeMode: 'cover',
 }))`
   height: 120px;
   width: 120px;

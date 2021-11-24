@@ -17,32 +17,36 @@ export const CanceledOrders = () => {
 
   const getOrders = useCallback(async (newPage = 0) => {
     try {
-      const { data } = await api.get('/list-orders-types', { params: { type: 'Cancelado', page: newPage } });
+      const { data } = await api.get('/list-orders-types', {
+        params: { type: 'Cancelado', page: newPage },
+      });
 
-      setOrders(old => newPage === 0 ? data.result : old.concat(data.result));
+      setOrders((old) =>
+        newPage === 0 ? data.result : old.concat(data.result)
+      );
     } catch (err) {
       Alert.alert('Erro', 'Erro ao buscar os pedidos');
     } finally {
       setLoading(false);
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
-    getOrders(page)
-  }, [getOrders, page])
+    getOrders(page);
+  }, [getOrders, page]);
 
   const loadMore = async () => {
     setLoading(true);
     setPage(page + 1);
-  }
+  };
 
   const onRefresh = () => {
     setLoading(true);
     setPage(0);
-  }
+  };
 
   const onPressItem = (id: number) => {
-    setSelectedId(id)
+    setSelectedId(id);
     modalRef.current?.open();
   };
 
@@ -60,6 +64,5 @@ export const CanceledOrders = () => {
         renderItem={({ item }) => <CardOrder {...item} onPress={onPressItem} />}
       />
     </Container>
-  )
-}
-
+  );
+};

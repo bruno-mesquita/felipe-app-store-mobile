@@ -1,4 +1,4 @@
-import { DefaultTheme } from 'styled-components';
+import { DefaultTheme } from 'styled-components/native';
 
 declare module 'styled-components' {
   interface DefaultTheme {
@@ -7,6 +7,9 @@ declare module 'styled-components' {
       primary: string;
       secundary: string;
       third: string;
+    };
+    metrics: {
+      px: (px: number) => number;
     };
   }
 }

@@ -19,11 +19,15 @@ export const Support = () => {
   return (
     <Container>
       <Title>Contato</Title>
-      <Text style={{ fontSize: 18 }}>Entre em contato conosco pelo nosso email </Text>
+      <Text style={{ fontSize: 18 }}>
+        Entre em contato conosco pelo nosso email{' '}
+      </Text>
       <CardContainer>
         <MaterialCommunityIcons name="email" size={50} color={colors.primary} />
-        <TouchableOpacity onPress={copyToClipboard}><Text>{email}</Text></TouchableOpacity>
+        <TouchableOpacity onPress={copyToClipboard}>
+          <Text>{email}</Text>
+        </TouchableOpacity>
       </CardContainer>
     </Container>
-  )
-}
+  );
+};

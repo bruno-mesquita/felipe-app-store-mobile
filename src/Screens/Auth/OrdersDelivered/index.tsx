@@ -17,36 +17,40 @@ export const OrdersDelivered = () => {
 
   const getOrders = useCallback(async (newPage = 0, reset = false) => {
     try {
-      const { data } = await api.get('/list-orders-types', { params: { type: 'Finalizado', page: reset ? 0 : newPage } });
+      const { data } = await api.get('/list-orders-types', {
+        params: { type: 'Finalizado', page: reset ? 0 : newPage },
+      });
 
-      setOrders(old => reset || newPage === 0 ? data.result : old.concat(data.result));
+      setOrders((old) =>
+        reset || newPage === 0 ? data.result : old.concat(data.result)
+      );
     } catch (err) {
       Alert.alert('Erro', 'Erro ao buscar os pedidos');
     } finally {
       setLoading(false);
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
-    getOrders(page)
-  }, [getOrders, page])
+    getOrders(page);
+  }, [getOrders, page]);
 
-  const loadMore =  () => {
+  const loadMore = () => {
     setLoading(true);
     setPage(page + 1);
-  }
+  };
 
   const onRefresh = () => {
     setLoading(true);
     setPage(0);
-  }
+  };
 
   const onPressItem = (id: number) => {
-    setSelectedId(id)
+    setSelectedId(id);
     modalRef.current?.open();
   };
 
-  const reender = async () => getOrders(page, true)
+  const reender = async () => getOrders(page, true);
 
   return (
     <Container>
@@ -63,6 +67,5 @@ export const OrdersDelivered = () => {
         renderItem={({ item }) => <CardOrder onPress={onPressItem} {...item} />}
       />
     </Container>
-  )
-}
-
+  );
+};

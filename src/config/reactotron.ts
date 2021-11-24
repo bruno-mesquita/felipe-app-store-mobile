@@ -1,7 +1,6 @@
 import Reactotron from 'reactotron-react-native';
 
-const tron = Reactotron
-  .configure({ name: 'Flipp-parthers' })
+const tron = Reactotron.configure({ name: 'Flipp-parthers' })
   .useReactNative()
   .connect();
 

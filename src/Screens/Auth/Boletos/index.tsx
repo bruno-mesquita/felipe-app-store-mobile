@@ -14,31 +14,30 @@ export const Boletos = () => {
   const getTickets = useCallback(async (newPage = 0) => {
     try {
       const { data } = await api.get('/tickets', {
-        params: { page: newPage }
+        params: { page: newPage },
       });
 
-      setBoletos(old => old.concat(data.result));
+      setBoletos((old) => old.concat(data.result));
     } catch (err) {
-      console.log(err.response);
       Alert.alert('Erro', 'Erro ao buscar os boletos ');
     } finally {
       setLoading(false);
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
-    getTickets(page)
-  }, [getTickets, page])
+    getTickets(page);
+  }, [getTickets, page]);
 
   const loadMore = async () => {
     setLoading(true);
     setPage(page + 1);
-  }
+  };
 
   const onRefresh = () => {
     setLoading(true);
     setPage(0);
-  }
+  };
 
   return (
     <Container>
@@ -55,5 +54,5 @@ export const Boletos = () => {
         renderItem={({ item }) => <Card {...item} />}
       />
     </Container>
-  )
-}
+  );
+};

@@ -15,39 +15,47 @@ export const SalesReport = () => {
   const [total, setTotal] = useState(0);
 
   const formattedDate = (date: string) => {
-    return format(parseISO(date), "dd/MM/yyyy")
-  }
+    return format(parseISO(date), 'dd/MM/yyyy');
+  };
 
   const onSubmit = async () => {
     try {
       const { data } = await api.get<{ result: any[] }>('/generate-report', {
         params: {
           data_initial: init,
-          data_final: end
-        }
+          data_final: end,
+        },
       });
 
       setOrders(data.result);
 
-      setTotal(data.result.reduce((previous, current) => Number(current.total) + previous, 0))
+      setTotal(
+        data.result.reduce(
+          (previous, current) => Number(current.total) + previous,
+          0
+        )
+      );
     } catch (err) {
-      Alert.alert('Erro', 'Parece que houve um erro ao gerar o seu relatório, por favor tente novamente')
+      Alert.alert(
+        'Erro',
+        'Parece que houve um erro ao gerar o seu relatório, por favor tente novamente'
+      );
     }
-  }
+  };
 
   const Header = (
     <FlatListHeader>
       <Text style={{ color: '#fff' }}>Dia</Text>
       <Text style={{ color: '#fff' }}>Valor</Text>
     </FlatListHeader>
-  )
+  );
 
   const Footer = (
     <FlatListHeader>
       <Text style={{ color: '#fff' }}>Total</Text>
       <Text style={{ color: '#fff' }}>{formatNumber(total)}</Text>
     </FlatListHeader>
-  )
+  );
 
   return (
     <ScrollView>
@@ -72,7 +80,9 @@ export const SalesReport = () => {
           onChangeText={setEnd}
         />
 
-        <Button style={{ marginTop: 10 }} onPress={onSubmit}>Gerar</Button>
+        <Button style={{ marginTop: 10 }} onPress={onSubmit}>
+          Gerar
+        </Button>
 
         <FlatList
           style={{ width: '100%' }}
@@ -80,13 +90,23 @@ export const SalesReport = () => {
           ListFooterComponent={Footer}
           data={orders}
           renderItem={({ item }) => (
-            <View style={{ padding: 5, borderColor: '#6e6d6d', borderWidth: 1, flexDirection: 'row', justifyContent: 'space-around' }}>
-              <Text style={{ color: '#000' }}>{formattedDate(item.createdAt)}</Text>
+            <View
+              style={{
+                padding: 5,
+                borderColor: '#6e6d6d',
+                borderWidth: 1,
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+              }}
+            >
+              <Text style={{ color: '#000' }}>
+                {formattedDate(item.createdAt)}
+              </Text>
               <Text style={{ color: '#000' }}>{formatNumber(item.total)}</Text>
             </View>
           )}
         />
       </Container>
     </ScrollView>
-  )
-}
+  );
+};

@@ -11,9 +11,8 @@ export const Select = ({
   label,
   labelColor = '#fff',
   items,
-  disabled = false
+  disabled = false,
 }: SelectProps) => {
-
   return (
     <Container>
       <Label style={labelColor ? { color: labelColor } : {}}>{label}</Label>

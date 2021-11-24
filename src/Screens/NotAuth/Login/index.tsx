@@ -21,11 +21,14 @@ import { Values } from './types';
 export const Login = ({ navigation }) => {
   const { signIn } = useAuth();
 
-  const onSubmit = async ({ email, password }: Values, { setSubmitting, resetForm }: FormikHelpers<Values>) => {
+  const onSubmit = async (
+    { email, password }: Values,
+    { setSubmitting, resetForm }: FormikHelpers<Values>
+  ) => {
     try {
       const result = await signIn(email, password);
 
-      if(!result) throw new Error();
+      if (!result) throw new Error();
     } catch (err) {
       Alert.alert('Credenciais invalidas', 'Email ou senha estão incorretos');
       resetForm();
@@ -43,7 +46,13 @@ export const Login = ({ navigation }) => {
         onSubmit={onSubmit}
         validationSchema={schema}
       >
-        {({ handleSubmit, handleChange, values, setFieldValue, isSubmitting }) => (
+        {({
+          handleSubmit,
+          handleChange,
+          values,
+          setFieldValue,
+          isSubmitting,
+        }) => (
           <Form>
             <ContainerInput>
               <Field
@@ -71,7 +80,11 @@ export const Login = ({ navigation }) => {
                 </ForgotPasswordText>
               </ForgotPasswordButton>
             </ForgotPassword>
-            <Button style={{ marginTop: 20 }} loading={isSubmitting} onPress={() => handleSubmit()}>
+            <Button
+              style={{ marginTop: 20 }}
+              loading={isSubmitting}
+              onPress={() => handleSubmit()}
+            >
               Login
             </Button>
           </Form>

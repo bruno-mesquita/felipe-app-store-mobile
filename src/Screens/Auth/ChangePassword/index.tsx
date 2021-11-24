@@ -14,20 +14,23 @@ export const ChangePassword = () => {
     confirmNewPassword: '',
   };
 
-  const onSubmit = async (values: typeof initialValues, { resetForm, setSubmitting }: FormikHelpers<typeof initialValues>) => {
+  const onSubmit = async (
+    values: typeof initialValues,
+    { resetForm, setSubmitting }: FormikHelpers<typeof initialValues>
+  ) => {
     try {
       if (values.newPassword === values.confirmNewPassword) {
         await api.put('/establisments/update-password', values);
 
-        setSubmitting(false)
+        setSubmitting(false);
         Alert.alert('Senha atualizada');
         resetForm();
       } else {
-        setSubmitting(false)
+        setSubmitting(false);
         Alert.alert('Senhas iguais');
       }
     } catch (err) {
-      setSubmitting(false)
+      setSubmitting(false);
       Alert.alert('Erro ao atualizar a senha');
     }
   };
@@ -71,7 +74,11 @@ export const ChangePassword = () => {
               </ViewField>
             </ViewFields>
             <View>
-              <Button loading={isSubmitting} primaryColor onPress={() => handleSubmit()}>
+              <Button
+                loading={isSubmitting}
+                primaryColor
+                onPress={() => handleSubmit()}
+              >
                 Atualizar
               </Button>
             </View>

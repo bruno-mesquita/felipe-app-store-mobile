@@ -9,12 +9,11 @@ const Header = () => (
 );
 
 interface HeaderProps {
-  name?: string | undefined,
+  name?: string | undefined;
   navigation?: any;
 }
 
 export default ({ name, navigation }: HeaderProps) => {
-
   const props: any = {
     headerTitleAlign: 'center' as any,
     headerTintColor: '#fff',
@@ -22,11 +21,21 @@ export default ({ name, navigation }: HeaderProps) => {
       backgroundColor: '#9E0404',
     },
     headerTitle: name ? name : () => <Header />,
-  }
+  };
 
-  if(name) props.title = name;
+  if (name) props.title = name;
 
-  if(navigation) props.headerRight = ({ tintColor }) => <TouchableOpacity onPress={() => navigation.navigate('Configuration')}><Ionicons name="md-settings-sharp" size={30} color={tintColor} style={{ paddingRight: 15 }} /></ TouchableOpacity>
+  if (navigation)
+    props.headerRight = ({ tintColor }) => (
+      <TouchableOpacity onPress={() => navigation.navigate('Configuration')}>
+        <Ionicons
+          name="md-settings-sharp"
+          size={30}
+          color={tintColor}
+          style={{ paddingRight: 15 }}
+        />
+      </TouchableOpacity>
+    );
 
   return props;
-}
+};

@@ -32,14 +32,14 @@ export const CreateEstablishment = ({ navigation }) => {
       neighborhood: '',
       state: '',
       city: '',
-      cep: ''
+      cep: '',
     },
   };
 
   const ok = () => {
     setEstablishmentExists(true);
     navigation.navigate('Dashboard');
-  }
+  };
 
   const onSubmit = async (values: typeof initialValues) => {
     try {
@@ -50,32 +50,41 @@ export const CreateEstablishment = ({ navigation }) => {
         address: {
           ...values.address,
           cep: inputCepRef.current?.getRawValue(),
-          city: Number(values.address.city)
+          city: Number(values.address.city),
         },
         closingTime: Number(values.closingTime),
-        openingTime: Number(values.openingTime)
-      }
+        openingTime: Number(values.openingTime),
+      };
 
       await api.post('/establishments', body);
 
-      Alert.alert('Successo', 'Loja cadastrada com sucesso', [{
-        onPress: ok,
-        text: 'Ok'
-      }]);
+      Alert.alert('Successo', 'Loja cadastrada com sucesso', [
+        {
+          onPress: ok,
+          text: 'Ok',
+        },
+      ]);
     } catch (err) {
       Alert.alert('Erro', 'Houve um erro ao cadastrar sua loja :(');
     }
-  }
+  };
 
   return (
     <Container>
       <Formik
         onSubmit={onSubmit}
         initialValues={initialValues}
-        component={props => <EstablishmentForm {...props} inputPhoneRef={inputPhoneRef} inputCepRef={inputCepRef} inputPriceRef={inputPriceRef} />}
+        component={(props) => (
+          <EstablishmentForm
+            {...props}
+            inputPhoneRef={inputPhoneRef}
+            inputCepRef={inputCepRef}
+            inputPriceRef={inputPriceRef}
+          />
+        )}
         validationSchema={schema}
         enableReinitialize
       />
     </Container>
-  )
+  );
 };

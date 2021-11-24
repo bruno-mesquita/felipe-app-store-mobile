@@ -4,5 +4,7 @@ import { useTheme } from 'styled-components/native';
 export const StatusBar = (props) => {
   const { colors } = useTheme();
 
-  return <ExpoStatusBar {...props} style="light" backgroundColor={colors.primary} />;
+  return (
+    <ExpoStatusBar {...props} style="light" backgroundColor={colors.primary} />
+  );
 };
