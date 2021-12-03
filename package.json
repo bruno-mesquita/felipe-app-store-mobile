@@ -23,6 +23,7 @@
     "expo-font": "~10.0.3",
     "expo-image-manipulator": "~10.1.2",
     "expo-image-picker": "~11.0.3",
+    "expo-notifications": "^0.13.3",
     "expo-secure-store": "~11.0.3",
     "expo-status-bar": "~1.1.0",
     "formik": "^2.2.9",
