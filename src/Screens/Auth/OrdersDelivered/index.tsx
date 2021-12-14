@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { FlatList, Alert } from 'react-native';
 
 import api from '@services/api';
@@ -15,25 +15,25 @@ export const OrdersDelivered = () => {
   const [selectedId, setSelectedId] = useState<number | undefined>();
   const modalRef = useRef<ModalBaseHandle>(null);
 
-  const getOrders = useCallback(async (newPage = 0, reset = false) => {
-    try {
-      const { data } = await api.get('/list-orders-types', {
-        params: { type: 'Finalizado', page: reset ? 0 : newPage },
-      });
-
-      setOrders((old) =>
-        reset || newPage === 0 ? data.result : old.concat(data.result)
-      );
-    } catch (err) {
-      Alert.alert('Erro', 'Erro ao buscar os pedidos');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
   useEffect(() => {
-    getOrders(page);
-  }, [getOrders, page]);
+    api
+      .get('/orders', {
+        params: {
+          types: JSON.stringify(['Entregue']),
+          page,
+        },
+      })
+      .then(({ data }) => {
+        if (page === 0) setOrders(data.result);
+        else setOrders((old) => old.concat(data.result));
+      })
+      .catch((err) => {
+        const { message } = err.response.data;
+
+        Alert.alert('Houve um erro!', message);
+      })
+      .finally(() => setLoading(false));
+  }, [page]);
 
   const loadMore = () => {
     setLoading(true);
@@ -50,11 +50,9 @@ export const OrdersDelivered = () => {
     modalRef.current?.open();
   };
 
-  const reender = async () => getOrders(page, true);
-
   return (
     <Container>
-      <ModalOrder reender={reender} modalRef={modalRef} id={selectedId} />
+      <ModalOrder reender={onRefresh} modalRef={modalRef} id={selectedId} />
       <FlatList
         style={{ paddingTop: 15 }}
         ListEmptyComponent={ListEmpty}

@@ -30,7 +30,6 @@ export interface Order {
   address_client: Address;
   payment: string;
   total: number;
-  order_status: string;
   client_order_status: string;
   createdAt: string;
 }

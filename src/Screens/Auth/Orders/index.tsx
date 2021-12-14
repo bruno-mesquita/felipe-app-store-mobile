@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { FlatList, Alert } from 'react-native';
 
 import { ModalBaseHandle } from '../../../Components/ModalBase/props';
@@ -13,40 +13,28 @@ export const Orders = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
-  const [selectedId, setSelectedId] = useState<number | undefined>();
+  const [selectedId, setSelectedId] = useState<number | null>(null);
   const modalRef = useRef<ModalBaseHandle>(null);
 
-  const getOrders = useCallback(
-    async (newPage = 0, loop = false, reset = false) => {
-      try {
-        const { data } = await api.get('/list-orders-types', {
-          params: { type: 'Aberto', page: reset ? 0 : newPage },
-        });
-
-        if (reset || loop) {
-          setOrders(data.result);
-          setPage(0);
-        } else
-          setOrders((old) =>
-            newPage === 0 ? data.result : old.concat(data.result)
-          );
-      } catch (err) {
-        Alert.alert('Erro', 'Erro ao buscar os pedidos');
-        setOrders([]);
-      } finally {
-        setLoading(false);
-      }
-    },
-    []
-  );
-
   useEffect(() => {
-    getOrders();
+    api
+      .get('/orders', {
+        params: {
+          types: JSON.stringify(['Novo', 'Aceito', 'Em preparo', 'Saiu para entrega']),
+          page,
+        },
+      })
+      .then(({ data }) => {
+        if (page === 0) setOrders(data.result);
+        else setOrders((old) => old.concat(data.result));
+      })
+      .catch((err) => {
+        const { message } = err.response.data;
 
-    const funcInterval = setInterval(async () => getOrders(page, true), 8000);
-
-    return () => clearInterval(funcInterval);
-  }, [getOrders]);
+        Alert.alert('Houve um erro!', message);
+      })
+      .finally(() => setLoading(false));
+  }, [page, loading]);
 
   const loadMore = () => {
     setLoading(true);
@@ -63,11 +51,9 @@ export const Orders = () => {
     modalRef.current?.open();
   };
 
-  const reender = async () => getOrders(0, false, true);
-
   return (
     <>
-      <ModalOrder reender={reender} modalRef={modalRef} id={selectedId} />
+      <ModalOrder reender={onRefresh} modalRef={modalRef} id={selectedId} />
       <Container>
         <FlatList
           style={{ paddingTop: 15 }}
@@ -78,9 +64,7 @@ export const Orders = () => {
           onEndReachedThreshold={0}
           onEndReached={loadMore}
           keyExtractor={(item) => String(item.id)}
-          renderItem={({ item }) => (
-            <CardOrder onPress={onPressItem} {...item} />
-          )}
+          renderItem={({ item }) => <CardOrder onPress={onPressItem} {...item} />}
         />
       </Container>
     </>

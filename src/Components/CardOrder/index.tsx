@@ -1,4 +1,4 @@
-import { View, TouchableOpacity } from 'react-native';
+import { View } from 'react-native';
 import { parseISO, format } from 'date-fns';
 
 import formatPrice from '../../utils/format-number';
@@ -25,10 +25,7 @@ export const CardOrder = ({
   };
 
   return (
-    <CardBase
-      onPress={() => onPress(id)}
-      style={{ width: '90%', alignSelf: 'center' }}
-    >
+    <CardBase onPress={() => onPress(id)} style={{ width: '90%', alignSelf: 'center' }}>
       <Content>
         <View
           style={{
@@ -39,7 +36,7 @@ export const CardOrder = ({
           }}
         >
           <Text style={{ textTransform: 'uppercase' }}>
-            Status: {client_order_status}
+            Status: {client_order_status === 'Enviado' ? 'Novo' : client_order_status}
           </Text>
           <Text>{formattedDate(createdAt)}</Text>
         </View>

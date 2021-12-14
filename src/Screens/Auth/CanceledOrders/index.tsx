@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { FlatList, Alert } from 'react-native';
 
 import { ModalBaseHandle } from '../../../Components/ModalBase/props';
@@ -15,25 +15,25 @@ export const CanceledOrders = () => {
   const [selectedId, setSelectedId] = useState<number | undefined>();
   const modalRef = useRef<ModalBaseHandle>(null);
 
-  const getOrders = useCallback(async (newPage = 0) => {
-    try {
-      const { data } = await api.get('/list-orders-types', {
-        params: { type: 'Cancelado', page: newPage },
-      });
-
-      setOrders((old) =>
-        newPage === 0 ? data.result : old.concat(data.result)
-      );
-    } catch (err) {
-      Alert.alert('Erro', 'Erro ao buscar os pedidos');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
   useEffect(() => {
-    getOrders(page);
-  }, [getOrders, page]);
+    api
+      .get('/orders', {
+        params: {
+          types: JSON.stringify(['Cancelado']),
+          page,
+        },
+      })
+      .then(({ data }) => {
+        if (page === 0) setOrders(data.result);
+        else setOrders((old) => old.concat(data.result));
+      })
+      .catch((err) => {
+        const { message } = err.response.data;
+
+        Alert.alert('Houve um erro!', message);
+      })
+      .finally(() => setLoading(false));
+  }, [page, loading]);
 
   const loadMore = async () => {
     setLoading(true);

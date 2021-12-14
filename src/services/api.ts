@@ -1,15 +1,10 @@
 import axios from 'axios';
 import Constants from 'expo-constants';
 
-import {
-  getRefreshToken,
-  removeToken,
-  setToken,
-  setRefreshToken,
-  getToken,
-} from '../utils/store';
+import { getRefreshToken, removeToken, setToken, setRefreshToken, getToken } from '../utils/store';
 
 const BASE_URL = 'https://api.flippdelivery.com.br/api/app-store';
+// const BASE_URL = 'http://192.168.15.24:3030/api/app-store';
 
 const api = axios.create({
   baseURL: BASE_URL,

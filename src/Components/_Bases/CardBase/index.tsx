@@ -3,12 +3,7 @@ import { TouchableOpacity, View } from 'react-native';
 import { Props } from './props';
 import styles from './styles';
 
-export const CardBase: Props = ({
-  children,
-  style,
-  component = 'button',
-  ...rest
-}) => {
+export const CardBase: Props = ({ children, style, component = 'button', ...rest }) => {
   return (
     <>
       {component === 'button' ? (

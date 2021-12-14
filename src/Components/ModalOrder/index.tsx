@@ -26,25 +26,27 @@ export const ModalOrder = ({ modalRef, id, reender }: ItemModalProps) => {
   const onClose = () => modalRef.current.close();
 
   useEffect(() => {
-    api
-      .get(`/show-order/${id}`)
-      .then(({ data }) => {
-        setItems(data.result.items);
-        setOrder(data.result.order);
-      })
-      .catch(() => {
-        Alert.alert('Erro', 'Erro ao buscar pedido', [
-          {
-            onPress: onClose,
-            text: 'Sair',
-          },
-        ]);
-      });
+    if (id) {
+      api
+        .get(`/orders/${id}`)
+        .then(({ data }) => {
+          setItems(data.result.items);
+          setOrder(data.result.order);
+        })
+        .catch(() => {
+          Alert.alert('Erro', 'Erro ao buscar pedido', [
+            {
+              onPress: onClose,
+              text: 'Sair',
+            },
+          ]);
+        });
+    }
   }, [id]);
 
   const accept = async () => {
     try {
-      await api.put(`/update-status-order/${id}`);
+      await api.put(`/orders/${id}`);
 
       onClose();
       reender();
@@ -55,7 +57,7 @@ export const ModalOrder = ({ modalRef, id, reender }: ItemModalProps) => {
 
   const refuse = async () => {
     try {
-      await api.put(`/cancel-order/${id}`);
+      await api.put(`/orders/${id}/cancel`);
 
       onClose();
       reender();
@@ -65,10 +67,7 @@ export const ModalOrder = ({ modalRef, id, reender }: ItemModalProps) => {
   };
 
   const CloseButton = () => (
-    <TouchableOpacity
-      onPress={onClose}
-      style={{ alignSelf: 'flex-end', paddingBottom: 10 }}
-    >
+    <TouchableOpacity onPress={onClose} style={{ alignSelf: 'flex-end', paddingBottom: 10 }}>
       <Ionicons name="close-circle" size={25} color={colors.primary} />
     </TouchableOpacity>
   );
@@ -92,14 +91,9 @@ export const ModalOrder = ({ modalRef, id, reender }: ItemModalProps) => {
           </View>
         ))}
 
-        <Text style={{ alignSelf: 'flex-end' }}>
-          {formatNumber(order.total)}
-        </Text>
+        <Text style={{ alignSelf: 'flex-end' }}>{formatNumber(order.total)}</Text>
         {order.transshipment !== 0 ? (
-          <Text style={{ alignSelf: 'flex-end' }}>
-            {' '}
-            {`Troco ${formatNumber(order.transshipment)}`}
-          </Text>
+          <Text style={{ alignSelf: 'flex-end' }}> {`Troco ${formatNumber(order.transshipment)}`}</Text>
         ) : null}
 
         {order.note && order.note !== '' ? (
@@ -108,25 +102,14 @@ export const ModalOrder = ({ modalRef, id, reender }: ItemModalProps) => {
           </View>
         ) : null}
 
-        {order.order_status !== 'Finalizado' &&
-        order.order_status !== 'Cancelado' ? (
-          <ViewButtons
-            style={
-              order.order_status !== 'Aberto' ? { alignSelf: 'flex-end' } : {}
-            }
-          >
+        {order.order_status !== 'Finalizado' && order.order_status !== 'Cancelado' ? (
+          <ViewButtons style={order.order_status !== 'Aberto' ? { alignSelf: 'flex-end' } : {}}>
             {order.order_status === 'Aberto' ? (
-              <ButtonModal
-                style={{ width: '30%', marginBottom: 0 }}
-                onPress={refuse}
-              >
+              <ButtonModal style={{ width: '30%', marginBottom: 0 }} onPress={refuse}>
                 Recusar
               </ButtonModal>
             ) : null}
-            <ButtonModal
-              style={{ width: '30%', marginBottom: 0 }}
-              onPress={accept}
-            >
+            <ButtonModal style={{ width: '30%', marginBottom: 0 }} onPress={accept}>
               {order.order_status === 'Aberto' ? 'Aceitar' : 'Avançar'}
             </ButtonModal>
           </ViewButtons>
