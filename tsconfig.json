@@ -24,7 +24,12 @@
     "typeRoots": [
       "./node_modules/@types",
       "./src/@types"
-    ]
+    ],
+    "allowJs": true
   },
+  "include": [
+    "./src/**/*",
+    "./index.js"
+  ],
   "extends": "expo/tsconfig.base"
 }

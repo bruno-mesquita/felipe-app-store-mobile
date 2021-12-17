@@ -6,14 +6,7 @@ import { Field, FieldSecure } from '../../../Components/FormUtils';
 import { Button } from '../../../Components';
 import { Layout } from '../_Layout';
 
-import {
-  MyError,
-  Form,
-  ContainerInput,
-  ForgotPassword,
-  ForgotPasswordButton,
-  ForgotPasswordText,
-} from './styles';
+import { MyError, Form, ContainerInput, ForgotPassword, ForgotPasswordButton, ForgotPasswordText } from './styles';
 
 import schema from './schema';
 import { Values } from './types';
@@ -21,10 +14,7 @@ import { Values } from './types';
 export const Login = ({ navigation }) => {
   const { signIn } = useAuth();
 
-  const onSubmit = async (
-    { email, password }: Values,
-    { setSubmitting, resetForm }: FormikHelpers<Values>
-  ) => {
+  const onSubmit = async ({ email, password }: Values, { setSubmitting, resetForm }: FormikHelpers<Values>) => {
     try {
       const result = await signIn(email, password);
 
@@ -41,18 +31,8 @@ export const Login = ({ navigation }) => {
 
   return (
     <Layout>
-      <Formik
-        initialValues={{ email: '', password: '' }}
-        onSubmit={onSubmit}
-        validationSchema={schema}
-      >
-        {({
-          handleSubmit,
-          handleChange,
-          values,
-          setFieldValue,
-          isSubmitting,
-        }) => (
+      <Formik initialValues={{ email: '', password: '' }} onSubmit={onSubmit} validationSchema={schema}>
+        {({ handleSubmit, handleChange, values, setFieldValue, isSubmitting }) => (
           <Form>
             <ContainerInput>
               <Field
@@ -75,16 +55,10 @@ export const Login = ({ navigation }) => {
 
             <ForgotPassword>
               <ForgotPasswordButton>
-                <ForgotPasswordText onPress={forgotPassword}>
-                  Esqueci minha senha
-                </ForgotPasswordText>
+                <ForgotPasswordText onPress={forgotPassword}>Esqueci minha senha</ForgotPasswordText>
               </ForgotPasswordButton>
             </ForgotPassword>
-            <Button
-              style={{ marginTop: 20 }}
-              loading={isSubmitting}
-              onPress={() => handleSubmit()}
-            >
+            <Button style={{ marginTop: 20 }} loading={isSubmitting} onPress={() => handleSubmit()}>
               Login
             </Button>
           </Form>

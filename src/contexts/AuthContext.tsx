@@ -48,10 +48,7 @@ export const AuthProvider: FC = ({ children }) => {
 
   const signIn = async (email: string, password: string) => {
     try {
-      const { data } = await api.post<{ token: string; refreshToken: string }>(
-        '/auth/login',
-        { email, password }
-      );
+      const { data } = await api.post<{ token: string; refreshToken: string }>('/auth/login', { email, password });
       setToken(data.token);
       setRefreshToken(data.refreshToken);
       await store.setToken(data.token);

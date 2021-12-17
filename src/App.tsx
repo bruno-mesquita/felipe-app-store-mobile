@@ -1,6 +1,4 @@
-import 'react-native-gesture-handler';
-
-import registerRootComponent from 'expo/build/launch/registerRootComponent';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import './config/reactotron';
 import { Styles } from './Styles';
@@ -9,14 +7,16 @@ import { StatusBar, AppLoading } from './Components';
 import { AuthProvider } from './contexts/AuthContext';
 
 const App = () => (
-  <AuthProvider>
-    <AppLoading>
-      <Styles>
-        <StatusBar />
-        <Navigation />
-      </Styles>
-    </AppLoading>
-  </AuthProvider>
+  <GestureHandlerRootView style={{ flex: 1 }}>
+    <AuthProvider>
+      <AppLoading>
+        <Styles>
+          <StatusBar />
+          <Navigation />
+        </Styles>
+      </AppLoading>
+    </AuthProvider>
+  </GestureHandlerRootView>
 );
 
-registerRootComponent(App);
+export default App;
