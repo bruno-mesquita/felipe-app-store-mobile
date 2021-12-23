@@ -4,15 +4,7 @@ import { ErrorMessage, Formik } from 'formik';
 import { Button } from '../../../Components';
 import { Field } from '../../../Components/FormUtils';
 
-import {
-  Container,
-  BackGround,
-  ContainerLogo,
-  Logo,
-  ContentForm,
-  ContainerInput,
-  ContainerButton,
-} from './styles';
+import { Container, BackGround, ContainerLogo, Logo, ContentForm, ContainerInput, ContainerButton } from './styles';
 
 export const CodeToForgotPassword = ({ navigation }) => {
   const codeValue = {
@@ -31,27 +23,19 @@ export const CodeToForgotPassword = ({ navigation }) => {
     <Container>
       <BackGround source={require('../../../assets/images/fundo.png')}>
         <ContainerLogo>
-          <Logo source={require('../../../assets/images/logo.png')} />
+          <Logo source={require('../../../assets/images/logo-flipp.png')} />
         </ContainerLogo>
 
         <Formik initialValues={codeValue} onSubmit={onSubmit}>
           {({ values, handleSubmit, handleChange }) => (
             <ContentForm>
               <ContainerInput>
-                <Field
-                  value={values.code}
-                  placeholder="Código"
-                  onChangeText={handleChange('code')}
-                  label="Código"
-                />
+                <Field value={values.code} placeholder="Código" onChangeText={handleChange('code')} label="Código" />
                 <ErrorMessage component={Text} name="code" />
               </ContainerInput>
 
               <ContainerButton>
-                <Button
-                  style={{ marginBottom: 50 }}
-                  onPress={() => handleSubmit()}
-                >
+                <Button style={{ marginBottom: 50 }} onPress={() => handleSubmit()}>
                   Reenviar código
                 </Button>
 

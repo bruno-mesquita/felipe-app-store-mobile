@@ -21,6 +21,6 @@ export const Logo = styled.Image.attrs((props) => ({
   ...props,
   resizeMode: 'contain',
 }))`
-  height: ${height * 0.2}px;
+  height: ${height * 0.3}px;
   width: ${width * 0.8}px;
 `;

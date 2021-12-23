@@ -4,15 +4,7 @@ import { ErrorMessage, Formik } from 'formik';
 import { Button } from '../../../Components';
 import { Field } from '../../../Components/FormUtils';
 
-import {
-  Container,
-  BackGround,
-  ContainerLogo,
-  Logo,
-  ContentForm,
-  ContainerInput,
-  ContainerButton,
-} from './styles';
+import { Container, BackGround, ContainerLogo, Logo, ContentForm, ContainerInput, ContainerButton } from './styles';
 
 export const CodeToPassword = ({ navigation }) => {
   const initialValues = {
@@ -30,7 +22,7 @@ export const CodeToPassword = ({ navigation }) => {
     <Container>
       <BackGround source={require('../../../assets/images/fundo.png')}>
         <ContainerLogo>
-          <Logo source={require('../../../assets/images/logo.png')} />
+          <Logo source={require('../../../assets/images/logo-flipp.png')} />
         </ContainerLogo>
 
         <Formik initialValues={initialValues} onSubmit={onSubmit}>

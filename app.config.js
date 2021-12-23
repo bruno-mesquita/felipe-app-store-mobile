@@ -4,7 +4,7 @@ export default {
     slug: "flipp-partners",
     version: "1.1.0",
     orientation: "portrait",
-    icon: "./src/assets/icons/logo_app.png",
+    icon: "./src/assets/icons/logo.png",
     splash: {
       image: "./src/assets/images/splash.png",
       resizeMode: "cover"
@@ -25,7 +25,7 @@ export default {
       googleServicesFile: "./google-services.json",
       adaptiveIcon: {
         backgroundColor: "#9E0404",
-        foregroundImage: "./src/assets/icons/logo_app.png"
+        foregroundImage: "./src/assets/icons/logo.png"
       },
       package: "flipp.partners.com"
     },
