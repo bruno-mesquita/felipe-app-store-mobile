@@ -1,7 +1,6 @@
 import axios from 'axios';
 import Constants from 'expo-constants';
 
-import { getRefreshToken, removeToken, setToken, setRefreshToken, getToken } from '../utils/store';
 import { store } from '@store/store';
 import { authActions } from '@store/reducers/auth';
 
@@ -52,12 +51,12 @@ api.interceptors.response.use(
           },
         });
       } catch (err) {
-        await removeToken();
+        store.dispatch(authActions.logout());
         return Promise.reject(error);
       }
     }
 
-    await removeToken();
+    store.dispatch(authActions.logout());
     return Promise.reject(error);
   }
 );

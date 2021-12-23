@@ -58,11 +58,11 @@ export const Login = ({ navigation }) => {
               <MyError name="password" />
             </ContainerInput>
 
-            <ForgotPassword>
+            {/* <ForgotPassword>
               <ForgotPasswordButton>
                 <ForgotPasswordText onPress={forgotPassword}>Esqueci minha senha</ForgotPasswordText>
               </ForgotPasswordButton>
-            </ForgotPassword>
+            </ForgotPassword> */}
             <Button style={{ marginTop: 20 }} loading={isSubmitting} onPress={() => handleSubmit()}>
               Login
             </Button>
