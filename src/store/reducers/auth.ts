@@ -35,7 +35,7 @@ const auth = createSlice({
     builder.addMatcher(
       (action) => action.type === REHYDRATE,
       (state, action: PayloadAction<RootState>) => {
-        if (action.payload.auth) {
+        if (action.payload && action.payload?.auth) {
           const { auth } = action.payload;
 
           api.defaults.headers.common.Authorization = `Bearer ${auth.token}`;
