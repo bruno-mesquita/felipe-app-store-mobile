@@ -1,29 +1,18 @@
 import { useEffect } from 'react';
 import { ScrollView } from 'react-native';
-import {
-  Ionicons,
-  MaterialIcons,
-  AntDesign,
-  MaterialCommunityIcons,
-} from '@expo/vector-icons';
+import { Ionicons, MaterialIcons, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useTheme } from 'styled-components/native';
 
 import api from '@services/api';
 
 import { Item, Divider } from './Components';
-import {
-  Container,
-  Row,
-  Footer,
-  Header,
-  TitleFooter,
-  ViewTitle,
-  Text,
-} from './styles';
-import { useAuth } from '@contexts/AuthContext';
+import { Container, Row, Footer, Header, TitleFooter, ViewTitle, Text } from './styles';
+import { useAppSelector, useAppDispatch } from '@store/hooks';
+import { authActions } from '@store/reducers/auth';
 
 export const Dashboard = ({ navigation }) => {
-  const { establishmentExists, setEstablishmentExists, token } = useAuth();
+  const dispatch = useAppDispatch();
+  const { token, establishmentExists } = useAppSelector((store) => store.auth);
   const { metrics } = useTheme();
 
   const toGoMenus = () => navigation.navigate('Menus');
@@ -36,9 +25,7 @@ export const Dashboard = ({ navigation }) => {
   const toGoBoletos = () => navigation.navigate('Boletos');
   const toGoSalesReport = () => navigation.navigate('SalesReport');
   const toGoEstablishment = () =>
-    navigation.navigate(
-      establishmentExists ? 'UpdateEstablishment' : 'CreateEstablishment'
-    );
+    navigation.navigate(establishmentExists ? 'UpdateEstablishment' : 'CreateEstablishment');
   const toGoDeliverymen = () => navigation.navigate('Deliverymen');
 
   const iconProps = (name: any) => ({
@@ -48,9 +35,7 @@ export const Dashboard = ({ navigation }) => {
   });
 
   useEffect(() => {
-    api
-      .get('/establishments/exists')
-      .then(({ data }) => setEstablishmentExists(data.result));
+    api.get('/establishments/exists').then(({ data }) => dispatch(authActions.setEstablishmentExists(data.result)));
   }, [token]);
 
   return (

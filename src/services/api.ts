@@ -2,6 +2,8 @@ import axios from 'axios';
 import Constants from 'expo-constants';
 
 import { getRefreshToken, removeToken, setToken, setRefreshToken, getToken } from '../utils/store';
+import { store } from '@store/store';
+import { authActions } from '@store/reducers/auth';
 
 const api = axios.create({
   baseURL: Constants.manifest.extra.apiUrl,
@@ -9,25 +11,6 @@ const api = axios.create({
     api_version: Constants.manifest.version,
   },
 });
-
-api.interceptors.request.use(
-  async (request) => {
-    const { Authorization = null } = request.headers;
-
-    if (!Authorization) {
-      const token = await getToken();
-
-      if (token) request.headers.Authorization = `Bearer ${token}`;
-    } else if (!Authorization.split(' ')[1]) {
-      const token = await getToken();
-
-      if (token) request.headers.Authorization = `Bearer ${token}`;
-    }
-
-    return request;
-  },
-  (error) => Promise.reject(error)
-);
 
 api.interceptors.response.use(
   (response) => response,
@@ -37,9 +20,7 @@ api.interceptors.response.use(
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
-      const refreshToken = await getRefreshToken();
-
-      if (!refreshToken) await removeToken();
+      const { refreshToken } = store.getState().auth;
 
       try {
         const response = await fetch(`${Constants.manifest.extra.apiUrl}/auth/refresh`, {
@@ -57,10 +38,19 @@ api.interceptors.response.use(
 
         api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
 
-        await setToken(accessToken);
-        await setRefreshToken(newRefreshToken);
+        store.dispatch(
+          authActions.setTokens({
+            token: accessToken,
+            refreshToken: newRefreshToken,
+          })
+        );
 
-        return axios(originalRequest);
+        return axios({
+          ...originalRequest,
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
       } catch (err) {
         await removeToken();
         return Promise.reject(error);

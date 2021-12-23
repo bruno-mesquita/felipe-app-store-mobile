@@ -1,7 +1,10 @@
 import { Alert } from 'react-native';
 import { Formik, FormikHelpers } from 'formik';
 
-import { useAuth } from '@contexts/AuthContext';
+import api from '@services/api';
+import { useAppDispatch } from '@store/hooks';
+import { authActions } from '@store/reducers/auth';
+
 import { Field, FieldSecure } from '../../../Components/FormUtils';
 import { Button } from '../../../Components';
 import { Layout } from '../_Layout';
@@ -9,16 +12,18 @@ import { Layout } from '../_Layout';
 import { MyError, Form, ContainerInput, ForgotPassword, ForgotPasswordButton, ForgotPasswordText } from './styles';
 
 import schema from './schema';
-import { Values } from './types';
+import { Values, ILoginResponse } from './types';
 
 export const Login = ({ navigation }) => {
-  const { signIn } = useAuth();
+  const dispatch = useAppDispatch();
 
   const onSubmit = async ({ email, password }: Values, { setSubmitting, resetForm }: FormikHelpers<Values>) => {
     try {
-      const result = await signIn(email, password);
+      const { data } = await api.post<ILoginResponse>('/auth/login', { email, password });
 
-      if (!result) throw new Error();
+      api.defaults.headers.common.Authorization = `Bearer ${data.token}`;
+
+      dispatch(authActions.setTokens(data));
     } catch (err) {
       Alert.alert('Credenciais invalidas', 'Email ou senha estão incorretos');
       resetForm();
@@ -32,7 +37,7 @@ export const Login = ({ navigation }) => {
   return (
     <Layout>
       <Formik initialValues={{ email: '', password: '' }} onSubmit={onSubmit} validationSchema={schema}>
-        {({ handleSubmit, handleChange, values, setFieldValue, isSubmitting }) => (
+        {({ handleSubmit, handleChange, values, isSubmitting }) => (
           <Form>
             <ContainerInput>
               <Field

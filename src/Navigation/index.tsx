@@ -1,12 +1,13 @@
 import { NavigationContainer } from '@react-navigation/native';
 
-import { useAuth } from '@contexts/AuthContext';
+import { Notifications } from '@components';
+import { useAppSelector } from '@store/hooks';
+
 import DefaultStack from './DefaultStack';
 import NotAuthStack from './NotAuthStack';
-import { Notifications } from '@components';
 
 const Navigation = () => {
-  const { signed } = useAuth();
+  const signed = useAppSelector((store) => store.auth.signed);
 
   return (
     <NavigationContainer>

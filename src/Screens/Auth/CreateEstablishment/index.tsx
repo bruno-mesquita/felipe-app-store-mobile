@@ -3,15 +3,16 @@ import { Alert } from 'react-native';
 import { Formik } from 'formik';
 import { TextInputMasked } from 'react-native-masked-text';
 
-import { useAuth } from '@contexts/AuthContext';
-import { EstablishmentForm } from '../../../Components';
+import { useAppDispatch } from '@store/hooks';
+import { authActions } from '@store/reducers/auth';
 import api from '@services/api';
 
+import { EstablishmentForm } from '../../../Components';
 import { Container } from './styles';
 import { schema } from './schema';
 
 export const CreateEstablishment = ({ navigation }) => {
-  const { setEstablishmentExists } = useAuth();
+  const dispatch = useAppDispatch();
 
   const inputPhoneRef = useRef<TextInputMasked>(null);
   const inputCepRef = useRef<TextInputMasked>(null);
@@ -37,7 +38,7 @@ export const CreateEstablishment = ({ navigation }) => {
   };
 
   const ok = () => {
-    setEstablishmentExists(true);
+    dispatch(authActions.setEstablishmentExists(true));
     navigation.navigate('Dashboard');
   };
 

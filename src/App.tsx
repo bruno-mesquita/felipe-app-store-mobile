@@ -4,18 +4,18 @@ import './config/reactotron';
 import { Styles } from './Styles';
 import Navigation from './Navigation';
 import { StatusBar, AppLoading } from './Components';
-import { AuthProvider } from './contexts/AuthContext';
+import StoreProvider from './store/Provider';
 
 const App = () => (
   <GestureHandlerRootView style={{ flex: 1 }}>
-    <AuthProvider>
+    <StoreProvider>
       <AppLoading>
         <Styles>
           <StatusBar />
           <Navigation />
         </Styles>
       </AppLoading>
-    </AuthProvider>
+    </StoreProvider>
   </GestureHandlerRootView>
 );
 

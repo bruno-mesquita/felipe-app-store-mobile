@@ -17,9 +17,9 @@
       "@utils/*": ["./src/utils/*"],
       "@services/*": ["./src/services/*"],
       "@screens/*": ["./src/Screens/*"],
-      "@store/*": ["./src/Store/*"],
       "@hooks": ["./src/hooks"],
-      "@contexts/*": ["./src/contexts/*"]
+      "@contexts/*": ["./src/contexts/*"],
+      "@store/*": ["./src/store/*"]
     },
     "typeRoots": [
       "./node_modules/@types",

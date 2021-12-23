@@ -1,10 +1,13 @@
-import { useAuth } from '@contexts/AuthContext';
-import { Item } from './Components';
+import { useAppDispatch } from '@store/hooks';
+import { authActions } from '@store/reducers/auth';
 
+import { Item } from './Components';
 import { Container, Divider } from './styles';
 
 export const Configuration = () => {
-  const { logout } = useAuth();
+  const dispatch = useAppDispatch();
+
+  const logout = () => dispatch(authActions.logout());
 
   return (
     <Container>
