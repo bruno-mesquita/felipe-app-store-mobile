@@ -2,7 +2,7 @@ export default {
   expo: {
     name: "Flipp - Partners",
     slug: "flipp-partners",
-    version: "1.1.0",
+    version: "0.1.0",
     orientation: "portrait",
     icon: "./src/assets/icons/logo.png",
     splash: {
@@ -21,7 +21,7 @@ export default {
     },
     android: {
       userInterfaceStyle: "light",
-      versionCode: 2,
+      versionCode: 3,
       googleServicesFile: "./google-services.json",
       adaptiveIcon: {
         backgroundColor: "#9E0404",

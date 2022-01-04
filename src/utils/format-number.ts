@@ -1,17 +1,10 @@
-const formatNumber = (
-  amount: any,
-  decimalCount = 2,
-  decimal = ',',
-  thousands = '.'
-) => {
+const formatNumber = (amount: any, decimalCount = 2, decimal = ',', thousands = '.') => {
   decimalCount = Math.abs(decimalCount);
   decimalCount = isNaN(decimalCount) ? 2 : decimalCount;
 
   const negativeSign = amount < 0 ? '-' : '';
 
-  const i: any = parseInt(
-    (amount = Math.abs(amount || 0).toFixed(decimalCount))
-  ).toString();
+  const i: any = parseInt((amount = Math.abs(amount || 0).toFixed(decimalCount))).toString();
   const j = i.length > 3 ? i.length % 3 : 0;
 
   return (

@@ -11,23 +11,23 @@ export const Boletos = () => {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
 
-  const getTickets = useCallback(async (newPage = 0) => {
-    try {
-      const { data } = await api.get('/tickets', {
-        params: { page: newPage },
-      });
+  // const getTickets = useCallback(async (newPage = 0) => {
+  //   try {
+  //     const { data } = await api.get('/tickets', {
+  //       params: { page: newPage },
+  //     });
 
-      setBoletos((old) => old.concat(data.result));
-    } catch (err) {
-      Alert.alert('Erro', 'Erro ao buscar os boletos ');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  //     setBoletos((old) => old.concat(data.result));
+  //   } catch (err) {
+  //     Alert.alert('Erro', 'Erro ao buscar os boletos ');
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // }, []);
 
-  useEffect(() => {
-    getTickets(page);
-  }, [getTickets, page]);
+  // useEffect(() => {
+  //   getTickets(page);
+  // }, [getTickets, page]);
 
   const loadMore = async () => {
     setLoading(true);

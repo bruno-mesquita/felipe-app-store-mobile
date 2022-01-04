@@ -43,7 +43,7 @@ export const Dashboard = ({ navigation }) => {
       <Container>
         <Header>
           <Row>
-            <Item onPress={toGoBoletos} never>
+            <Item onPress={toGoBoletos} disabled style={{ backgroundColor: '#c4c4c4' }}>
               <Ionicons {...iconProps('print-outline')} />
               <Text>Boletos</Text>
             </Item>
