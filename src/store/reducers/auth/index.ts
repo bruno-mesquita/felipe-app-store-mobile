@@ -41,7 +41,7 @@ const auth = createSlice({
 
     builder.addMatcher(
       (action) => action.type === REHYDRATE,
-      (state, action: PayloadAction<RootState>) => {
+      (_, action: PayloadAction<RootState>) => {
         if (action.payload && action.payload?.auth) {
           const { auth } = action.payload;
 

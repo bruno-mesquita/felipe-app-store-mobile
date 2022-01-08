@@ -9,18 +9,11 @@ import {
   PURGE,
   REGISTER,
 } from 'redux-persist';
-import storage from '@react-native-async-storage/async-storage';
 
 import rootReducer from './reducers';
+import persistConfig from './persistConfig';
 
-const persistedReducer = persistReducer(
-  {
-    key: '@flipp-partners',
-    blacklist: ['auth', 'pushToken'],
-    storage,
-  },
-  rootReducer
-);
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const store = configureStore({
   reducer: persistedReducer,
