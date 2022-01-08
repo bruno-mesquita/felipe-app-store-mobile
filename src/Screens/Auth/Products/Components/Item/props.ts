@@ -4,5 +4,5 @@ export interface ItemProps {
   price: number;
   photo: string;
   menu_id: number;
-  reender: () => Promise<void>;
+  reender: () => void;
 }

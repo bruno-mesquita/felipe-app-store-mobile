@@ -8,14 +8,7 @@ import api from '@services/api';
 import { ItemProps } from './props';
 import { Container, Text, Photo, Info } from './styles';
 
-export const Item = ({
-  id,
-  name,
-  price,
-  photo,
-  menu_id,
-  reender,
-}: ItemProps) => {
+export const Item = ({ id, name, price, photo, menu_id, reender }: ItemProps) => {
   const navigation = useNavigation<any>();
 
   const edit = () => navigation.navigate('ProductUpdate', { id });
@@ -23,26 +16,22 @@ export const Item = ({
   const deleteProduct = async () => {
     try {
       await api.delete(`/products/${menu_id}/${id}`);
-      await reender();
+      reender();
     } catch (err) {
       Alert.alert('Erro', 'Erro ao deletar produto');
     }
   };
 
   const del = () => {
-    Alert.alert(
-      'Apagar',
-      `Você tem certeza que deseja apagar o produto ${name}?`,
-      [
-        {
-          text: 'Apagar',
-          onPress: deleteProduct,
-        },
-        {
-          text: 'Sair',
-        },
-      ]
-    );
+    Alert.alert('Apagar', `Você tem certeza que deseja apagar o produto ${name}?`, [
+      {
+        text: 'Apagar',
+        onPress: deleteProduct,
+      },
+      {
+        text: 'Sair',
+      },
+    ]);
   };
 
   return (

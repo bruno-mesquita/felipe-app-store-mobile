@@ -3,18 +3,23 @@ import { manipulateAsync, SaveFormat } from 'expo-image-manipulator';
 
 export const useTakePhoto = () => {
   const pickImage = async () => {
-    const { cancelled, uri: originalUri }: any = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      quality: 1,
-      allowsEditing: true,
-    });
+    const { cancelled, uri: originalUri }: any =
+      await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        quality: 1,
+        allowsEditing: true,
+      });
 
     if (!cancelled) {
-      const { base64, uri } = await manipulateAsync(originalUri, [{ resize: { height: 300, width: 300 } }], {
-        base64: true,
-        compress: 1,
-        format: SaveFormat.PNG,
-      });
+      const { base64, uri } = await manipulateAsync(
+        originalUri,
+        [{ resize: { height: 500, width: 500 } }],
+        {
+          base64: true,
+          compress: 1,
+          format: SaveFormat.PNG,
+        }
+      );
 
       const pathArray = uri.split('.');
       const ext = pathArray[pathArray.length - 1];

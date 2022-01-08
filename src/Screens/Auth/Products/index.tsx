@@ -6,15 +6,15 @@ import api from '@services/api';
 import { Item, AddButton, ListEmpty, FieldSearch } from './Components';
 
 import { Container, Tab, TabContainer, TabText } from './styles';
-import { Product } from './props';
+import type { IProduct } from './props';
 
 export const Products = () => {
   const isFocused = useIsFocused();
 
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<IProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
-  const [menus, setMenus] = useState<any[]>([]);
+  const [menus, setMenus] = useState<IMenu[]>([]);
   const [menuSelected, setMenuSelected] = useState(null);
 
   useEffect(() => {
@@ -48,10 +48,6 @@ export const Products = () => {
     setPage(0);
   };
 
-  const reender = async () => {
-    setPage(0);
-  };
-
   return (
     <Container>
       <FieldSearch refreshing={loading} response={setProducts} />
@@ -60,7 +56,12 @@ export const Products = () => {
           const selected = menuSelected === menu.id;
 
           return (
-            <Tab key={menu.id} first={index === 0} selected={selected} onPress={() => setMenu(menu.id)}>
+            <Tab
+              key={menu.id}
+              first={index === 0}
+              selected={selected}
+              onPress={() => setMenu(menu.id)}
+            >
               <TabText selected={selected}>{menu.name}</TabText>
             </Tab>
           );
@@ -73,7 +74,9 @@ export const Products = () => {
         data={products}
         onEndReached={loadMore}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => <Item {...item} reender={reender} photo={item.photo.encoded} />}
+        renderItem={({ item }) => (
+          <Item {...item} reender={onRefresh} photo={item.photo.encoded} />
+        )}
       />
       <AddButton />
     </Container>

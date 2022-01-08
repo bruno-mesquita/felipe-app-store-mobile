@@ -1,5 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from 'redux-persist';
 import storage from '@react-native-async-storage/async-storage';
 
 import rootReducer from './reducers';
@@ -7,8 +16,8 @@ import rootReducer from './reducers';
 const persistedReducer = persistReducer(
   {
     key: '@flipp-partners',
+    blacklist: ['auth', 'pushToken'],
     storage,
-    version: 1,
   },
   rootReducer
 );

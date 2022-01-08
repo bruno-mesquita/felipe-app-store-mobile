@@ -8,4 +8,9 @@ declare global {
   interface Console {
     tron: Reactotron<ReactotronReactNative> & ReactotronReactNative;
   }
+
+  interface IMenu {
+    id: number;
+    name: string;
+  }
 }

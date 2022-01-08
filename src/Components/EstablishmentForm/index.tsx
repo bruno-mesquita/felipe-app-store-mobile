@@ -1,6 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
 import { ScrollView, Alert, TouchableOpacity, Text } from 'react-native';
-import { Form } from 'formik';
 import { MaterialIcons } from '@expo/vector-icons';
 import axios from 'axios';
 
@@ -151,7 +150,7 @@ export const EstablishmentForm = ({
           disabled={!permission}
           onPress={pickImage}
         >
-          {values.image !== '' ? (
+          {values.image !== null && values.image !== '' ? (
             <Image source={{ uri: values.image }} />
           ) : (
             <MaterialIcons name="account-circle" size={120} color="#c4c4c4" />

@@ -1,4 +1,4 @@
-import { MutableRefObject, FC } from 'react';
+import type { MutableRefObject, FC } from 'react';
 import { ModalProps } from 'react-native';
 
 export type Props = FC<ModalProps>;

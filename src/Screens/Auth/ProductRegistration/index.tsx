@@ -21,10 +21,7 @@ export const ProductRegistration = () => {
     active: false,
   };
 
-  const onSubmit = async (
-    values,
-    { resetForm, setSubmitting }: FormikHelpers<any>
-  ) => {
+  const onSubmit = async (values, { resetForm, setSubmitting }: FormikHelpers<any>) => {
     try {
       const data = {
         ...values,
@@ -36,10 +33,10 @@ export const ProductRegistration = () => {
 
       Alert.alert('Sucesso', 'Produto cadastrado com sucesso');
       resetForm();
-      setSubmitting(false);
     } catch (err) {
-      setSubmitting(false);
       Alert.alert('Erro', 'Erro ao cadastrar o produto');
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -48,9 +45,7 @@ export const ProductRegistration = () => {
       <Formik
         onSubmit={onSubmit}
         initialValues={initialValues}
-        component={(props) => (
-          <ProductForm {...props} inputPriceRef={inputPriceRef} />
-        )}
+        component={(props) => <ProductForm {...props} inputPriceRef={inputPriceRef} />}
         validationSchema={schema}
       />
     </Container>

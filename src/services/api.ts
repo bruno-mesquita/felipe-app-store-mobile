@@ -19,35 +19,13 @@ api.interceptors.response.use(
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
-      const { refreshToken } = store.getState().auth;
-
       try {
-        const response = await fetch(`${Constants.manifest.extra.apiUrl}/auth/refresh`, {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ token: refreshToken }),
-        });
-
-        const data = await response.json();
-
-        const { accessToken, refreshToken: newRefreshToken } = data.result;
-
-        api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-
-        store.dispatch(
-          authActions.setTokens({
-            token: accessToken,
-            refreshToken: newRefreshToken,
-          })
-        );
+        const { token } = await store.dispatch(authActions.fetchRefreshToken()).unwrap();
 
         return axios({
           ...originalRequest,
           headers: {
-            Authorization: `Bearer ${accessToken}`,
+            Authorization: `Bearer ${token}`,
           },
         });
       } catch (err) {
