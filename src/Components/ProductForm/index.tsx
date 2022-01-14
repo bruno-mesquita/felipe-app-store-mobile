@@ -4,7 +4,6 @@ import { Ionicons } from '@expo/vector-icons';
 import { Field, Select, FieldError, FieldMask } from '../FormUtils';
 import { Button } from '../Button';
 import { Checkbox } from '../Checkbox';
-import { usePermissionGallery } from '../../hooks/permissions';
 import { useTakePhoto } from '../../hooks';
 
 import {
@@ -26,7 +25,6 @@ export const ProductForm = ({
   setFieldValue,
   inputPriceRef,
 }: ProductFormProps) => {
-  const permission = usePermissionGallery();
   const pickImage = useTakePhoto();
 
   const [menus, setMenus] = useState([]);
@@ -50,7 +48,7 @@ export const ProductForm = ({
 
   return (
     <Container>
-      <ViewImage disabled={!permission} onPress={takeImage}>
+      <ViewImage onPress={takeImage}>
         {values.image ? (
           <Image source={{ uri: values.image }} resizeMode="cover" />
         ) : (

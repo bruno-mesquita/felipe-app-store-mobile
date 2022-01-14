@@ -9,7 +9,7 @@ import { EstablishmentForm } from '../../../Components';
 
 import { Container } from './styles';
 
-export const UpdateEstablishment = ({ navigation }) => {
+export const UpdateEstablishment = () => {
   const { colors } = useTheme();
 
   const [loading, setLoading] = useState(true);
@@ -70,10 +70,9 @@ export const UpdateEstablishment = ({ navigation }) => {
           },
         });
       })
-      .catch(() => {
+      .catch((err) => {
         Alert.alert('Erro', 'Houve um erro ao buscar dados da sua loja :(', [
           {
-            onPress: () => navigation.goBack(),
             text: 'Ok',
           },
         ]);

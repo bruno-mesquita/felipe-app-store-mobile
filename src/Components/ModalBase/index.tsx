@@ -4,19 +4,21 @@ import { Modal, View } from 'react-native';
 import { ModalBaseHandle, Props } from './props';
 import { Container, styles } from './styles';
 
-export const ModalBase = forwardRef<ModalBaseHandle, Props>(({ children, ...rest }, ref) => {
-  const [visible, setVisible] = useState(false);
+export const ModalBase = forwardRef<ModalBaseHandle, Props>(
+  ({ children, ...rest }, ref) => {
+    const [visible, setVisible] = useState(false);
 
-  const open = () => setVisible(true);
-  const close = () => setVisible(false);
+    const open = () => setVisible(true);
+    const close = () => setVisible(false);
 
-  useImperativeHandle(ref, () => ({ open, close }));
+    useImperativeHandle(ref, () => ({ open, close }));
 
-  return (
-    <Modal animationType="slide" transparent={true} visible={visible} {...rest}>
-      <Container>
-        <View style={styles.modalView}>{children}</View>
-      </Container>
-    </Modal>
-  );
-});
+    return (
+      <Modal animationType="slide" transparent={true} visible={visible} {...rest}>
+        <Container>
+          <View style={styles.modalView}>{children}</View>
+        </Container>
+      </Modal>
+    );
+  }
+);

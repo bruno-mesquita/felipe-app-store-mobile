@@ -5,7 +5,6 @@ import axios from 'axios';
 
 import api from '@services/api';
 import { useTakePhoto } from '../../hooks/useTakePhoto';
-import { usePermissionGallery } from '../../hooks/permissions';
 import { Field, Select, FieldMask, FieldError } from '../FormUtils';
 import { Button } from '../Button';
 
@@ -25,7 +24,6 @@ export const EstablishmentForm = ({
   inputPriceRef,
 }: EstablishmentFormProps) => {
   const takePhoto = useTakePhoto();
-  const permission = usePermissionGallery();
 
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
@@ -147,7 +145,6 @@ export const EstablishmentForm = ({
       <Container>
         <TouchableOpacity
           style={{ alignSelf: 'center', paddingVertical: 20 }}
-          disabled={!permission}
           onPress={pickImage}
         >
           {values.image !== null && values.image !== '' ? (

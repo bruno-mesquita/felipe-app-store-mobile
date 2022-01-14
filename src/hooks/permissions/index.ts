@@ -1,1 +1,0 @@
-export { usePermissionGallery } from './usePermissionGallery';

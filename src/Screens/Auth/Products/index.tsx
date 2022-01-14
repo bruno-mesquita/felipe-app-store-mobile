@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { FlatList, Alert } from 'react-native';
-import { useIsFocused } from '@react-navigation/native';
 
 import api from '@services/api';
 import { Item, AddButton, ListEmpty, FieldSearch } from './Components';
@@ -9,8 +8,6 @@ import { Container, Tab, TabContainer, TabText } from './styles';
 import type { IProduct } from './props';
 
 export const Products = () => {
-  const isFocused = useIsFocused();
-
   const [products, setProducts] = useState<IProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
@@ -31,7 +28,7 @@ export const Products = () => {
       })
       .catch(() => Alert.alert('Erro', 'Erro ao buscar os produtos'))
       .finally(() => setLoading(false));
-  }, [isFocused, page, menuSelected]);
+  }, [page, menuSelected]);
 
   const loadMore = () => {
     setLoading(true);

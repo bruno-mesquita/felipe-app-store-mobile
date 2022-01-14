@@ -13,7 +13,7 @@ export const useTakePhoto = () => {
     if (!cancelled) {
       const { base64, uri } = await manipulateAsync(
         originalUri,
-        [{ resize: { height: 500, width: 500 } }],
+        [{ resize: { height: 600, width: 600 } }],
         {
           base64: true,
           compress: 1,

@@ -22,8 +22,8 @@ export const ModalCategories = ({
     api
       .get('/categories')
       .then(({ data }) => {
-        setCategories(data.result);
-        setOriginList(data.result);
+        setCategories(data);
+        setOriginList(data);
       })
       .catch(() => Alert.alert('Erro', 'Erro ao listar categorias'));
   }, []);

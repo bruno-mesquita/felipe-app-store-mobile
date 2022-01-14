@@ -1,7 +1,6 @@
-import type { PersistConfig } from 'redux-persist';
 import storage from '@react-native-async-storage/async-storage';
 
-const persistConfig: PersistConfig<any> = {
+const persistConfig = {
   key: '@flipp-partners',
   storage,
   version: 1,
