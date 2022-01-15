@@ -26,20 +26,25 @@ export const RegisterNotifications = () => {
   useEffect(() => {
     (async () => {
       if (!pushToken) {
-        const token = await registerForPushNotificationsAsync();
-
-        await api.post('/notifications/register', { token });
-        dispatch(pushtTokenActions.set(token));
+        try {
+          const token = await registerForPushNotificationsAsync();
+          await api.post('/notifications/register', { token });
+          dispatch(pushtTokenActions.set(token));
+        } catch (err) {}
       }
     })();
 
-    notificationListener.current = Notifications.addNotificationReceivedListener((notification) => {
-      // console.log(notification);
-    });
+    notificationListener.current = Notifications.addNotificationReceivedListener(
+      (notification) => {
+        // console.log(notification);
+      }
+    );
 
-    responseListener.current = Notifications.addNotificationResponseReceivedListener((response) => {
-      // console.log(response.notification.request.content);
-    });
+    responseListener.current = Notifications.addNotificationResponseReceivedListener(
+      (response) => {
+        // console.log(response.notification.request.content);
+      }
+    );
 
     return () => {
       Notifications.removeNotificationSubscription(notificationListener.current);

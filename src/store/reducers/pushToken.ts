@@ -4,8 +4,8 @@ const pushToken = createSlice({
   name: 'pushToken',
   initialState: null,
   reducers: {
-    set: (state, action: PayloadAction<string>) => {
-      state = action.payload;
+    set: (_, action: PayloadAction<string>) => {
+      return action.payload;
     },
   },
 });

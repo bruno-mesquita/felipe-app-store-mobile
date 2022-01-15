@@ -1,6 +1,11 @@
 import { useEffect } from 'react';
 import { ScrollView } from 'react-native';
-import { Ionicons, MaterialIcons, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
+import {
+  Ionicons,
+  MaterialIcons,
+  AntDesign,
+  MaterialCommunityIcons,
+} from '@expo/vector-icons';
 import { useTheme } from 'styled-components/native';
 
 import api from '@services/api';
@@ -25,7 +30,9 @@ export const Dashboard = ({ navigation }) => {
   const toGoBoletos = () => navigation.navigate('Boletos');
   const toGoSalesReport = () => navigation.navigate('SalesReport');
   const toGoEstablishment = () =>
-    navigation.navigate(establishmentExists ? 'UpdateEstablishment' : 'CreateEstablishment');
+    navigation.navigate(
+      establishmentExists ? 'UpdateEstablishment' : 'CreateEstablishment'
+    );
   const toGoDeliverymen = () => navigation.navigate('Deliverymen');
 
   const iconProps = (name: any) => ({
@@ -35,7 +42,9 @@ export const Dashboard = ({ navigation }) => {
   });
 
   useEffect(() => {
-    api.get('/establishments/exists').then(({ data }) => dispatch(authActions.setEstablishmentExists(data.result)));
+    api
+      .get('/establishments/exists')
+      .then(({ data }) => dispatch(authActions.setEstablishmentExists(data.result)));
   }, [token]);
 
   return (
