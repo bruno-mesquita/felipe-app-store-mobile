@@ -1,6 +1,5 @@
 {
   "scripts": {
-    "ports": "node scripts/ports.js",
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
@@ -65,7 +64,6 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "prettier": "^2.5.1",
-    "reactotron-react-native": "^5.0.1",
     "typescript": "~4.3.5"
   },
   "private": true
