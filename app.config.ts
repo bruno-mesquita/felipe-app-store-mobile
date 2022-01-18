@@ -20,7 +20,6 @@ export default {
     bundleIdentifier: 'flipp.partners.com',
   },
   android: {
-    userInterfaceStyle: 'light',
     versionCode: 3,
     googleServicesFile: './google-services.json',
     adaptiveIcon: {
