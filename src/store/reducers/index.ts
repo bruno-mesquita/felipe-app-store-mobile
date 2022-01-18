@@ -1,8 +1,7 @@
 import { combineReducers } from '@reduxjs/toolkit';
 
 import auth from './auth';
-import pushToken from './pushToken';
 
-const rootReducer = combineReducers({ auth, pushToken });
+const rootReducer = combineReducers({ auth });
 
 export default rootReducer;

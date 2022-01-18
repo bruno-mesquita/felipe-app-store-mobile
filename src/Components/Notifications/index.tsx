@@ -5,8 +5,6 @@ import { Platform } from 'react-native';
 import * as Device from 'expo-device';
 
 import api from '@services/api';
-import { pushtTokenActions } from '@store/reducers/pushToken';
-import { useAppSelector, useAppDispatch } from '@store/hooks';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -17,21 +15,15 @@ Notifications.setNotificationHandler({
 });
 
 export const RegisterNotifications = () => {
-  const pushToken = useAppSelector((store) => store.pushToken);
-  const dispatch = useAppDispatch();
-
   const notificationListener = useRef<Subscription>();
   const responseListener = useRef<Subscription>();
 
   useEffect(() => {
     (async () => {
-      if (!pushToken) {
-        try {
-          const token = await registerForPushNotificationsAsync();
-          await api.post('/notifications/register', { token });
-          dispatch(pushtTokenActions.set(token));
-        } catch (err) {}
-      }
+      try {
+        const token = await registerForPushNotificationsAsync();
+        await api.post('/notifications/register', { token });
+      } catch (err) {}
     })();
 
     notificationListener.current = Notifications.addNotificationReceivedListener(

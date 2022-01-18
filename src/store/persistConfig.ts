@@ -4,7 +4,7 @@ const persistConfig = {
   key: '@flipp-partners',
   storage,
   version: 1,
-  whitelist: ['auth', 'tokenPush'],
+  whitelist: ['auth'],
 };
 
 export default persistConfig;

@@ -25,6 +25,7 @@ api.interceptors.response.use(
         return axios({
           ...originalRequest,
           headers: {
+            ...originalRequest.headers,
             Authorization: `Bearer ${token}`,
           },
         });
@@ -34,7 +35,6 @@ api.interceptors.response.use(
       }
     }
 
-    store.dispatch(authActions.logout());
     return Promise.reject(error);
   }
 );
