@@ -31,5 +31,4 @@ export default {
   extra: {
     apiUrl: process.env.API_URL ?? 'http://192.168.15.24:3030/api/app-store',
   },
-  plugins: ['expo-image-picker'],
 } as ExpoConfig;
