@@ -11,12 +11,7 @@ interface User {
   cpf: string;
 }
 
-type UserAttributes =
-  | 'first_name'
-  | 'last_name'
-  | 'email'
-  | 'cellphone'
-  | 'cpf';
+type UserAttributes = 'first_name' | 'last_name' | 'email' | 'cellphone' | 'cpf';
 
 export const useUser = (selects: UserAttributes[] = []) => {
   const [user, setUser] = useState<User>({
@@ -34,10 +29,7 @@ export const useUser = (selects: UserAttributes[] = []) => {
         .post('/owners/me', { selects })
         .then(({ data }) => setUser(data.result))
         .catch(() =>
-          Alert.alert(
-            'Erro',
-            'Parece que houve um erro ao buscar os seus dados :('
-          )
+          Alert.alert('Erro', 'Parece que houve um erro ao buscar os seus dados :(')
         );
     }
   }, []);

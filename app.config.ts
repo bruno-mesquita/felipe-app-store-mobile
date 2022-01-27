@@ -17,16 +17,16 @@ export default {
   assetBundlePatterns: ['**/*'],
   ios: {
     supportsTablet: true,
-    bundleIdentifier: 'flipp.partners.com',
+    bundleIdentifier: 'com.partners.flipp',
   },
   android: {
-    versionCode: 3,
+    versionCode: 4,
     googleServicesFile: './google-services.json',
     adaptiveIcon: {
       backgroundColor: '#9E0404',
       foregroundImage: './src/assets/icons/logo.png',
     },
-    package: 'flipp.partners.com',
+    package: 'com.partners.flipp',
   },
   extra: {
     apiUrl: process.env.API_URL ?? 'http://192.168.15.24:3030/api/app-store',

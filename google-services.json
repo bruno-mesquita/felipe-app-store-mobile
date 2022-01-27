@@ -7,18 +7,26 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:60085424107:android:d6e59feed2101b5bb993ae",
+        "mobilesdk_app_id": "1:60085424107:android:ff861a6e77e696fdb993ae",
         "android_client_info": {
-          "package_name": "flipp.com"
+          "package_name": "com.partners.flipp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "60085424107-7o5r0k8ofi72hof1sda1i07rr1g7g7ul.apps.googleusercontent.com",
+          "client_id": "60085424107-3jvvqf3vdtb9e52r27hvd4olis6597v6.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "flipp.com",
-            "certificate_hash": "233e49cbbd578b41ea5cd1017b52ff6d085f198d"
+            "package_name": "com.partners.flipp",
+            "certificate_hash": "15c86aa9225b8a5421a557638501f868d958906c"
+          }
+        },
+        {
+          "client_id": "60085424107-qmrcikmfb6jbgluvcc704qi4ujt2oo3e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.partners.flipp",
+            "certificate_hash": "d7ace1faf63583af9c3433ab2450af1c30fa54b4"
           }
         },
         {
@@ -44,12 +52,28 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:60085424107:android:1ba9f5327acc33e8b993ae",
+        "mobilesdk_app_id": "1:60085424107:android:d6e59feed2101b5bb993ae",
         "android_client_info": {
-          "package_name": "flipp.partners.com"
+          "package_name": "flipp.com"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "60085424107-7o5r0k8ofi72hof1sda1i07rr1g7g7ul.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "flipp.com",
+            "certificate_hash": "233e49cbbd578b41ea5cd1017b52ff6d085f198d"
+          }
+        },
+        {
+          "client_id": "60085424107-oh3kvotc4pevaktlos95lm03tqtl3ntu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "flipp.com",
+            "certificate_hash": "12a31a5c2d6a976449ff3dce27023be3b414c804"
+          }
+        },
         {
           "client_id": "60085424107-spqduaqm0f0b8q0oegg1tl5kdvaajibb.apps.googleusercontent.com",
           "client_type": 3
