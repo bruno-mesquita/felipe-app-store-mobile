@@ -12,3 +12,4 @@ export { CardOrder } from './CardOrder';
 export { ModalOrder } from './ModalOrder';
 export { EstablishmentForm } from './EstablishmentForm';
 export { RegisterNotifications as Notifications } from './Notifications';
+export { FastImage } from './FastImage';

@@ -10,8 +10,9 @@ import { Button } from '../Button';
 
 import convertUf from './estados';
 import { ModalCategories } from './Components';
-import { Container, Image, ButtonModal, ContentButton, Label } from './styles';
+import { Container, ButtonModal, ContentButton, Label } from './styles';
 import { EstablishmentFormProps } from './props';
+import { FastImage } from '../FastImage';
 
 export const EstablishmentForm = ({
   handleSubmit,
@@ -148,7 +149,12 @@ export const EstablishmentForm = ({
           onPress={pickImage}
         >
           {values.image !== null && values.image !== '' ? (
-            <Image source={{ uri: values.image }} />
+            <FastImage
+              rounded="100px"
+              size="120px"
+              cacheKey={values.name}
+              source={{ uri: values.image }}
+            />
           ) : (
             <MaterialIcons name="account-circle" size={120} color="#c4c4c4" />
           )}

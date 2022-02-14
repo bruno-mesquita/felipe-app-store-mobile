@@ -6,15 +6,6 @@ export const Container = styled.View`
   align-items: center;
 `;
 
-export const Image = styled.Image.attrs((props) => ({
-  ...props,
-  resizeMode: 'cover',
-}))`
-  height: 120px;
-  width: 120px;
-  border-radius: 100px;
-`;
-
 export const ButtonModal = styled.TouchableOpacity`
   margin: 4px;
   width: 100%;

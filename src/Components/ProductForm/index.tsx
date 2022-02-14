@@ -3,6 +3,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import { Field, Select, FieldError, FieldMask } from '../FormUtils';
 import { Button } from '../Button';
+import { FastImage } from '../FastImage';
 import { Checkbox } from '../Checkbox';
 import { useTakePhoto } from '../../hooks';
 
@@ -50,7 +51,14 @@ export const ProductForm = ({
     <Container>
       <ViewImage onPress={takeImage}>
         {values.image ? (
-          <Image source={{ uri: values.image }} resizeMode="cover" />
+          <FastImage
+            cacheKey={values.name}
+            w="100%"
+            h="100%"
+            rounded="100px"
+            source={{ uri: values.image }}
+            resizeMode="cover"
+          />
         ) : (
           <Ionicons name="camera" size={40} color="#c4c4c4" />
         )}
