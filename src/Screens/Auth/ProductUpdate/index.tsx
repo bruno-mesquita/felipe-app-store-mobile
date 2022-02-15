@@ -67,9 +67,7 @@ export const ProductUpdate = ({ route, navigation }) => {
       <Formik
         onSubmit={onSubmit}
         initialValues={product}
-        component={(props) => (
-          <ProductForm {...props} inputPriceRef={inputPriceRef} />
-        )}
+        component={(props) => <ProductForm {...props} inputPriceRef={inputPriceRef} />}
         validationSchema={schema}
         enableReinitialize
       />
