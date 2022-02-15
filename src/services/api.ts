@@ -2,7 +2,7 @@ import axios from 'axios';
 import Constants from 'expo-constants';
 
 const api = axios.create({
-  baseURL: 'https://api.flippdelivery.com.br/api/app-store',
+  baseURL: Constants.manifest.extra.apiUrl,
   headers: {
     appversion: Constants.manifest.version,
   },
