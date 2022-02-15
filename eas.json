@@ -1,17 +1,21 @@
 {
   "cli": {
-    "version": ">= 0.41.1"
+    "version": ">= 0.46.0"
   },
   "build": {
     "development": {
       "developmentClient": true,
-      "distribution": "internal"
+      "distribution": "internal",
+      "channel": "dev"
     },
     "preview": {
       "distribution": "internal",
-      "extends": "production"
+      "extends": "production",
+      "channel": "preview"
     },
     "production": {
+      "channel": "production",
+      "node": "16.13.2",
       "env": {
         "API_URL": "https://api.flippdelivery.com.br/api/app-store"
       }
