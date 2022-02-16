@@ -30,20 +30,11 @@ export const UpdateMenu = ({ route }) => {
 
   const onSubmit = async (values: any, { setSubmitting }: FormikHelpers<any>) => {
     try {
-      const body = getChangedValues(values, menu);
-
-      if (Object.keys(body).length > 0) {
-        await api.put(`/menus/${route.params.id}`, body);
-
-        toast.show({
-          title: 'Sucesso',
-          description: 'Categoria atualizada!',
-        });
-      }
+      await api.put(`/menus/${route.params.id}`, values);
 
       toast.show({
-        title: 'Aviso',
-        description: 'Nada para atualizar',
+        title: 'Sucesso',
+        description: 'Categoria atualizada!',
       });
     } catch (err) {
       toast.show({
