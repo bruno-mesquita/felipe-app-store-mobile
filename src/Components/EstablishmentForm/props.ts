@@ -11,6 +11,7 @@ interface Values {
   freightValue: string;
   categories: number[];
   image: string;
+  active: boolean;
   address: {
     street: string;
     number: string;
@@ -28,5 +29,4 @@ interface Values {
 export type EstablishmentFormProps = FormikProps<Values> & {
   inputPhoneRef: MutableRefObject<TextInputMasked>;
   inputCepRef: MutableRefObject<TextInputMasked>;
-  inputPriceRef: MutableRefObject<TextInputMasked>;
 };

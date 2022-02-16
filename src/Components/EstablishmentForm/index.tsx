@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from 'react';
 import { ScrollView, Alert, TouchableOpacity, Text } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import axios from 'axios';
+import { Checkbox } from 'native-base';
 
 import api from '@services/api';
 import { useTakePhoto } from '../../hooks/useTakePhoto';
@@ -22,7 +23,6 @@ export const EstablishmentForm = ({
   isSubmitting,
   inputCepRef,
   inputPhoneRef,
-  inputPriceRef,
 }: EstablishmentFormProps) => {
   const takePhoto = useTakePhoto();
 
@@ -205,9 +205,8 @@ export const EstablishmentForm = ({
         />
         <FieldError name="closingTime" />
 
-        <FieldMask
-          maskRef={inputPriceRef}
-          type="money"
+        <Field
+          keyboardType="number-pad"
           labelColor="#000"
           label="Valor do frete"
           value={values.freightValue}
@@ -282,6 +281,14 @@ export const EstablishmentForm = ({
           onChange={(value) => setFieldValue('address.city', value)}
         />
         <FieldError name="address.city" />
+
+        <Checkbox
+          accessibilityLabel="ativado"
+          isChecked={values.active}
+          onChange={(value) => setFieldValue('active', value)}
+        >
+          Ativado
+        </Checkbox>
 
         <Button
           disabled={isSubmitting}

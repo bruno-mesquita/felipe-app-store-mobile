@@ -3,6 +3,7 @@ import { Alert, ActivityIndicator } from 'react-native';
 import { Formik } from 'formik';
 import { TextInputMasked } from 'react-native-masked-text';
 import { useTheme } from 'styled-components/native';
+import { useToast } from 'native-base';
 
 import api from '@services/api';
 import { EstablishmentForm } from '../../../Components';
@@ -11,6 +12,7 @@ import { Container } from './styles';
 
 export const UpdateEstablishment = () => {
   const { colors } = useTheme();
+  const toast = useToast();
 
   const [loading, setLoading] = useState(true);
   const [establishment, setEstablishment] = useState<any>({
@@ -34,21 +36,6 @@ export const UpdateEstablishment = () => {
 
   const inputPhoneRef = useRef<TextInputMasked>(null);
   const inputCepRef = useRef<TextInputMasked>(null);
-  const inputPriceRef = useRef<TextInputMasked>(null);
-
-  function freightResult(fre: string) {
-    switch (fre.length) {
-      case 2: {
-        return Number(fre + '');
-      }
-      case 3: {
-        return Number(fre + '00');
-      }
-      default: {
-        return fre;
-      }
-    }
-  }
 
   useEffect(() => {
     api
@@ -62,7 +49,6 @@ export const UpdateEstablishment = () => {
           ...rest,
           openingTime: rest.openingTime.toString(),
           closingTime: rest.closingTime.toString(),
-          freightValue: freightResult(rest.freightValue),
           address: {
             ...address,
             city: address.city.id.toString(),
@@ -85,7 +71,6 @@ export const UpdateEstablishment = () => {
       const body = {
         ...values,
         cellphone: inputPhoneRef.current?.getRawValue(),
-        freightValue: inputPriceRef.current?.getRawValue(),
         address: {
           ...values.address,
           cep: inputCepRef.current?.getRawValue(),
@@ -100,9 +85,13 @@ export const UpdateEstablishment = () => {
 
       await api.put('/establishments', body);
 
-      Alert.alert('Successo', 'Loja cadastrada com sucesso');
+      toast.show({ title: 'Successo', description: 'Loja atualizada com sucesso' });
     } catch (err) {
-      Alert.alert('Erro', 'Houve um erro ao cadastrar sua loja :(');
+      toast.show({
+        title: 'Erro',
+        description: 'Houve um erro ao atualizar sua loja :(',
+        status: 'error',
+      });
     }
   };
 
@@ -119,7 +108,6 @@ export const UpdateEstablishment = () => {
               {...props}
               inputPhoneRef={inputPhoneRef}
               inputCepRef={inputCepRef}
-              inputPriceRef={inputPriceRef}
             />
           )}
           enableReinitialize
