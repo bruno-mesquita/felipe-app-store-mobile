@@ -4,11 +4,13 @@ import { Formik, FormikHelpers } from 'formik';
 import { TextInputMasked } from 'react-native-masked-text';
 
 import formatNumber from '@utils/format-number';
+import api from '@services/api';
+import getChangedValues from '@utils/getChangedValues';
 
 import { ProductForm } from '../../../Components';
 
 import { Container } from './styles';
-import api from '@services/api';
+
 import schema from './schema';
 
 export const ProductUpdate = ({ route, navigation }) => {
@@ -28,11 +30,13 @@ export const ProductUpdate = ({ route, navigation }) => {
     api
       .get(`/products/${route.params.id}`)
       .then(({ data: { result } }) => {
+        const { photo, menu_id, price, ...rest } = result;
+
         setProduct({
-          ...result,
-          price: formatNumber(result.price),
-          image: result.photo.encoded,
-          menu: result.menu_id,
+          ...rest,
+          price: formatNumber(price),
+          image: photo.encoded,
+          menu: menu_id,
         });
       })
       .catch(() => {
@@ -47,11 +51,13 @@ export const ProductUpdate = ({ route, navigation }) => {
 
   const onSubmit = async (values, { setSubmitting }: FormikHelpers<any>) => {
     try {
-      const body = {
-        ...values,
-        price: inputPriceRef.current?.getRawValue(),
-      };
-
+      const body = getChangedValues(
+        {
+          ...values,
+          price: inputPriceRef.current?.getRawValue(),
+        },
+        product
+      );
       await api.put(`/products/${route.params.id}`, body);
 
       Alert.alert('Sucesso', 'Produto atualizado com sucesso');
