@@ -28,7 +28,7 @@ export const RegisterMenu = () => {
     <Container>
       <Formik
         onSubmit={onSubmit}
-        initialValues={{ name: '' } as Values}
+        initialValues={{ name: '', active: true } as Values}
         component={MenuForm}
       />
     </Container>

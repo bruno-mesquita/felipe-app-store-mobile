@@ -1,32 +1,56 @@
 import { useEffect, useState } from 'react';
-import { Alert } from 'react-native';
 import { Formik, FormikHelpers } from 'formik';
+import { useToast } from 'native-base';
 
 import api from '@services/api';
 import { MenuForm } from '../../../Components';
 
 import { Container } from './styles';
+import getChangedValues from '@utils/getChangedValues';
 
 export const UpdateMenu = ({ route }) => {
-  const [menu, setMenu] = useState({ id: '', name: '' });
+  const toast = useToast();
+
+  const [menu, setMenu] = useState({ id: '', name: '', active: true });
 
   useEffect(() => {
     api
       .get(`/menus/${route.params.id}`)
       .then(({ data }) => setMenu(data.result))
-      .catch(() => Alert.alert('Erro ao buscar dados do cardápio'));
+      .catch(() => {
+        toast.show({
+          title: 'Erro',
+          description: 'Erro ao buscar categoria',
+          w: '90%',
+          alignSelf: 'center',
+          status: 'error',
+        });
+      });
   }, []);
 
-  const onSubmit = async (
-    values: any,
-    { setSubmitting }: FormikHelpers<any>
-  ) => {
+  const onSubmit = async (values: any, { setSubmitting }: FormikHelpers<any>) => {
     try {
-      await api.put(`/menus/${route.params.id}`, values);
+      const body = getChangedValues(values, menu);
 
-      Alert.alert('Atualizado com sucesso!');
+      if (Object.keys(body).length > 0) {
+        await api.put(`/menus/${route.params.id}`, body);
+
+        toast.show({
+          title: 'Sucesso',
+          description: 'Categoria atualizada!',
+        });
+      }
+
+      toast.show({
+        title: 'Aviso',
+        description: 'Nada para atualizar',
+      });
     } catch (err) {
-      Alert.alert('Erro', 'Houve um erro ao atualizar');
+      toast.show({
+        title: 'Erro',
+        description: 'Houve um erro ao atualizar',
+        status: 'error',
+      });
     } finally {
       setSubmitting(false);
     }
