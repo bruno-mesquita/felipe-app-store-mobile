@@ -5,6 +5,7 @@ import { Platform } from 'react-native';
 import * as Device from 'expo-device';
 
 import api from '@services/api';
+import { useAppSelector } from '@store/hooks';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -15,15 +16,21 @@ Notifications.setNotificationHandler({
 });
 
 export const RegisterNotifications = () => {
+  const signed = useAppSelector((store) => store.auth.signed);
+
   const notificationListener = useRef<Subscription>();
   const responseListener = useRef<Subscription>();
 
   useEffect(() => {
     (async () => {
       try {
-        const token = await registerForPushNotificationsAsync();
-        await api.post('/notifications/register', { token });
-      } catch (err) {}
+        if (signed) {
+          const token = await registerForPushNotificationsAsync();
+          await api.post('/notifications/register', { token });
+        }
+      } catch (err) {
+        console.log(err);
+      }
     })();
 
     notificationListener.current = Notifications.addNotificationReceivedListener(
@@ -60,7 +67,11 @@ const registerForPushNotificationsAsync = async () => {
       alert('Failed to get push token for push notification!');
       return;
     }
-    token = (await Notifications.getExpoPushTokenAsync()).data;
+    token = (
+      await Notifications.getExpoPushTokenAsync({
+        experienceId: '@felipeperoniluiz/flipp-partners',
+      })
+    ).data;
   } else {
     alert('Must use physical device for Push Notifications');
   }

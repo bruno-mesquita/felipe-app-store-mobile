@@ -1,6 +1,5 @@
 import { NavigationContainer } from '@react-navigation/native';
 
-import { Notifications } from '@components';
 import { useAppSelector } from '@store/hooks';
 
 import DefaultStack from './DefaultStack';
@@ -11,14 +10,7 @@ const Navigation = () => {
 
   return (
     <NavigationContainer>
-      {signed ? (
-        <>
-          <DefaultStack />
-          <Notifications />
-        </>
-      ) : (
-        <NotAuthStack />
-      )}
+      {signed ? <DefaultStack /> : <NotAuthStack />}
     </NavigationContainer>
   );
 };
