@@ -1,18 +1,20 @@
 import { useState, useEffect } from 'react';
-import { Text, TouchableOpacity, Alert, View } from 'react-native';
+import { TouchableOpacity, useWindowDimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from 'styled-components/native';
+import { Flex, useToast, Text } from 'native-base';
 
 import { ModalBase } from '../ModalBase';
 import { ButtonModal } from '../ButtonModal';
 import formatNumber from '../../utils/format-number';
 
-import { Content, ViewButtons } from './styles';
 import { ItemModalProps, ItemOrder, Order } from './props';
 import api from '@services/api';
 
 export const ModalOrder = ({ modalRef, id, reender }: ItemModalProps) => {
+  const { width } = useWindowDimensions();
   const { colors } = useTheme();
+  const toast = useToast();
 
   const [order, setOrder] = useState<Order>({
     id: 0,
@@ -34,12 +36,11 @@ export const ModalOrder = ({ modalRef, id, reender }: ItemModalProps) => {
           setOrder(data.result.order);
         })
         .catch(() => {
-          Alert.alert('Erro', 'Erro ao buscar pedido', [
-            {
-              onPress: onClose,
-              text: 'Sair',
-            },
-          ]);
+          toast.show({
+            title: 'Erro',
+            description: 'Erro ao buscar pedido',
+            status: 'error',
+          });
         });
     }
   }, [id]);
@@ -51,7 +52,11 @@ export const ModalOrder = ({ modalRef, id, reender }: ItemModalProps) => {
       onClose();
       reender();
     } catch (err) {
-      Alert.alert('Erro', 'Houve um erro ao aceitar o pedido');
+      toast.show({
+        title: 'Erro',
+        description: 'Houve um erro ao aceitar o pedido',
+        status: 'error',
+      });
     }
   };
 
@@ -62,48 +67,61 @@ export const ModalOrder = ({ modalRef, id, reender }: ItemModalProps) => {
       onClose();
       reender();
     } catch (err) {
-      Alert.alert('Erro', 'Houve um erro ao recusar o pedido');
+      toast.show({
+        title: 'Erro',
+        description: 'Houve um erro ao recusar o pedido',
+        status: 'error',
+      });
     }
   };
 
   const CloseButton = () => (
-    <TouchableOpacity onPress={onClose} style={{ alignSelf: 'flex-end', paddingBottom: 10 }}>
+    <TouchableOpacity
+      onPress={onClose}
+      style={{ alignSelf: 'flex-end', paddingBottom: 10 }}
+    >
       <Ionicons name="close-circle" size={25} color={colors.primary} />
     </TouchableOpacity>
   );
 
   return (
     <ModalBase ref={modalRef}>
-      <Content>
+      <Flex w={`${width * 0.8}px`} h="auto" p="15px">
         <CloseButton />
         {items.map((item) => (
-          <View
+          <Flex
+            direction="row"
+            justify="space-between"
+            pb="10px"
+            align="baseline"
             key={item.id}
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              paddingBottom: 10,
-              alignItems: 'baseline',
-            }}
           >
             <Text>{`${item.quantity}x ${item.product.name}`}</Text>
             <Text>{formatNumber(item.total)}</Text>
-          </View>
+          </Flex>
         ))}
 
-        <Text style={{ alignSelf: 'flex-end' }}>{formatNumber(order.total)}</Text>
+        <Text alignSelf="flex-end">{formatNumber(order.total)}</Text>
         {order.transshipment !== 0 ? (
-          <Text style={{ alignSelf: 'flex-end' }}> {`Troco ${formatNumber(order.transshipment)}`}</Text>
+          <Text alignSelf="flex-end">
+            {' '}
+            {`Troco ${formatNumber(order.transshipment)}`}
+          </Text>
         ) : null}
 
         {order.note && order.note !== '' ? (
-          <View style={{ paddingVertical: 10 }}>
+          <Flex py="10px">
             <Text>Obs: {order.note}</Text>
-          </View>
+          </Flex>
         ) : null}
 
         {order.order_status !== 'Finalizado' && order.order_status !== 'Cancelado' ? (
-          <ViewButtons style={order.order_status !== 'Aberto' ? { alignSelf: 'flex-end' } : {}}>
+          <Flex
+            direction="row"
+            justify="space-between"
+            pt="15px"
+            style={order.order_status !== 'Aberto' ? { alignSelf: 'flex-end' } : {}}
+          >
             {order.order_status === 'Aberto' ? (
               <ButtonModal style={{ width: '30%', marginBottom: 0 }} onPress={refuse}>
                 Recusar
@@ -112,9 +130,9 @@ export const ModalOrder = ({ modalRef, id, reender }: ItemModalProps) => {
             <ButtonModal style={{ width: '30%', marginBottom: 0 }} onPress={accept}>
               {order.order_status === 'Aberto' ? 'Aceitar' : 'Avançar'}
             </ButtonModal>
-          </ViewButtons>
+          </Flex>
         ) : null}
-      </Content>
+      </Flex>
     </ModalBase>
   );
 };

@@ -1,16 +1,16 @@
 import { useEffect, useState, useRef } from 'react';
 import { FlatList, Alert } from 'react-native';
+import { Flex } from 'native-base';
 
 import { ModalBaseHandle } from '../../../Components/ModalBase/props';
 import { CardOrder, ModalOrder } from '../../../Components';
 import api from '@services/api';
 import { ListEmpty } from './Components';
 
-import { Container } from './styles';
-import { Order } from './props';
+import type { IOrder } from './props';
 
 export const Orders = () => {
-  const [orders, setOrders] = useState<Order[]>([]);
+  const [orders, setOrders] = useState<IOrder[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
   const [selectedId, setSelectedId] = useState<number | null>(null);
@@ -54,19 +54,19 @@ export const Orders = () => {
   return (
     <>
       <ModalOrder reender={onRefresh} modalRef={modalRef} id={selectedId} />
-      <Container>
+      <Flex flex={1} justify="center" align="center">
         <FlatList
           style={{ paddingTop: 15 }}
           ListEmptyComponent={ListEmpty}
           refreshing={loading}
           onRefresh={onRefresh}
           data={orders}
-          onEndReachedThreshold={0}
+          onEndReachedThreshold={0.1}
           onEndReached={loadMore}
-          keyExtractor={(item) => String(item.id)}
+          keyExtractor={({ id }) => id.toString()}
           renderItem={({ item }) => <CardOrder onPress={onPressItem} {...item} />}
         />
-      </Container>
+      </Flex>
     </>
   );
 };

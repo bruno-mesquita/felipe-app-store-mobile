@@ -25,7 +25,7 @@ export interface Client {
   cellphone: string;
 }
 
-export interface Order {
+export interface IOrder {
   id: number;
   address_client: Address;
   payment: string;
