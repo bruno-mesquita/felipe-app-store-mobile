@@ -13,7 +13,6 @@ export default {
   },
   updates: {
     fallbackToCacheTimeout: 0,
-    url: 'https://u.expo.dev/d79a4323-d9cf-440f-9609-d1e040b494e8',
   },
   assetBundlePatterns: ['**/*'],
   ios: {
