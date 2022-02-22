@@ -1,13 +1,18 @@
-import { object, string, number } from 'yup';
+import { object, string, number, SchemaOf, boolean, mixed } from 'yup';
 
 const REQUIRED = 'Campo  obrigatório';
 
-const schema = object({
+import type { IValues } from './types';
+
+const schema: SchemaOf<IValues> = object({
   name: string().required(REQUIRED),
   description: string().required(REQUIRED),
-  price: string().required(REQUIRED),
-  image: string().required(REQUIRED).nullable(),
-  menu: number().min(1).positive(REQUIRED).integer(REQUIRED).required(REQUIRED),
+  price: number().required(REQUIRED),
+  image: string().required(REQUIRED),
+  menu: string().required(),
+  active: boolean(),
+  unit: number().positive().required(),
+  unitType: mixed().oneOf(['Un', 'Kg', 'gr']),
 });
 
 export default schema;

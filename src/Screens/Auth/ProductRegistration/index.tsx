@@ -1,53 +1,58 @@
-import { useRef } from 'react';
-import { Alert } from 'react-native';
 import { Formik, FormikHelpers } from 'formik';
-import { TextInputMasked } from 'react-native-masked-text';
+import { useToast } from 'native-base';
 
 import api from '@services/api';
 import { ProductForm } from '../../../Components';
 
-import { Container } from './styles';
+import type { IValues } from './types';
 import schema from './schema';
 
 export const ProductRegistration = () => {
-  const inputPriceRef = useRef<TextInputMasked>(null);
+  const toast = useToast();
 
-  const initialValues = {
+  const initialValues: IValues = {
     name: '',
-    price: '',
+    price: 0,
     description: '',
-    menu: 0,
+    menu: '0',
     image: null,
     active: false,
+    unit: 1,
+    unitType: 'Un',
   };
 
-  const onSubmit = async (values, { resetForm, setSubmitting }: FormikHelpers<any>) => {
+  const onSubmit = async (
+    { menu, ...values }: IValues,
+    { resetForm }: FormikHelpers<IValues>
+  ) => {
     try {
-      const data = {
+      const body = {
         ...values,
-        menu: Number(values.menu),
-        price: inputPriceRef.current?.getRawValue(),
+        menu: Number(menu),
       };
 
-      await api.post('/products', data);
+      await api.post('/products', body);
 
-      Alert.alert('Sucesso', 'Produto cadastrado com sucesso');
+      toast.show({
+        title: 'Sucesso!',
+        description: 'Produto cadastrado com sucesso',
+      });
       resetForm();
     } catch (err) {
-      Alert.alert('Erro', 'Erro ao cadastrar o produto');
-    } finally {
-      setSubmitting(false);
+      toast.show({
+        title: 'Erro!',
+        description: err.response.data.message,
+        status: 'error',
+      });
     }
   };
 
   return (
-    <Container>
-      <Formik
-        onSubmit={onSubmit}
-        initialValues={initialValues}
-        component={(props) => <ProductForm {...props} inputPriceRef={inputPriceRef} />}
-        validationSchema={schema}
-      />
-    </Container>
+    <Formik
+      onSubmit={onSubmit}
+      initialValues={initialValues}
+      component={ProductForm}
+      validationSchema={schema}
+    />
   );
 };
