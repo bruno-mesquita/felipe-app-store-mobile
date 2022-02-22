@@ -1,22 +1,25 @@
-import { useState, useEffect } from 'react';
+import { ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import {
+  Flex,
+  Input,
+  FormControl,
+  Pressable,
+  Button,
+  TextArea,
+  Checkbox,
+  Select,
+} from 'native-base';
+import { ErrorMessage } from 'formik';
+import type { FormikProps } from 'formik';
 
-import { Field, Select, FieldError, FieldMask } from '../FormUtils';
-import { Button } from '../Button';
+import type { IProduct } from '@hooks-api/useGetProduct';
+import formatNumber from '@utils/format-number';
+import { FieldError } from '../FormUtils';
 import { FastImage } from '../FastImage';
-import { Checkbox } from '../Checkbox';
 import { useTakePhoto } from '../../hooks';
 
-import {
-  Container,
-  Fields,
-  ViewButton,
-  Image,
-  ViewImage,
-  CheckboxContainer,
-} from './styles';
-import { ProductFormProps } from './props';
-import api from '@services/api';
+import useGetMenus from '@hooks-api/useGetMenus';
 
 export const ProductForm = ({
   values,
@@ -24,22 +27,10 @@ export const ProductForm = ({
   handleSubmit,
   isSubmitting,
   setFieldValue,
-  inputPriceRef,
-}: ProductFormProps) => {
+}: FormikProps<IProduct>) => {
   const pickImage = useTakePhoto();
 
-  const [menus, setMenus] = useState([]);
-
-  useEffect(() => {
-    api.get('/menus').then(({ data }) =>
-      setMenus(
-        data.result.map((menu) => ({
-          label: menu.name,
-          value: String(menu.id),
-        }))
-      )
-    );
-  }, []);
+  const { data: menus } = useGetMenus();
 
   const takeImage = async () => {
     const encoded = await pickImage();
@@ -48,81 +39,121 @@ export const ProductForm = ({
   };
 
   return (
-    <Container>
-      <ViewImage onPress={takeImage}>
-        {values.image ? (
-          <FastImage
-            cacheKey={values.name}
-            w="100%"
-            h="100%"
-            rounded="100px"
-            source={{ uri: values.image }}
-            resizeMode="cover"
+    <ScrollView>
+      <Flex flex={1} mt="10px" justify="center" align="center" px="20px">
+        <Pressable
+          w="43%"
+          h="20%"
+          borderWidth="1px"
+          borderColor="#c4c4c4"
+          rounded="100px"
+          justifyContent="center"
+          alignItems="center"
+          onPress={takeImage}
+        >
+          {values.image ? (
+            <FastImage
+              cacheKey={values.name}
+              w="150px"
+              h="150px"
+              rounded="100px"
+              source={{ uri: values.image }}
+              resizeMode="cover"
+            />
+          ) : (
+            <Ionicons name="camera" size={40} color="#c4c4c4" />
+          )}
+        </Pressable>
+        <FieldError name="image" />
+
+        <FormControl mt="10px">
+          <FormControl.Label>Nome</FormControl.Label>
+          <Input
+            placeholder="Nome"
+            value={values.name}
+            onChangeText={handleChange('name')}
           />
-        ) : (
-          <Ionicons name="camera" size={40} color="#c4c4c4" />
-        )}
-      </ViewImage>
-      <FieldError name="image" />
+          <ErrorMessage name="name" component={FormControl.ErrorMessage} />
+        </FormControl>
 
-      <Fields>
-        <Field
-          label="Nome"
-          labelColor="#000"
-          value={values.name}
-          onChangeText={handleChange('name')}
-        />
-        <FieldError name="name" />
+        <FormControl mt="10px">
+          <FormControl.Label>Preço - {formatNumber(values.price)}</FormControl.Label>
+          <Input
+            keyboardType="number-pad"
+            placeholder="Preço"
+            value={values.price.toString()}
+            onChangeText={handleChange('price')}
+          />
+          <ErrorMessage name="price" component={FormControl.ErrorMessage} />
+        </FormControl>
 
-        <FieldMask
-          type="money"
-          options={{
-            precision: 2,
-            separator: ',',
-            delimiter: '.',
-            unit: 'R$',
-            suffixUnit: '',
-          }}
-          label="Preço"
-          labelColor="#000"
-          value={values.price}
-          onChangeText={handleChange('price')}
-          maskRef={inputPriceRef}
-        />
-        <FieldError name="price" />
+        <FormControl mt="10px">
+          <FormControl.Label>Descrição</FormControl.Label>
+          <TextArea
+            value={values.description}
+            onChangeText={handleChange('description')}
+          />
+          <ErrorMessage name="description" component={FormControl.ErrorMessage} />
+        </FormControl>
 
-        <Field
-          label="Descrição"
-          labelColor="#000"
-          value={values.description}
-          onChangeText={handleChange('description')}
-        />
-        <FieldError name="description" />
-
-        <Select
-          label="Categoria"
-          items={menus}
-          placeholder="Selecione uma categoria"
-          labelColor="#000"
-          value={String(values.menu)}
-          onChange={(value) => setFieldValue('menu', value)}
-        />
-        <FieldError name="menu" />
-        <CheckboxContainer>
-          <Checkbox
-            checked={values.active}
-            onChange={(value) => setFieldValue('active', value)}
+        <FormControl mt="10px">
+          <FormControl.Label>Categoria</FormControl.Label>
+          <Select
+            placeholder="Selecione uma categoria"
+            selectedValue={values.menu}
+            onValueChange={handleChange('menu')}
           >
-            Ativado
-          </Checkbox>
-        </CheckboxContainer>
-      </Fields>
+            {menus?.map(({ name, id }) => (
+              <Select.Item label={name} value={id.toString()} key={id} />
+            ))}
+          </Select>
+          <ErrorMessage name="menu" component={FormControl.ErrorMessage} />
+        </FormControl>
 
-      <ViewButton>
-        <Button loading={isSubmitting} onPress={() => handleSubmit()}>
+        <Flex direction="row" mb="20px" mt="10px" justify="space-between" w="100%">
+          <FormControl w="45%">
+            <FormControl.Label>Unidade</FormControl.Label>
+            <Input
+              placeholder="Unidade"
+              value={values.unit.toString()}
+              onChangeText={handleChange('unit')}
+            />
+            <ErrorMessage name="unit" component={FormControl.ErrorMessage} />
+          </FormControl>
+
+          <FormControl w="45%">
+            <FormControl.Label>Tipo de unidade</FormControl.Label>
+            <Select
+              placeholder="Tipo"
+              selectedValue={values.unitType}
+              onValueChange={handleChange('unitType')}
+            >
+              <Select.Item label="Unidade" value="Un" />
+              <Select.Item label="Gramas" value="gr" />
+              <Select.Item label="Kilogramas" value="Kg" />
+            </Select>
+            <ErrorMessage name="unit" component={FormControl.ErrorMessage} />
+          </FormControl>
+        </Flex>
+
+        <Checkbox
+          name="active"
+          isChecked={values.active}
+          onChange={handleChange('active') as any}
+        >
+          Ativado
+        </Checkbox>
+
+        <Button
+          mt="20px"
+          px="20px"
+          isDisabled={isSubmitting}
+          isLoading={isSubmitting}
+          onPress={() => handleSubmit()}
+        >
           {values.id ? 'Atualizar' : 'Cadastrar'}
         </Button>
-      </ViewButton>
-    </Container>
+      </Flex>
+    </ScrollView>
   );
 };

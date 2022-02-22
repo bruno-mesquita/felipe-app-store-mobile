@@ -1,82 +1,46 @@
-import { useEffect, useState, useRef } from 'react';
-import { Alert } from 'react-native';
-import { Formik, FormikHelpers } from 'formik';
-import { TextInputMasked } from 'react-native-masked-text';
+import { Formik } from 'formik';
+import { useToast } from 'native-base';
 
-import formatNumber from '@utils/format-number';
 import api from '@services/api';
 import getChangedValues from '@utils/getChangedValues';
+import useGetProduct, { IProduct } from '@hooks-api/useGetProduct';
 
 import { ProductForm } from '../../../Components';
-
-import { Container } from './styles';
-
 import schema from './schema';
 
-export const ProductUpdate = ({ route, navigation }) => {
-  const inputPriceRef = useRef<TextInputMasked>(null);
+export const ProductUpdate = ({ route }) => {
+  const toast = useToast();
 
-  const [product, setProduct] = useState({
-    _id: '',
-    name: '',
-    price: '',
-    description: '',
-    menu: 0,
-    image: null,
-    active: false,
-  });
+  const { product } = useGetProduct(route.params.id);
 
-  useEffect(() => {
-    api
-      .get(`/products/${route.params.id}`)
-      .then(({ data: { result } }) => {
-        const { photo, menu_id, price, ...rest } = result;
-
-        setProduct({
-          ...rest,
-          price: formatNumber(price),
-          image: photo.encoded,
-          menu: menu_id,
-        });
-      })
-      .catch(() => {
-        Alert.alert('Erro', 'Erro ao pegar dados do produto', [
-          {
-            text: 'Sair',
-            onPress: () => navigation.goBack(),
-          },
-        ]);
-      });
-  }, []);
-
-  const onSubmit = async (values, { setSubmitting }: FormikHelpers<any>) => {
+  const onSubmit = async (values: IProduct) => {
     try {
-      const body = getChangedValues(
-        {
-          ...values,
-          price: inputPriceRef.current?.getRawValue(),
-        },
-        product
-      );
+      const body = getChangedValues(values, product);
+
       await api.put(`/products/${route.params.id}`, body);
 
-      Alert.alert('Sucesso', 'Produto atualizado com sucesso');
+      toast.show({
+        title: 'Sucesso!',
+        description: 'Produto atualizado com sucesso',
+      });
     } catch (err) {
-      Alert.alert('Erro', 'Erro ao atualizar o produto');
-    } finally {
-      setSubmitting(false);
+      const { type = 'Erro', message = 'Erro ao atualizar produto' } = err.response.data;
+
+      toast.show({
+        title: type,
+        description: message,
+        status: 'error',
+      });
     }
   };
 
   return (
-    <Container>
-      <Formik
-        onSubmit={onSubmit}
-        initialValues={product}
-        component={(props) => <ProductForm {...props} inputPriceRef={inputPriceRef} />}
-        validationSchema={schema}
-        enableReinitialize
-      />
-    </Container>
+    <Formik
+      onSubmit={onSubmit}
+      initialValues={product}
+      component={ProductForm}
+      validationSchema={schema}
+      enableReinitialize
+    />
   );
 };

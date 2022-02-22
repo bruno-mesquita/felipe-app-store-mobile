@@ -1,10 +1,12 @@
 import axios from 'axios';
 import Constants from 'expo-constants';
+import * as Device from 'expo-device';
 
 const api = axios.create({
   baseURL: Constants.manifest.extra?.apiUrl,
   headers: {
     appversion: Constants.manifest?.version,
+    isdevice: Device.isDevice,
   },
 });
 
@@ -36,7 +38,7 @@ const api = axios.create({
 //   }
 // );
 
-export const fetcher = (url) =>
+export const fetcher = (url: string) =>
   api.get(url).then(({ data }) => (data.result ? data.result : data));
 
 export default api;

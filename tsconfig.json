@@ -18,6 +18,7 @@
       "@services/*": ["./src/services/*"],
       "@screens/*": ["./src/Screens/*"],
       "@hooks": ["./src/hooks"],
+      "@hooks-api/*": ["./src/hooks/api/*"],
       "@contexts/*": ["./src/contexts/*"],
       "@store/*": ["./src/store/*"]
     },
