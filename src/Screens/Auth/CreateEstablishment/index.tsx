@@ -1,7 +1,7 @@
 import { useRef } from 'react';
-import { Alert } from 'react-native';
 import { Formik } from 'formik';
 import { TextInputMasked } from 'react-native-masked-text';
+import { useToast } from 'native-base';
 
 import { useAppDispatch } from '@store/hooks';
 import { authActions } from '@store/reducers/auth';
@@ -13,10 +13,10 @@ import { schema } from './schema';
 
 export const CreateEstablishment = ({ navigation }) => {
   const dispatch = useAppDispatch();
+  const toast = useToast();
 
   const inputPhoneRef = useRef<TextInputMasked>(null);
   const inputCepRef = useRef<TextInputMasked>(null);
-  const inputPriceRef = useRef<TextInputMasked>(null);
 
   const initialValues = {
     name: '',
@@ -37,17 +37,11 @@ export const CreateEstablishment = ({ navigation }) => {
     },
   };
 
-  const ok = () => {
-    dispatch(authActions.setEstablishmentExists(true));
-    navigation.navigate('Dashboard');
-  };
-
   const onSubmit = async (values: typeof initialValues) => {
     try {
       const body = {
         ...values,
         cellphone: inputPhoneRef.current?.getRawValue(),
-        freightValue: inputPriceRef.current?.getRawValue(),
         address: {
           ...values.address,
           cep: inputCepRef.current?.getRawValue(),
@@ -58,15 +52,18 @@ export const CreateEstablishment = ({ navigation }) => {
       };
 
       await api.post('/establishments', body);
+      dispatch(authActions.setEstablishmentExists(true));
+      navigation.navigate('Dashboard');
 
-      Alert.alert('Successo', 'Loja cadastrada com sucesso', [
-        {
-          onPress: ok,
-          text: 'Ok',
-        },
-      ]);
+      toast.show({
+        title: 'Sucesso!',
+        description: 'Loja cadastrada com sucesso',
+      });
     } catch (err) {
-      Alert.alert('Erro', 'Houve um erro ao cadastrar sua loja :(');
+      toast.show({
+        title: 'Erro!',
+        description: 'Houve um erro ao cadastrar sua loja :(',
+      });
     }
   };
 
@@ -80,7 +77,6 @@ export const CreateEstablishment = ({ navigation }) => {
             {...props}
             inputPhoneRef={inputPhoneRef}
             inputCepRef={inputCepRef}
-            inputPriceRef={inputPriceRef}
           />
         )}
         validationSchema={schema}
