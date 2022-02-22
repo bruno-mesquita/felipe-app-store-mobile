@@ -40,7 +40,7 @@ export const ProductForm = ({
 
   return (
     <ScrollView>
-      <Flex flex={1} mt="10px" justify="center" align="center" px="20px">
+      <Flex flex={1} mt="10px" justify="center" align="center" py="50px" px="20px">
         <Pressable
           w="43%"
           h="20%"
@@ -61,7 +61,7 @@ export const ProductForm = ({
               resizeMode="cover"
             />
           ) : (
-            <Ionicons name="camera" size={40} color="#c4c4c4" />
+            <Ionicons name="camera" size={50} color="#c4c4c4" />
           )}
         </Pressable>
         <FieldError name="image" />
@@ -146,12 +146,12 @@ export const ProductForm = ({
 
         <Button
           mt="20px"
-          px="20px"
+          w="70%"
           isDisabled={isSubmitting}
           isLoading={isSubmitting}
           onPress={() => handleSubmit()}
         >
-          {values.id ? 'Atualizar' : 'Cadastrar'}
+          Salvar
         </Button>
       </Flex>
     </ScrollView>
