@@ -104,7 +104,7 @@ export const ProductForm = ({
             onValueChange={handleChange('menu')}
           >
             {menus?.map(({ name, id }) => (
-              <Select.Item label={name} value={id.toString()} key={id} />
+              <Select.Item label={name} value={id.toString()} key={id.toString()} />
             ))}
           </Select>
           <ErrorMessage name="menu" component={FormControl.ErrorMessage} />
@@ -139,7 +139,7 @@ export const ProductForm = ({
         <Checkbox
           name="active"
           isChecked={values.active}
-          onChange={handleChange('active') as any}
+          onChange={() => setFieldValue('active', !values.active)}
         >
           Ativado
         </Checkbox>
