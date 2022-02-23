@@ -8,7 +8,7 @@ import { Container, Text } from './styles';
 import api from '@services/api';
 
 export const Item = ({ item, reender }: ItemProps) => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<any>();
   const { colors } = useTheme();
 
   const edit = () => navigation.navigate('UpdateMenu', { id: item.id });
