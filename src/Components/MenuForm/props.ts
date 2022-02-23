@@ -1,5 +1,5 @@
 export interface Values {
-  id?: number | undefined;
+  id?: number;
   name: string;
   active: boolean;
 }

@@ -19,6 +19,7 @@ export default extendTheme({
     Button: {
       baseStyle: {
         rounded: '8px',
+        shadow: '4',
       },
       defaultProps: {
         py: '11px',

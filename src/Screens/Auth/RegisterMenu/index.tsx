@@ -4,7 +4,6 @@ import { Formik, FormikHelpers } from 'formik';
 import { MenuForm } from '../../../Components';
 import api from '@services/api';
 
-import { Container } from './styles';
 import { Values } from './props';
 
 export const RegisterMenu = () => {
@@ -25,12 +24,10 @@ export const RegisterMenu = () => {
   };
 
   return (
-    <Container>
-      <Formik
-        onSubmit={onSubmit}
-        initialValues={{ name: '', active: true } as Values}
-        component={MenuForm}
-      />
-    </Container>
+    <Formik
+      onSubmit={onSubmit}
+      initialValues={{ name: '', active: true } as Values}
+      component={MenuForm}
+    />
   );
 };
