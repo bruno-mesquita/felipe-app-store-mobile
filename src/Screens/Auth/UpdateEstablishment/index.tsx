@@ -66,22 +66,26 @@ export const UpdateEstablishment = () => {
       .finally(() => setLoading(false));
   }, []);
 
-  const onSubmit = async (values: any) => {
+  const onSubmit = async ({
+    image,
+    categories,
+    address,
+    closingTime,
+    openingTime,
+    ...values
+  }: any) => {
     try {
       const body = {
         ...values,
         cellphone: inputPhoneRef.current?.getRawValue(),
         address: {
-          ...values.address,
+          ...address,
           cep: inputCepRef.current?.getRawValue(),
-          city: Number(values.address.city),
+          city: Number(address.city),
         },
-        closingTime: Number(values.closingTime),
-        openingTime: Number(values.openingTime),
+        closingTime: Number(closingTime),
+        openingTime: Number(openingTime),
       };
-
-      delete body.image;
-      delete body.categories;
 
       await api.put('/establishments', body);
 

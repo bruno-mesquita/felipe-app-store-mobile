@@ -1,19 +1,22 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef } from 'react';
 import { ScrollView, Alert, TouchableOpacity, Text } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import axios from 'axios';
-import { Checkbox } from 'native-base';
+import { Checkbox, Button, Select, FormControl } from 'native-base';
+import { ErrorMessage } from 'formik';
 
 import api from '@services/api';
 import { useTakePhoto } from '../../hooks/useTakePhoto';
-import { Field, Select, FieldMask, FieldError } from '../FormUtils';
-import { Button } from '../Button';
+import { Field, FieldMask, FieldError } from '../FormUtils';
 
 import convertUf from './estados';
 import { ModalCategories } from './Components';
 import { Container, ButtonModal, ContentButton, Label } from './styles';
 import { EstablishmentFormProps } from './props';
 import { FastImage } from '../FastImage';
+import formatNumber from '@utils/format-number';
+import useGetStates from '@hooks-api/useGetStates';
+import useGetCitiesByState from '@hooks-api/useGetCitiesByState';
 
 export const EstablishmentForm = ({
   handleSubmit,
@@ -26,46 +29,10 @@ export const EstablishmentForm = ({
 }: EstablishmentFormProps) => {
   const takePhoto = useTakePhoto();
 
-  const [states, setStates] = useState([]);
-  const [cities, setCities] = useState([]);
+  const { data: states } = useGetStates();
+  const { data: cities } = useGetCitiesByState(values.address.state);
+
   const modalRef = useRef(null);
-
-  useEffect(() => {
-    api.get('/states').then(({ data }) =>
-      setStates(
-        data.result.map((state) => ({
-          label: state.name,
-          value: String(state.id),
-        }))
-      )
-    );
-  }, []);
-
-  useEffect(() => {
-    if (values.address.state) {
-      api.get(`/cities/${values.address.state}`).then(({ data }) =>
-        setCities(
-          data.result.map((city) => ({
-            label: city.name,
-            value: String(city.id),
-          }))
-        )
-      );
-    }
-  }, [values.address.state]);
-
-  const getCities = async (stateId: number) => {
-    const { data } = await api.get(`/cities/${stateId}`);
-
-    const valuesConverted = data.result.map((city) => ({
-      label: city.name,
-      value: String(city.id),
-    }));
-
-    setCities(valuesConverted);
-
-    return valuesConverted;
-  };
 
   const setTime = (value: string, field: string) => {
     if (value === '') {
@@ -208,7 +175,7 @@ export const EstablishmentForm = ({
         <Field
           keyboardType="number-pad"
           labelColor="#000"
-          label="Valor do frete"
+          label={`Valor do frete - ${formatNumber(values.freightValue)}`}
           value={values.freightValue}
           placeholder="R$3,50"
           onChangeText={handleChange('freightValue')}
@@ -262,38 +229,47 @@ export const EstablishmentForm = ({
         />
         <FieldError name="address.neighborhood" />
 
-        <Select
-          labelColor="#000"
-          label="Estado"
-          value={values.address.state}
-          placeholder="Estado"
-          items={states}
-          onChange={(value) => setFieldValue('address.state', value)}
-        />
-        <FieldError name="address.state" />
+        <FormControl mt="10px">
+          <FormControl.Label>Estado</FormControl.Label>
+          <Select
+            placeholder="Estado"
+            selectedValue={values.address.state}
+            onValueChange={(value) => setFieldValue('address.state', value)}
+          >
+            {states?.map(({ id, name }) => (
+              <Select.Item label={name} key={id.toString()} value={id.toString()} />
+            ))}
+          </Select>
+          <ErrorMessage name="address.state" component={FormControl.ErrorMessage} />
+        </FormControl>
 
-        <Select
-          labelColor="#000"
-          label="Cidade"
-          value={values.address.city}
-          placeholder="Cidade"
-          items={cities}
-          onChange={(value) => setFieldValue('address.city', value)}
-        />
-        <FieldError name="address.city" />
+        <FormControl my="10px">
+          <FormControl.Label>Cidade</FormControl.Label>
+          <Select
+            placeholder="Cidade"
+            selectedValue={values.address.city}
+            onValueChange={(value) => setFieldValue('address.city', value)}
+          >
+            {cities?.map(({ id, name }) => (
+              <Select.Item label={name} key={id.toString()} value={id.toString()} />
+            ))}
+          </Select>
+          <ErrorMessage name="address.city" component={FormControl.ErrorMessage} />
+        </FormControl>
 
         <Checkbox
           accessibilityLabel="ativado"
           isChecked={values.active}
-          onChange={(value) => setFieldValue('active', value)}
+          onChange={() => setFieldValue('active', !values.active)}
         >
           Ativado
         </Checkbox>
 
         <Button
-          disabled={isSubmitting}
-          loading={isSubmitting}
-          style={{ marginTop: 20 }}
+          w="70%"
+          my="20px"
+          isDisabled={isSubmitting}
+          isLoading={isSubmitting}
           onPress={onSubmit}
         >
           Salvar
