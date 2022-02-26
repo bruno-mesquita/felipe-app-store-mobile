@@ -15,7 +15,6 @@ import type { FormikProps } from 'formik';
 
 import type { IProduct } from '@hooks-api/useGetProduct';
 import formatNumber from '@utils/format-number';
-import { FieldError } from '../FormUtils';
 import { FastImage } from '../FastImage';
 import { useTakePhoto } from '../../hooks';
 
@@ -64,7 +63,6 @@ export const ProductForm = ({
             <Ionicons name="camera" size={50} color="#c4c4c4" />
           )}
         </Pressable>
-        <FieldError name="image" />
 
         <FormControl mt="10px">
           <FormControl.Label>Nome</FormControl.Label>
