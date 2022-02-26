@@ -1,22 +1,22 @@
 import { useState, useEffect } from 'react';
 import { FlatList, Alert } from 'react-native';
+import { Fab, Icon } from 'native-base';
+import { Ionicons } from '@expo/vector-icons';
 
 import api from '@services/api';
-import { Item, AddButton, ListEmpty, FieldSearch } from './Components';
+import useGetMenus from '@hooks-api/useGetMenus';
 
+import { Item, ListEmpty, FieldSearch } from './Components';
 import { Container, Tab, TabContainer, TabText } from './styles';
 import type { IProduct } from './props';
 
-export const Products = () => {
+export const Products = ({ navigation }) => {
   const [products, setProducts] = useState<IProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
-  const [menus, setMenus] = useState<IMenu[]>([]);
-  const [menuSelected, setMenuSelected] = useState(null);
+  const [menuSelected, setMenuSelected] = useState<number | null>(null);
 
-  useEffect(() => {
-    api.get('/menus').then(({ data }) => setMenus(data.result));
-  }, []);
+  const { data: menus } = useGetMenus();
 
   useEffect(() => {
     api
@@ -44,6 +44,8 @@ export const Products = () => {
     setMenuSelected(id);
     setPage(0);
   };
+
+  const onPress = () => navigation.navigate('ProductRegistration');
 
   return (
     <Container>
@@ -75,7 +77,14 @@ export const Products = () => {
           <Item {...item} reender={onRefresh} photo={item.photo.encoded} />
         )}
       />
-      <AddButton />
+      <Fab
+        bg="#770202"
+        onPress={onPress}
+        renderInPortal={false}
+        shadow={2}
+        size="sm"
+        icon={<Icon color="white" as={Ionicons} name="add" size="sm" />}
+      />
     </Container>
   );
 };
