@@ -20,7 +20,7 @@ export default {
     bundleIdentifier: 'com.partners.flipp',
   },
   android: {
-    versionCode: 6,
+    versionCode: 7,
     googleServicesFile: './google-services.json',
     adaptiveIcon: {
       backgroundColor: '#9E0404',
