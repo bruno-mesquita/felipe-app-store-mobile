@@ -1,22 +1,30 @@
 import { useRef } from 'react';
-import { ScrollView, Alert, TouchableOpacity, Text } from 'react-native';
+import { ScrollView, TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import axios from 'axios';
-import { Checkbox, Button, Select, FormControl } from 'native-base';
+import {
+  Checkbox,
+  Button,
+  Select,
+  FormControl,
+  useToast,
+  Input,
+  Flex,
+} from 'native-base';
 import { ErrorMessage } from 'formik';
 
 import api from '@services/api';
-import { useTakePhoto } from '../../hooks/useTakePhoto';
-import { Field, FieldMask, FieldError } from '../FormUtils';
-
-import convertUf from './estados';
-import { ModalCategories } from './Components';
-import { Container, ButtonModal, ContentButton, Label } from './styles';
-import { EstablishmentFormProps } from './props';
-import { FastImage } from '../FastImage';
 import formatNumber from '@utils/format-number';
 import useGetStates from '@hooks-api/useGetStates';
 import useGetCitiesByState from '@hooks-api/useGetCitiesByState';
+
+import { useTakePhoto } from '../../hooks/useTakePhoto';
+import { FieldMask } from '../FormUtils';
+
+import convertUf from './estados';
+import { ModalCategories } from './Components';
+import { EstablishmentFormProps } from './props';
+import { FastImage } from '../FastImage';
 
 export const EstablishmentForm = ({
   handleSubmit,
@@ -27,6 +35,7 @@ export const EstablishmentForm = ({
   inputCepRef,
   inputPhoneRef,
 }: EstablishmentFormProps) => {
+  const toast = useToast();
   const takePhoto = useTakePhoto();
 
   const { data: states } = useGetStates();
@@ -59,7 +68,11 @@ export const EstablishmentForm = ({
         }
       }
     } catch (err) {
-      Alert.alert('Erro', 'Parece que houve um erro ao pegar a foto :(');
+      toast.show({
+        title: 'Erro',
+        description: 'Parece que houve um erro ao pegar a foto :(',
+        status: 'error',
+      });
     }
   };
 
@@ -77,25 +90,29 @@ export const EstablishmentForm = ({
         );
         const stateConverted = convertUf[data.state];
 
-        const state = states.find((state) => state.label === stateConverted);
-        if (!state)
-          Alert.alert(
-            'Estado não encontrado!',
-            'Parece que a flipp não atende nessa região ainda'
-          );
-        else {
-          setFieldValue('address.state', state.value);
-          const values = await getCities(state.value);
+        const state = states.find((state) => state.name === stateConverted);
+        if (!state) {
+          toast.show({
+            title: 'Estado não encontrado!',
+            description: 'Parece que a flipp não atende nessa região ainda',
+            status: 'error',
+          });
+        } else {
+          setFieldValue('address.state', state.id);
 
-          const city = values.find((city) => city.label === data.city);
-          if (city) setFieldValue('address.city', city.value);
+          const city = cities.find((city) => city.name === data.city);
+          if (city) setFieldValue('address.city', city.id);
         }
 
         setFieldValue('address.neighborhood', data.neighborhood);
         setFieldValue('address.street', data.street);
         setFieldValue('address.cep', data.cep);
       } catch (err) {
-        Alert.alert('Erro', 'Parece que houve um erro ao buscar o cep');
+        toast.show({
+          title: 'Erro',
+          description: 'Parece que houve um erro ao buscar o cep',
+          status: 'error',
+        });
       }
     }
   };
@@ -110,7 +127,7 @@ export const EstablishmentForm = ({
         onPress={setCategories}
         categories={values.categories}
       />
-      <Container>
+      <Flex flex={1} justify="center" align="center">
         <TouchableOpacity
           style={{ alignSelf: 'center', paddingVertical: 20 }}
           onPress={pickImage}
@@ -127,107 +144,113 @@ export const EstablishmentForm = ({
           )}
         </TouchableOpacity>
 
-        <Field
-          labelColor="#000"
-          label="Nome"
-          value={values.name}
-          placeholder="Nome da sua loja"
-          onChangeText={handleChange('name')}
-        />
-        <FieldError name="name" />
+        <FormControl mt="10px">
+          <FormControl.Label>Nome</FormControl.Label>
+          <Input
+            value={values.name}
+            placeholder="Nome da sua loja"
+            onChangeText={handleChange('name')}
+          />
+          <ErrorMessage name="name" component={FormControl.ErrorMessage} />
+        </FormControl>
 
-        <FieldMask
-          maskRef={inputPhoneRef}
-          type="cel-phone"
-          options={{
-            maskType: 'BRL',
-            withDDD: true,
-            dddMask: '(99)',
-          }}
-          labelColor="#000"
-          label="Telefone"
-          value={values.cellphone}
-          placeholder="número para contato"
-          onChangeText={handleChange('cellphone')}
-        />
-        <FieldError name="cellphone" />
+        <FormControl mt="10px">
+          <FormControl.Label>Celular</FormControl.Label>
+          <FieldMask
+            maskRef={inputPhoneRef}
+            type="cel-phone"
+            options={{
+              maskType: 'BRL',
+              withDDD: true,
+              dddMask: '(99)',
+            }}
+            value={values.cellphone}
+            placeholder="número para contato"
+            onChangeText={handleChange('cellphone')}
+          />
+          <ErrorMessage name="cellphone" component={FormControl.ErrorMessage} />
+        </FormControl>
 
-        <Field
-          labelColor="#000"
-          keyboardType="number-pad"
-          label="Horário de abertura (0 - 24)"
-          value={values.openingTime}
-          placeholder="Horário de abertura"
-          onChangeText={(value) => setTime(value, 'openingTime')}
-        />
-        <FieldError name="openingTime" />
+        <FormControl mt="10px">
+          <FormControl.Label>Horário de abertura (0 - 24)</FormControl.Label>
+          <Input
+            keyboardType="number-pad"
+            value={values.openingTime}
+            placeholder="Horário de abertura"
+            onChangeText={(value) => setTime(value, 'openingTime')}
+          />
+          <ErrorMessage name="openingTime" component={FormControl.ErrorMessage} />
+        </FormControl>
 
-        <Field
-          labelColor="#000"
-          keyboardType="number-pad"
-          label="Horário de fechamento (0 - 24)"
-          value={values.closingTime}
-          placeholder="Horário de fechamento"
-          onChangeText={(value) => setTime(value, 'closingTime')}
-        />
-        <FieldError name="closingTime" />
+        <FormControl mt="10px">
+          <FormControl.Label>Horário de fechamento (0 - 24)</FormControl.Label>
+          <Input
+            keyboardType="number-pad"
+            value={values.closingTime}
+            placeholder="Horário de fechamento"
+            onChangeText={(value) => setTime(value, 'closingTime')}
+          />
+          <ErrorMessage name="closingTime" component={FormControl.ErrorMessage} />
+        </FormControl>
 
-        <Field
-          keyboardType="number-pad"
-          labelColor="#000"
-          label={`Valor do frete - ${formatNumber(values.freightValue)}`}
-          value={values.freightValue}
-          placeholder="R$3,50"
-          onChangeText={handleChange('freightValue')}
-        />
-        <FieldError name="freightValue" />
+        <FormControl mt="10px">
+          <FormControl.Label>{`Valor do frete - ${formatNumber(
+            values.freightValue
+          )}`}</FormControl.Label>
+          <Input
+            value={values.freightValue}
+            placeholder="R$3,50"
+            keyboardType="number-pad"
+            onChangeText={handleChange('freightValue')}
+          />
+          <ErrorMessage name="freightValue" component={FormControl.ErrorMessage} />
+        </FormControl>
 
-        <ButtonModal onPress={() => modalRef.current?.open()}>
-          <Label>Categorias</Label>
-          <ContentButton>
-            <Text style={{ color: '#fff' }}>Selecionar categorias</Text>
-          </ContentButton>
-        </ButtonModal>
-        <FieldError name="categories" />
+        <FormControl mt="10px">
+          <FormControl.Label>CEP</FormControl.Label>
+          <FieldMask
+            maskRef={inputCepRef}
+            type="zip-code"
+            value={values.address.cep}
+            placeholder="CEP"
+            onChangeText={(value) => onChangeZipCode(value)}
+          />
+          <ErrorMessage name="address.cep" component={FormControl.ErrorMessage} />
+        </FormControl>
 
-        <FieldMask
-          maskRef={inputCepRef}
-          type="zip-code"
-          labelColor="#000"
-          label="CEP"
-          value={values.address.cep}
-          placeholder="CEP"
-          onChangeText={(value) => onChangeZipCode(value)}
-        />
-        <FieldError name="address.cep" />
+        <FormControl mt="10px">
+          <FormControl.Label>Rua</FormControl.Label>
+          <Input
+            value={values.address.street}
+            placeholder="Bairro"
+            onChangeText={handleChange('address.street')}
+          />
+          <ErrorMessage name="address.street" component={FormControl.ErrorMessage} />
+        </FormControl>
 
-        <Field
-          labelColor="#000"
-          label="Rua"
-          value={values.address.street}
-          placeholder="Rua"
-          onChangeText={handleChange('address.street')}
-        />
-        <FieldError name="address.street" />
+        <FormControl mt="10px">
+          <FormControl.Label>Número</FormControl.Label>
+          <Input
+            keyboardType="number-pad"
+            value={values.address.number}
+            placeholder="Bairro"
+            onChangeText={handleChange('address.number')}
+          />
+          <ErrorMessage name="address.number" component={FormControl.ErrorMessage} />
+        </FormControl>
 
-        <Field
-          labelColor="#000"
-          label="Número"
-          keyboardType="number-pad"
-          value={values.address.number}
-          placeholder="Número"
-          onChangeText={handleChange('address.number')}
-        />
-        <FieldError name="address.number" />
-
-        <Field
-          labelColor="#000"
-          label="Bairro"
-          value={values.address.neighborhood}
-          placeholder="Bairro"
-          onChangeText={handleChange('address.neighborhood')}
-        />
-        <FieldError name="address.neighborhood" />
+        <FormControl mt="10px">
+          <FormControl.Label>Bairro</FormControl.Label>
+          <Input
+            value={values.address.neighborhood}
+            placeholder="Bairro"
+            onChangeText={handleChange('address.neighborhood')}
+          />
+          <ErrorMessage
+            name="address.neighborhood"
+            component={FormControl.ErrorMessage}
+          />
+        </FormControl>
 
         <FormControl mt="10px">
           <FormControl.Label>Estado</FormControl.Label>
@@ -237,7 +260,7 @@ export const EstablishmentForm = ({
             onValueChange={(value) => setFieldValue('address.state', value)}
           >
             {states?.map(({ id, name }) => (
-              <Select.Item label={name} key={id.toString()} value={id.toString()} />
+              <Select.Item label={name} key={id} value={id.toString()} />
             ))}
           </Select>
           <ErrorMessage name="address.state" component={FormControl.ErrorMessage} />
@@ -251,19 +274,24 @@ export const EstablishmentForm = ({
             onValueChange={(value) => setFieldValue('address.city', value)}
           >
             {cities?.map(({ id, name }) => (
-              <Select.Item label={name} key={id.toString()} value={id.toString()} />
+              <Select.Item label={name} key={id} value={id.toString()} />
             ))}
           </Select>
           <ErrorMessage name="address.city" component={FormControl.ErrorMessage} />
         </FormControl>
 
-        <Checkbox
-          accessibilityLabel="ativado"
-          isChecked={values.active}
-          onChange={() => setFieldValue('active', !values.active)}
-        >
-          Ativado
-        </Checkbox>
+        <Flex direction="row" w="80%" align="center" justify="space-between">
+          <Button onPress={() => modalRef.current?.open()} alignSelf="flex-start">
+            categorias
+          </Button>
+          <Checkbox
+            accessibilityLabel="ativado"
+            isChecked={values.active}
+            onChange={() => setFieldValue('active', !values.active)}
+          >
+            Ativado
+          </Checkbox>
+        </Flex>
 
         <Button
           w="70%"
@@ -274,7 +302,7 @@ export const EstablishmentForm = ({
         >
           Salvar
         </Button>
-      </Container>
+      </Flex>
     </ScrollView>
   );
 };
