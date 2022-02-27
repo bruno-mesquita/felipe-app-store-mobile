@@ -1,31 +1,37 @@
 import { Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
-import { useTheme } from 'styled-components/native';
+import { Text, Pressable, useToast } from 'native-base';
 
-import { ItemProps } from './props';
-import { Container, Text } from './styles';
 import api from '@services/api';
+import useGetMenus from '@hooks-api/useGetMenus';
 
-export const Item = ({ item, reender }: ItemProps) => {
+import type { ItemProps } from './props';
+
+export const Item = ({ id, name }: ItemProps) => {
   const navigation = useNavigation<any>();
-  const { colors } = useTheme();
+  const { mutate } = useGetMenus();
+  const toast = useToast();
 
-  const edit = () => navigation.navigate('UpdateMenu', { id: item.id });
+  const edit = () => navigation.navigate('UpdateMenu', { id });
 
   const deleteMenu = async () => {
     try {
-      await api.delete(`/menus/${item.id}`);
-      await reender();
+      await api.delete(`/menus/${id}`);
+
+      await mutate((oldData) => oldData.filter((menu) => menu.id !== id));
     } catch (err) {
-      Alert.alert('Erro', 'Erro ao deletar menu');
+      toast.show({
+        title: 'Erro!',
+        description: err.response.data.message || 'Erro ao deletar menu',
+      });
     }
   };
 
   const del = () => {
     Alert.alert(
       'Apagar',
-      `Você tem certeza que deseja apagar o cardápio ${item.name}? todos os produtos desse cardápio também vão ser apagados`,
+      `Você tem certeza que deseja apagar o cardápio ${name}? todos os produtos desse cardápio também vão ser apagados`,
       [
         {
           text: 'Apagar',
@@ -39,9 +45,15 @@ export const Item = ({ item, reender }: ItemProps) => {
   };
 
   return (
-    <Container onPress={edit} onLongPress={del}>
-      <Text>{item.name}</Text>
-      <Ionicons name="chevron-forward" size={25} color={colors.primary} />
-    </Container>
+    <Pressable
+      flexDir="row"
+      alignItems="center"
+      justifyContent="space-between"
+      onPress={edit}
+      onLongPress={del}
+    >
+      <Text>{name}</Text>
+      <Ionicons name="chevron-forward" size={25} color="#9E0404" />
+    </Pressable>
   );
 };

@@ -4,6 +4,7 @@ export type IMenu = {
   id: number;
   name: string;
   active: boolean;
+  priority: number;
 };
 
 const useGetMenu = (menuId?: number) =>
@@ -12,6 +13,7 @@ const useGetMenu = (menuId?: number) =>
       id: 0,
       name: '',
       active: true,
+      priority: 1,
     },
   });
 

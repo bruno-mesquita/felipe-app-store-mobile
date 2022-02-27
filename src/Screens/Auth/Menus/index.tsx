@@ -10,10 +10,6 @@ import { Item, ListEmpty } from './Components';
 export const Menus = ({ navigation }) => {
   const { data, isValidating, mutate } = useGetMenus();
 
-  const onRefresh = async () => {
-    await mutate();
-  };
-
   const ItemSeparatorComponent = useCallback(() => <Divider my="5px" />, []);
 
   return (
@@ -23,12 +19,13 @@ export const Menus = ({ navigation }) => {
           flex: 1,
           paddingVertical: 10,
         }}
+        contentContainerStyle={{ paddingHorizontal: 20 }}
         ListEmptyComponent={ListEmpty}
         refreshing={isValidating}
-        onRefresh={onRefresh}
+        onRefresh={mutate}
         data={data}
         keyExtractor={({ id }) => id.toString()}
-        renderItem={({ item }) => <Item item={item} reender={onRefresh} />}
+        renderItem={({ item }) => <Item {...item} />}
         ItemSeparatorComponent={ItemSeparatorComponent}
       />
       <Fab

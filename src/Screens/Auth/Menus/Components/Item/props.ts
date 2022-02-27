@@ -1,9 +1,3 @@
-interface Item {
-  id: number;
-  name: string;
-}
+import type { IMenu } from '@hooks-api/useGetMenus';
 
-export interface ItemProps {
-  item: Item;
-  reender: () => Promise<void>;
-}
+export type ItemProps = Pick<IMenu, 'id' | 'name'>;

@@ -2,7 +2,7 @@ import type { FormikProps } from 'formik';
 import { Checkbox, Flex, FormControl, Input, Button } from 'native-base';
 import { ErrorMessage } from 'formik';
 
-import type { Values } from './props';
+import type { IMenu } from '@hooks-api/useGetMenu';
 
 export const MenuForm = ({
   values,
@@ -10,7 +10,7 @@ export const MenuForm = ({
   handleSubmit,
   isSubmitting,
   setFieldValue,
-}: FormikProps<Values>) => {
+}: FormikProps<IMenu>) => {
   return (
     <Flex flex={1} px="25px" justify="space-around" align="center">
       <Flex align="center" w="100%" h="20%" justify="space-around">
@@ -22,6 +22,17 @@ export const MenuForm = ({
             placeholder="Nome da categoria"
           />
           <ErrorMessage name="name" component={FormControl.ErrorMessage} />
+        </FormControl>
+
+        <FormControl>
+          <FormControl.Label>Prioridade</FormControl.Label>
+          <Input
+            keyboardType="number-pad"
+            value={values.priority.toString()}
+            onChangeText={handleChange('priority')}
+            placeholder="Prioridade"
+          />
+          <ErrorMessage name="priority" component={FormControl.ErrorMessage} />
         </FormControl>
 
         <Checkbox
