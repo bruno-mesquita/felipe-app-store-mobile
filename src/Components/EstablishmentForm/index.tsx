@@ -59,13 +59,8 @@ export const EstablishmentForm = ({
       const encoded = await takePhoto();
 
       if (encoded) {
-        if (values?.id) {
-          await api.put('/image', { encoded });
-
-          setFieldValue('image', encoded);
-        } else {
-          setFieldValue('image', encoded);
-        }
+        if (values?.id) await api.put('/image', { encoded });
+        setFieldValue('image', encoded);
       }
     } catch (err) {
       toast.show({

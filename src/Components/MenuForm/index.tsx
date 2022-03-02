@@ -13,7 +13,7 @@ export const MenuForm = ({
 }: FormikProps<IMenu>) => {
   return (
     <Flex flex={1} px="25px" justify="space-around" align="center">
-      <Flex align="center" w="100%" h="20%" justify="space-around">
+      <Flex align="center" w="100%" h="40%" justify="space-around">
         <FormControl>
           <FormControl.Label>Nome</FormControl.Label>
           <Input
