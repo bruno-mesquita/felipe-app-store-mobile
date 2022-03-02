@@ -1,0 +1,31 @@
+{
+  "expo": {
+    "name": "Flipp - Partners",
+    "slug": "flipp-partners",
+    "version": "1.1.0",
+    "jsEngine": "hermes",
+    "orientation": "portrait",
+    "icon": "./src/assets/icons/logo.png",
+    "splash": {
+      "image": "./src/assets/images/splash.png",
+      "resizeMode": "cover"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.partners.flipp"
+    },
+    "android": {
+      "versionCode": 8,
+      "googleServicesFile": "./google-services.json",
+      "adaptiveIcon": {
+        "backgroundColor": "#9E0404",
+        "foregroundImage": "./src/assets/icons/logo.png"
+      },
+      "package": "com.partners.flipp"
+    }
+  }
+}

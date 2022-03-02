@@ -5,16 +5,18 @@
   "build": {
     "development": {
       "developmentClient": true,
-      "distribution": "internal",
-      "channel": "dev"
+      "distribution": "internal"
     },
     "preview": {
       "distribution": "internal",
-      "extends": "production",
-      "channel": "preview"
+      "node": "16.13.2",
+      "env": {
+        "API_URL": "https://api.flippdelivery.com.br/api/app-store"
+      },
+      "releaseChannel": "staging"
     },
     "production": {
-      "channel": "production",
+      "releaseChannel": "production",
       "node": "16.13.2",
       "env": {
         "API_URL": "https://api.flippdelivery.com.br/api/app-store"
